@@ -292,7 +292,7 @@ class PublicAction extends Action {
 
 		}else{
 
-			$this->redirect('/');
+			$this->redirect('/Index/index');
 
 		}
 
