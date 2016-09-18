@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$vo['title']}</title> 
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'/>
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/base.css">
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/style.css">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery-2.1.4.min.js"></script>
+</head><body>
+
+
+<!--系统消息-->
+{$msg}
+<!--END 系统消息-->
+
+
+
+	<section class="topInfo"><div class="light0 animate"><img class="rotate360" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/roundLight.png"/></div><div class="singleInfo"><h2>{$relay.name}</h2><div class="ulBox"><ul><li>排&nbsp;&nbsp;&nbsp;名：第<i>
+			  		<?php
+                    $Model = new Model();
+                    $tmp = $Model->query("select * from (SELECT id,ticket,@curRank := @curRank + 1 AS rank FROM ".C("DB_PREFIX")."relay_list p, (SELECT @curRank := 0) r  where rid=".$relay['rid']."  ORDER BY  ticket desc) as b where b.id=".$relay['id']);
+
+                    if($tmp){
+                    echo $tmp[0]['rank'];
+                    }
+                    ?>
+	</i>位</li><li>接力值：<i>{$relay.ticket}</i></li><li>转发数：<i>{$relay.view}</i></li></ul></div><div class="topAvatar"><div class="imgT0"><i class="starl0"></i><i class="starl1"></i><i class="starr0"></i><i class="starr1"></i></div></div><div class="avatarThis"><div class="avatarImg"><img src="{$relay.picurl}"/></div></div></div></section>
+
+
+
+	<section class="otherUser"><div class="hd"><div class="tit"><h2>给我接力的人</h2></div><div class="line"><i class="fr"></i><i class="fl"></i><div class="lineThis"></div></div></div><div class="bd"><ul>
+		<volist id="vo1" name="list">
+		<li><div class="userAvatar fl"><img src="{$vo1.picurl}"/></div><div class="desc"><h3>{$vo1.name}</h3><p>{$vo1.relayTime|date="Y-m-d H:i",###}</p></div></li>
+		</volist>
+	</ul></div><div style="margin-top:12px;">{$page}</div></section>
+
+	<footer>
+
+
+        </footer>
+
+
+
+
+<!--微信分享-->
+<?php
+
+if($member['m_appid'] && $member['m_appsecret']){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '我正在参加“{$vo['title']}”活动，快来帮我拿大奖！',
+desc: '<?php echo compress_html(preg_replace('/[\'\"]/i', '',strip_tags($vo['wx_info'])));?>',
+link: '<?php echo C('site_url'); ?>{:U("Relay/content",array("id"=>$vo['rid'],"reid"=>$vo['id']))}',
+imgUrl: '{$vo.picurl}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) {
+//alert(res.errMsg);
+<?php
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+o_url = window.location.href;
+n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+ChangeUrl(document.title, n_url);
+<?php } ?>
+
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+
+
+      
+
+
+</body></html>

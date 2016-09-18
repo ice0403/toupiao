@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.config.SITENAME}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="__PUBLIC__/misc/html5shiv.min.js"></script>
+        <script src="__PUBLIC__/misc/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .color-palette {
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+      }
+      .color-palette-set {
+        margin-bottom: 15px;
+      }
+      .color-palette span {
+        display: none;
+        font-size: 12px;
+      }
+      .color-palette:hover span {
+        display: block;
+      }
+      .color-palette-box h4 {
+        position: absolute;
+        top: 100%;
+        left: 25px;
+        margin-top: -40px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        display: block;
+        z-index: 7;
+      }
+    </style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <include file="Public:head" />
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            会员管理
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="__APP__"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">会员</a></li>
+            <li class="active">管理</li>
+          </ol>
+        </section>
+
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+
+                  <form action="{:U("Member/index",array("ss"=>2))}" method="get">
+                  <div class="box-header">
+                      <div style="float:left;margin:0 8px;">
+                        <a href="{:U("Member/add",array("ss"=>2))}" class="btn btn-block btn-default btn-sm"><i class="fa fa-fw fa-plus"></i>添加</a>
+                      </div>
+                      <div style="float:left;">
+                        <a href="#" id="ids0" class="btn btn-block btn-default btn-sm" onclick="action('delete&id=','ids0');"> <i class="fa fa-fw fa-remove"></i>
+                         删 除
+                       </a>
+                       </div>
+
+                    <div class="box-tools">
+                        <div class="input-group" style="width: 150px;">
+                          <input type="text" name="m_username" class="form-control input-sm pull-right" placeholder="按登陆名搜索" value="<?php echo $_GET['m_username'] ?>">
+                          <div class="input-group-btn">
+                            <button type="submit" class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                          </div>
+                        </div>
+                    </div>
+
+                  </div><!-- /.box-header -->
+                 </form>
+
+
+                <div class="box-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>选择<input type="checkbox" onclick="addids_all()" ></th>
+                        <th>用户登陆名</th>
+                        <th>最后登陆IP</th>
+                        <th>登陆时间</th>
+                        <th>开始时间</th>
+                        <th>结束时间</th>
+                        <th>能添加投票数目</th>
+                        <th>公众号名称</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+
+                  <volist id="vo" name="list">
+                    <tr>
+                      <td>
+                          <input name="id" value="{$vo['m_id']}" type="checkbox" onclick="addids(this)"></td>
+                      <td><a href="/Member/index.php?m=Public&a=directLogin&mid={$vo.m_id}&pwd={$vo.m_password}" target="_blank">{$vo['m_username']}</a></td>
+                      <td>{$vo['m_ip']}</td>
+                      <td>{$vo['m_addtime']|date="Y-m-d H:i:s",###}</td>
+                      <td>{$vo['m_startdate']}</td>
+                      <td>{$vo['m_enddate']}</td>
+                      <td>{$vo['m_num']}</td>
+                      <td>{$vo['m_wxname']}</td>
+                      <td>
+                       <eq name="vo.m_status" value="0" >
+                                <span class="label label-danger">关闭</span>
+                             </eq>
+                             <eq name="vo.m_status" value="1" >
+                                <span class="label label-success">启用</span>
+                             </eq>  
+                    </td>
+                      <td>
+
+                         <a title="编辑" href="{:U("Member/edit",array("id"=>$vo['m_id'],"ss"=>2))}"><i class="fa fa-fw fa-edit"></i></a> | 
+
+                        <a  href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("Member/delete",array("id"=>$vo['m_id']))}');"><i class="fa fa-fw fa-remove"></i></a>
+
+                      </td>
+                    </tr>
+                  </volist>
+
+                    </tbody>
+                  </table>
+                </div><!-- /.box-body -->
+
+
+                <div class="row" style="margin-left:5px;">
+                  <div class="col-sm-5"><div class="dataTables_info">{$totalCount} 条记录 {$currentPage}/{$totalPages} 页</div></div>
+                  <div class="col-sm-6">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                      {$page}
+                   </ul>
+                  </div>
+                  </div>
+                </div>
+
+
+              </div><!-- /.box -->
+
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+
+
+
+      </div><!-- /.content-wrapper -->
+
+      
+    <include file="Public:footer" />
+
+     
+    </div><!-- ./wrapper -->
+
+
+  <script type="text/javascript">
+        var ids = "";
+        function addids(bb){
+            if($(bb).is(':checked')){
+              ids+=","+$(bb).val(); 
+            }else{
+               ids = ids.replace(","+$(bb).val(),""); 
+            }
+            //console.log(ids);
+        }
+        var is_all = true;
+        function addids_all(){
+          if(is_all){
+            $("input[name='id']").attr("checked","true"); 
+            is_all = false;
+
+            $("input[name='id']:checkbox:checked").each(function(){ 
+              ids+=","+$(this).val(); 
+            });
+          }else{
+            $("input[name='id']").removeAttr("checked");
+            is_all = true;
+            ids = "";
+          }
+        }
+        
+        function action(aa,bb){
+          if(ids == ""){
+            alert("请选择"); return;
+          }
+          if(ids !==""){
+            ids = ids.substring(1);
+          }    
+          console.log(ids);      
+          tmp = "index.php?m=Member&a="+aa;          
+          $("#"+bb).attr("href",tmp+ids);
+        }
+      </script>
+
+
+  </body>
+</html>

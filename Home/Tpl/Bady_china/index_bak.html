@@ -1,0 +1,488 @@
+<!--微信分享-->
+<?php
+if($member['m_appid'] && $member['m_appsecret']){
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+wx.config({
+debug: false,
+appId: '<?php echo $signPackage["appId"];?>',
+timestamp: <?php echo $signPackage["timestamp"];?>,
+nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+'checkJsApi',
+'onMenuShareTimeline',
+'onMenuShareAppMessage',
+'onMenuShareQQ',
+'onMenuShareWeibo',
+'hideMenuItems',
+'showMenuItems',
+'hideAllNonBaseMenuItem',
+'showAllNonBaseMenuItem',
+'translateVoice',
+'startRecord',
+'stopRecord',
+'onRecordEnd',
+'playVoice',
+'pauseVoice',
+'stopVoice',
+'uploadVoice',
+'downloadVoice',
+'chooseImage',
+'previewImage',
+'uploadImage',
+'downloadImage',
+'getNetworkType',
+'openLocation',
+'getLocation',
+'hideOptionMenu',
+'showOptionMenu',
+'closeWindow',
+'scanQRCode',
+'chooseWXPay',
+'openProductSpecificView',
+'addCard',
+'chooseCard',
+'openCard'
+]
+});
+</script>
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$vo['title']}',
+desc: '<?php echo str_replace(array("\r\n","\'"),array("",""),strip_tags($vo['wx_info']));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/index",array("id"=>$vo['id']))}',
+imgUrl: '{$vo['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) {
+//alert(res.errMsg);
+<?php
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+o_url = window.location.href;
+n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+ChangeUrl(document.title, n_url);
+<?php } ?>
+}
+);
+</script>
+<?php
+}
+?>
+<!--END 微信分享-->
+<?php
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+?>
+<script type="text/javascript">
+function ChangeUrl(page, url) {
+if (typeof (history.pushState) != "undefined") {
+var obj = { Page: page, Url: url  };
+history.pushState(obj, obj.Page, obj.Url);
+} else {
+alert("Browser does not support HTML5.");
+}
+}
+</script>
+<?php } ?>
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no，minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta content="email=no" name="format-detection" />
+	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+	<meta name="keywords" content="balabalabalabala,xixihaha">
+	<meta name="description" content="balabalabala,xixihdhd">
+	<!-- uc强制竖屏 --><meta name="screen-orientation" content="portrait">
+	<!-- UC强制全屏 --> <meta name="full-screen" content="yes">
+	<!-- UC应用模式 --> <meta name="browsermode" content="application">
+	<!-- QQ强制竖屏 --><meta name="x5-orientation" content="portrait">
+	<!-- QQ强制全屏 --><meta name="x5-fullscreen" content="true">
+	<!-- QQ应用模式 --><meta name="x5-page-mode" content="app">
+	<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/css/style.css" rel="stylesheet">
+
+	<!--通用js-->
+		<link rel="stylesheet" type="text/css" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/css/style.css"/>
+        <script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/jquery-1.4.2.min.js"></script>
+        <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/c2/colorbox.css">
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/static/jquery.colorbox.js" type="text/javascript"></script>
+        <!--END通用js-->
+
+    <title>{$vo['title']}</title>
+</head>
+<body>
+
+
+<!--music-->
+    <neq name="vo.music" value="">
+       <input style="display:none" type="text" id="audiofile" size="80" value="{$vo['music']}">
+          <div class="music" id="music" ontouchstart="musicControls();">
+                 <audio id="audio" loop="loop" style="display:none;width:0;height:0;"  oncanplay="canplay();"></audio>
+                 </div>
+                 <script>
+                    var audio = document.getElementById("audio");
+                    var music = document.getElementById("music");
+                    music.played = 0;
+                    function musicControls(){
+                            audio.src = document.getElementById('audiofile').value;
+                            if(music.played == 0){
+                                   audio.play();
+                                   music.className = music.className.replace(" musicstop","");
+                                   music.className = music.className + " musicplay";
+                                   music.played = undefined;
+
+                            }else{
+                                 audio.pause();
+                                 music.className = music.className.replace(" musicplay","");
+                                 music.className = music.className + " musicstop";
+                                 music.played = 0;
+
+                            }
+
+                    }
+function canplay(){
+     music.className = music.className + " musicplay";
+
+}
+<eq name="vo.isPlay" value="1">
+    $( document ).ready(function() {
+    musicControls();
+    });
+</eq>
+</script>
+
+<literal>
+<style>
+.music {
+        background: url("<?php echo C('site_url'); ?>/Home/Tpl/Index/c2/music.png") no-repeat scroll 0 0 transparent;
+           background-size:34px;
+              top: 20px;
+                 height: 34px;
+                    position: fixed;
+                       right: 20px;
+                          width: 34px;
+                             z-index: 999;
+                                
+}
+  .musicplay{-webkit-animation:musicplay 1.2s linear 0s infinite;animation:musicplay 1.2s linear infinite;}
+    .musicstop{-webkit-animation:musicstop 1.2s linear 0s infinite;animation:musicstop 1.2s linear infinite;}
+    @keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @-webkit-keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+    @-webkit-keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+      </style>
+        </literal>
+
+        </neq>
+
+<!--END music-->
+
+
+
+
+<!--广告-->
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.css">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.min.js"></script>
+<div class="form-group">
+    <style>
+    .swiper-container{width:100%;color:#fff;text-align:center;}.pagination{position:absolute;z-index:20;right:10px;}.swiper-pagination-switch{display:inline-block;width:5px;height:5px;border-radius:5px;background:#222;margin-right:5px;opacity:0.8;border:1px solid #fff;cursor:pointer;}.swiper-visible-switch{background:#aaa;}.swiper-active-switch{background:#fff;}
+    .imgplay{width:100%}
+    </style>
+    <div id="content" style="max-width: 640px;margin: 0 auto;     padding-top: 0px;">
+        <!--headpic-->
+        <div class="swiper-container" style="display:block;">
+            <div class="swiper-wrapper">
+                <volist name="ad" id="adlist">
+                <div class="swiper-slide">
+                    <a href="{$adlist['url']}"><img class="imgplay" src="{$adlist['picurl']}" /></a></div>
+                    </volist>
+                    
+                    
+                </div>
+            </div>
+            <div class="pagination" style="margin-top:-10px;"></div>
+        </div>
+        
+        <!-- Initialize Swiper -->
+        <script>
+        var swiper = new Swiper('.swiper-container', {
+        pagination: '.pagination',
+        calculateHeight:true,
+        paginationClickable: true,
+        autoplay:2500
+        });
+        </script>
+    </div>
+<!--END 广告-->
+
+
+
+    <div class="index com-bg-yellow">
+        <div class="main">
+            <div class="com-adv">
+                <!--<img src="http://wx.tongxueshow.com/Public/Home/images/adv.jpg" alt="">-->
+            </div>
+            <div class="banner" style="    padding-top:90px;">
+               
+              
+                    <div class="com-search">
+                        <div class="floor-img">
+                            <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/images/floor.png" alt="">
+							<img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/images/1.png" height="50px" alt="">
+							  <div class="banner-wrap">
+							 <div class="num1">{$vo['person']}</div>
+                    <div class="num2">{$vo['tickets']}</div>
+                    <div class="num3">{$vo['count']}</div>
+					        </div>
+                        </div>
+
+
+
+
+
+
+                       <form id="form_search" name="form1" method="get" action="{:U("Index/content")}">
+					   <input type="hidden" name="id" value="{$vo.id}" />
+                        <input type="hidden" name="subscribe" value="{$subscribe}" />
+                            <label class="left">
+                                <div class="icon-search"></div>
+                                <input type="search" name="keyword" placeholder="请输入姓名或编号">
+                            </label>
+                            <div class="right">
+                                <input type="button" value="搜索" onclick="search()">
+                            </div>
+                        </form>
+                    </div>
+
+            </div>
+
+     
+
+            <div class="com-list-box">
+                <ul class="clearfix">
+
+<div id="content_li" style="position:absolute;">
+
+                        <volist id="vo1" name="list">
+                        <ol class="li" id="olli" >
+
+
+						
+
+
+                    <li class="item">
+							<a  href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                                    <?php
+                                    if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+                                    echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+                                    }
+                                ?>.html" >
+                                <img src="{$vo1.picurl}" style="width:100%;height:auto;">
+								<div class="ryynet_1">{$vo1.num}号</div>
+							</a>
+							<div class="item-wrap">
+								<a class="msg clearfix">
+									<div class="name">{$vo1.username}</div>
+									<div class="votes" id="43">{$vo1.ticket}票</div>
+								</a>
+
+ <?php
+                                    if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+                                    ?>
+                                    <eq name="vo.isVerify" value="0">
+                                    <a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"  ><div class="com-btn bgc-orange" '>投Ta一票</div></a>
+                                    </eq>
+                                    <eq name="vo.isVerify" value="1">
+                                    <a href="javascript:void(0);"  onclick="showVerify({$vo1['id']},{$vo['id']})" ><div class="com-btn bgc-orange"  >投Ta一票</div></a>
+                                    </eq>
+                                    <?php
+                                    }else{
+                                    ?>
+                                    <div class="com-btn bgc-orange"  onclick="loaddzp()">投Ta一票</div>
+                                    <?php
+                                    }
+                                    ?>
+
+							
+
+
+							</div>
+						</li>
+						
+
+</ol>
+</volist>
+
+
+                  <div class="current" style="display:none;">
+                        <?php 
+                        if( $currentPage >= $totalPages    ){
+                        ?>
+                        0
+                        <?php
+                        }else{
+                        ?>
+                        {$currentPage}
+                        <?php
+                        }
+                        ?>
+                    </div>
+       </div>
+
+
+                       
+						
+						
+
+
+
+
+ </ul>
+            </div>
+
+        </div>
+        
+<eq name="list" value="">
+  <ol class="li" style="position: absolute;width:98%;text-align:center;left:3px;"><div id="content_tab" style="color:#000;" class="no_record">暂无记录</div><br/><br/><br/></ol>
+</eq>
+
+<ol class="loading_more li" id="olli" style="position: absolute;width:98%;display:none;text-align:center;left:0;"><span style="color:#D3D3D3;padding:0;">加载中……</span><br/><br/><br/></ol>
+<ol class="loading_over li masonry-brick" style="position: absolute;width:98%;display:none;text-align:center;left:0;"><span style="color:#D3D3D3;padding:0;">没有更多选项</span><br/><br/><br/></ol>
+
+
+<script type="text/javascript"> 
+//验证码
+function showVerify(vid,id){
+     $.colorbox({top:"10px",innerWidth:220,innerHeight:220,iframe:true, href:"/Home/index.php?m=Public&a=lanren_verify&mid=<?php echo $member['m_id'];?>&vid="+vid+"&id="+id});
+}
+//END
+
+</script>
+
+
+
+
+<!--分页-->
+<script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/jquery.masonry.min.js"></script>
+  <script type="text/javascript">   
+    var flag = true;
+    $(function(){   
+        var $container = $('#content_li');    
+        $container.masonry({
+            singleMode: true,
+            animate: true,
+            itemSelector: '.li'
+        }); 
+        //滚动条滚动到离底部距离50的时候触发
+        $(window).scroll(function(){    
+            var $container = $('#content_li');    
+            $container.masonry({
+                singleMode: true,
+                animate: true,
+                itemSelector: '.li'
+            }); 
+            var he=document.body.scrollWidth;
+            var hee=he*0.018;
+            $(".li").css("margin-top",hee);
+            $(".loading_more").show();
+            $(".loading_over").hide();
+            // 当滚动到最底部以上100像素时， 加载新内容
+            if ($(document).height() - $(this).scrollTop() - $(this).height()<20){          
+                if (flag){
+                    var $boxes = $(getList());  
+
+                    //$container.prepend($boxes);
+                    //$container.masonry('reload');
+                    $container.append($boxes).masonry('appended',$boxes);
+                    $(".loading_more").hide();
+                }else{
+                    $(".loading_more").hide();
+                    if($(".no_record").length == 0){
+                        $(".loading_over").show();
+                    }
+                }
+            }
+        });
+    }); 
+    //获取列表
+function getList() {
+    current = parseInt($(".current").last().text())+1;
+    if(current == 1 ){
+        flag =  false;
+        $(".loading_more").hide();
+        if($(".no_record").length == 0){
+        $(".loading_over").show();
+        }
+        return;
+    }
+    var str='';
+    $.ajax({
+url: "__URL__/pageData/subscribe/{$subscribe}/id/{$vo['id']}/<?php echo C('VAR_PAGE');?>/"+current,
+dataType: "html",  async: false,
+success:function( html  ) {
+        str = html;
+        }});
+//alert(str);
+    return str;
+
+}
+</script>
+<!--END-->
+
+
+
+	<div class="com-footer">
+    <div class="fixed-wrap">
+        <a class="footer-item" id="index" href="/index.php/Home/Index/index.html">投票首页</a>
+        <a class="footer-item" id="rank" href="/index.php/Home/Ranking/ranking.html">排行榜</a>
+        <a class="footer-item" id="sign" href="/index.php/Home/Sign/sign.html">我要参赛</a>
+        <a class="footer-item" id="rule" href="/index.php/Home/Game/rule.html">参赛规则</a>
+        <a class="footer-
+f4
+item" id="award" href="/index.php/Home/Game/award.html">大赛奖品</a>
+    </div>
+</div>
+<script>
+    $(".img-fill4-3").each(function(){
+        $(this).height($(this).width() * 0.75);
+    })
+</script>
+</div>
+
+
+
+
+</body>
+</html>
+0
+

@@ -1,0 +1,55 @@
+<volist id="vo1" name="list">
+                        <ol class="li" id="olli" style="width:45%;float:left;margin:0px 2%;">
+
+
+<div player_id="2132" class="left_item">
+<div class="imgdiv">
+<div class="userid">{$vo1.num}号</div>
+<div class="one_img" id="cover_pic_2132" style="background-image: url({$vo1.picurl});">
+</div>
+</div>
+<div class="msgdiv">
+<div class="prname">{$vo1.username}</div>	
+<div class="pvote"><span class="vote" >{$vo1.ticket}</span><span class="piao">票</span></div></div><div class="btn">	<div class="btn_com" >{$vo1.view}</div>
+<div class="btn_div">
+
+
+
+<?php
+						if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+						?>
+						<eq name="vo.isVerify" value="0">
+						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"  ><div class="btn_vote" >投票</div></a>
+						</eq>
+						<eq name="vo.isVerify" value="1">
+						<a href="javascript:void(0);"  onclick="showVerify({$vo1['id']},{$vo['id']})" ><div class="btn_vote" >投票</div></a>
+						</eq>
+						<?php
+						}else{
+						?>
+					   <div class="btn_vote"  onclick="loaddzp()">投票</div>
+						<?php
+						}
+						?>
+
+
+
+</div>
+</div>
+</div>
+	</ol>		
+
+ </volist>
+                    <div class="current" style="display:none;">
+                        <?php 
+                        if( $currentPage >= $totalPages    ){
+                        ?>
+                        0
+                        <?php
+                        }else{
+                        ?>
+                        {$currentPage}
+                        <?php
+                        }
+                        ?>
+                    </div>

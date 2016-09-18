@@ -1,0 +1,50 @@
+    <?php 
+       $ss = M("Form")->where("vid=".$_GET['id']." and status=1")->field("id")->order("ticket desc,addtime")->select(); //排名
+       foreach ($ss as $key => $value) {
+           $ssr[] = $value['id'];
+       }   
+    ?>
+
+    <volist id="vo1" name="list">
+    <div class="ui-block-c">
+        <div class="vote-item">
+            <div class="picture">
+                <a data-ajax="false" href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                    <?php
+                    if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+                    echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+                    }
+                ?>.html"><img src="{$vo1['picurl']}"/></a>
+                <a data-ajax="false" href="{$vo1['picurl']}"/></a>
+                <div>名次: 
+                    <?php 
+                        echo array_search($vo1['id'], $ssr)+1; 
+                    ?>
+                </div>
+            </div>
+            <div class="vote-stat-info">
+                
+                <span>{$vo1['ticket']}票</span>
+            </div>
+        </div>
+        <div>
+            <p>{$vo1['username']} <br>编号:{$vo1['num']}</p>
+        </div>
+    </div>
+
+    </volist>
+    
+
+<div class="current" style="display:none;">
+<?php 
+if( $currentPage >= $totalPages    ){
+?>
+0
+<?php
+}else{
+?>
+{$currentPage}
+<?php
+}
+?>
+</div>

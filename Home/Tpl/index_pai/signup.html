@@ -1,0 +1,270 @@
+
+<!--微信分享-->
+<?php
+
+if(C('appid') && C('appsecret')){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK(C('appid'), C('appsecret'));
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$vo['title']}',
+desc: '<?php echo str_replace(array("\r\n","\'"),array("",""),strip_tags($vo['wx_info']));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/index",array("id"=>$vo['id']))}',
+imgUrl: '{$vo['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) { 
+//alert(res.errMsg);
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no;" />
+<title>报名</title>
+<link href="<?php echo C('site_url'); ?>/Home/Tpl/index_pai/pai/css/css.css" type="text/css" rel="stylesheet">
+
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/Index/baoming/jquery-2.1.3.min.js" type="text/javascript"></script>
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/Index/baoming/jquery.masonry.min.js" type="text/javascript"></script>
+
+<script src="__PUBLIC__/static/artDialog/jquery.artDialog.js?skin=default"></script>
+<script src="__PUBLIC__/static/artDialog/plugins/iframeTools.js"></script>
+<script src="__PUBLIC__/static/upyun.js?2013"></script>     
+
+    <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.css">
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.min.js"></script>
+
+</head>
+<body>
+    <h1>报名</h1>
+    <div class="baoming">
+        <dl>
+		<form id="imageform" method="post" enctype="multipart/form-data" action="__URL__/insertForm">
+		
+            <dt></dt>
+
+            <dd><input type="text" class="k" placeholder="店铺名称" name="username"/></dd>
+            <dd><input type="text" class="k" placeholder="店铺地址" name="address"/></dd>
+			<dd><input type="number" class="k" placeholder="手机号码" name="tel"/></dd>
+ <dd>图片上传：(备注：上传店铺正面照片，横拍)</dd>
+<dd class="upload_area clearfix">
+<ul id="imglist" class="post_imglist">
+</ul>
+<div style="display:none;" id="h_num">0</div>
+
+<input type="hidden" id="picurl" name="picurl" value="" >
+<input type="button" name="button" value="" style="background: url(/Home/Tpl/index_pai/pai/images/upload_btn.png) center no-repeat;
+background-size: 60px auto;
+    border: 0;
+overflow: hidden;
+position: relative;
+width: 60px;
+height: 60px;" onclick="upyunWapPicUpload('picurl','','',{$member.m_id})">
+<P>
+	</dd>
+
+
+
+
+  <input type="hidden" name="token" value="<?php echo $_GET['token'];?>">
+                <input type="hidden" name="wecha_id" value="<?php echo $_GET['wecha_id'];?>">
+                <input type="hidden" name="vid" value="<?php echo $_GET['id'];?>">
+                <input type="hidden" name="jumpUrl" value="__URL__/index/id/<?php echo $_GET['id'];?>.html">
+                <input type="hidden" name="mid" value="{$vo.mid}">
+
+
+	
+			
+
+            <dd style="padding-top:5px"><input type="submit" class="t" value="报名"  /></dd>
+        </dl>
+    </div>
+    
+    <div class="box box4">
+           {$vo['info']}
+
+
+<center>
+
+							
+<a href="#" style="color: #5e5e5e;font-size: 12px;"><?php echo C('copyright'); ?></a>	
+
+
+</center>
+
+
+<?php
+if(empty($subscribe)){
+?>
+<!--
+
+<style>	
+#plug {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999999;
+        }
+
+					.dzpwrap {
+					background: none repeat scroll 0 0 #F8F8F8;
+					border-radius: 1px 1px 1px 1px;
+					position:absolute;
+					width: 280px;
+					}
+					.dzpwrap .dzptit {
+					background-image: url("");
+					background-position: 14px 14px;
+					background-repeat: no-repeat;
+					background-size: 24px auto;
+					font-size: 1.1em;
+					line-height: 40px;
+					text-align:center;
+					padding: 7px 0 0 0px;
+					}
+					.dzpwrapcont.dzpwrapcontent {
+					background-color: #ff403a;
+					    text-align: center;
+    padding-top: 10px;
+					
+					}
+					.dzpwrapcont.dzpwrapcontent img {
+					 max-width:250px;
+					}
+
+					.dzpwrapcont {
+					padding: 0 14px 16px;
+					}
+					.btndzp {
+					border-radius: 5px 5px 5px 5px;
+					display: inline-block;
+					text-decoration: none;
+					vertical-align: middle;
+					box-shadow: 0 6px #AB3C3C;
+					}
+					.dzpwrapcont .btndzp {
+					-moz-border-bottom-colors: none;
+					-moz-border-image: none;
+					-moz-border-left-colors: none;
+					-moz-border-right-colors: none;
+					-moz-border-top-colors: none;
+					color: #5D5D5D;
+					display: block;
+					font-size: 1.6em;
+					line-height: 36px;
+					text-align: center;
+					}
+					.dzpwrapcont .btnRed {
+						background:none repeat scroll 0 0 #e8e363;
+					color: #5c5c5c;
+					letter-spacing:2px;
+					font-weight:bold;
+					margin: 16px 0 0;
+					}
+					</style>
+
+<script>
+function loaddzp(){
+$('#plug').show();
+var div =$('.dzpwrap');
+div.css('zIndex',99999999);
+div.css('display','block');
+    div.css('left',parseInt(($(window).width()-div.width())/2));
+    var top = parseInt($(window).scrollTop()+($(window).height()-div.height())/2-120);
+    div.css('top',top);
+
+}
+</script>
+<div style="display:none"><img src="/upload/auto/2014/04/12/038d30ceda208a881505fe13035b7a77.jpg" /></div>
+<div style="display:none"><img src="/static/gz.png" /></div>
+
+<div class="dzpwrap" style="display:none;" >
+    <article >
+        <header class="dzptit">添加我们后,回复【{$vo['keyword']}】参与活动</header> 
+        <section class="dzpwrapcont dzpwrapcontent">
+			 <img src="{$vo.wx_picurl}" style="margin:0 auto;" />
+            <a href="{$vo['wx_url']}" class="btndzp btnRed">如何添加我们 ?</a> 
+        </section>
+    </article>
+</div>
+
+<script>
+$(function(){
+	loaddzp();
+});
+</script>
+<div style="display: none;" id="plug"></div>
+
+<?php } ?>-->
+</body>
+</html>

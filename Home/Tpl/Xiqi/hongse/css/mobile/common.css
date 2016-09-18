@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+html,body, div, dl, dt, dd, ul, ol, li,h1, h2, h3, h4, h5, h6, pre, code,form, fieldset, legend, input, button,textarea, p, blockquote, th, td{ margin: 0;padding: 0;}
+body{ font-family: "微软雅黑",'Microsoft Yahei'; background: #bebebe;}
+html,body {height:100%;}
+img{border:0;max-width:100%;}
+fieldset, img{ border: 0;}
+:focus{ outline: 0;}
+address, caption, cite, code, dfn,em, strong, th, var, optgroup{ font-style: normal;font-weight: normal;}
+abbr, acronym{ border: 0; font-variant: normal;}
+input, button, textarea,select, optgroup, option{ font-family: inherit; font-size: inherit; font-style: inherit; font-weight:inherit;}
+code, kbd, samp, tt{ font-size: 100%;}
+ol, ul{list-style: none;}
+table{ border-collapse: collapse;  border-spacing: 0;}
+a{text-decoration:none;}
+.submit{padding:3px 6px;}
+.page .current{color:red;}
+.bnt_save{padding:5px 15px;background:#348EE0;color:#FFF;border:none;-moz-border-radius:2px;-webkit-border-radius:2px; border-radius:2px;}
+.bnt_save:hover{background:#399CF6;}
+.bnt_save:active{background:#2982D3;}
+.bnt_cancel{padding:5px 15px;background:#FFB000;color:#FFF;border:none;-moz-border-radius:2px;-webkit-border-radius:2px; border-radius:2px;}
+.bnt_cancel:hover{background:#FFBB24;}
+.bnt_cancel:active{background:#F4A800;}
+.bnt_del{padding:5px 15px;background:#FFF;color:#F02727;border:1px solid #ABABAB;-moz-border-radius:2px;-webkit-border-radius:2px; border-radius:2px;}
+.bnt_del:hover{border:1px solid #F02727;}
+.bnt_del:active{background:#F02727;color:#FFF;border:none;}
+
+.nav ul{height: 40px;border-bottom: 1px solid #ccc;padding-left:15px;}
+.nav li{padding:0 10px;margin-top:9px;height:30px;line-height:30px;float:left;border-top:1px solid #C4D0DC;border-right:1px solid #C4D0DC;}
+.nav li:first-of-type{border-left:1px solid #C4D0DC;}
+.nav li.current{border-bottom:1px solid #FFF;border-top:2px solid #FFAC00;margin-top:8px;}
+.page .current{color: red;}
+.page .current{color:red;}
+a:hover{ cursor:pointer;}
+#max-box{
+	margin:0 auto;
+	max-width:800px;
+	background-color:#eaeaee;
+	min-height:100%;
+}
+.f_l{float:left;}
+.f_r{float:right;}

@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.config.SITENAME}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="__PUBLIC__/misc/html5shiv.min.js"></script>
+        <script src="__PUBLIC__/misc/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .color-palette {
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+      }
+      .color-palette-set {
+        margin-bottom: 15px;
+      }
+      .color-palette span {
+        display: none;
+        font-size: 12px;
+      }
+      .color-palette:hover span {
+        display: block;
+      }
+      .color-palette-box h4 {
+        position: absolute;
+        top: 100%;
+        left: 25px;
+        margin-top: -40px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        display: block;
+        z-index: 7;
+      }
+    </style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <include file="Public:head" />
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            报名管理
+            <small>报名</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="__APP__"><i class="fa fa-dashboard"></i> 首页</a></li>
+            <li><a href="#">报名</a></li>
+            <li class="active">修改</li>
+          </ol>
+        </section>
+
+ <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">修改</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                <form role="form" method="post" id="form1" action="{:U("Vote/formUpdate")}" class="pageForm required-validate">
+                    <input type="hidden" value="{$vo.id}" name="id">
+  <input type="hidden" value="{$vo.vid}" name="vid">
+                  <div class="box-body">
+
+					<div class="form-group">
+					<label>关联投票活动主题：</label>
+				
+						<?php
+		 $tmp = M("Vote")->where('id='.$vo['vid'])->field('title,isPay')->find();
+		 echo $tmp['title'];
+		?>  
+					   
+					</div> 
+
+                 <?php
+            if($tmp['isPay']){
+            ?>
+				<div class="form-group">
+                    <label>是否支付：</label>
+                   未支付　<input type="radio" id="auth" value = '0' name="isPay" <if condition="$vo.isPay eq 0">checked</if>>&nbsp;&nbsp;&nbsp;已支付　<input type="radio" id="auth2" value = "1" name="isPay" <if condition="$vo.isPay eq 1">checked</if>>    
+                  </div>
+            <?php 
+            }
+            ?>
+
+				<div class="form-group">
+                    <label>审核状态：</label>
+                   待审　<input type="radio" id="auth" value = '0' name="status" <if condition="$vo.status eq 0">checked</if>>&nbsp;&nbsp;&nbsp;已审　<input type="radio" id="auth2" value = "1" name="status" <if condition="$vo.status eq 1">checked</if>>    
+                  </div>
+
+
+				  <div class="form-group">
+                   
+           
+
+ <label>分组：</label>
+
+<select name="gid" class="form-control">
+        <?php
+        $list = M("Group")->where("mid=".$_SESSION[C('USER_AUTH_KEY')])->select();
+        foreach($list as $tmp){
+         $tmp2 = '';
+         if($tmp['id'] == $vo['gid']){
+         	$tmp2 = 'selected';
+         }
+         echo "<option value='".$tmp['id']."'  ".$tmp2." >".$tmp['title']."</option>";
+        }
+        ?>
+</select>
+
+
+       </div> 
+
+
+				  <div class="form-group">
+                      <label>姓名：</label>
+                      <input type="text" name="username"  class="form-control required"  value="{$vo.username}">
+                    </div>
+
+
+
+					<div class="form-group">
+                        <label>投票号：</label><small>（默认初始值从1开始，也可以个性化从1000开始）</small>
+                      <input type="text" name="num"  class="form-control number"  value="{$vo.num}">
+					   <input type="hidden" value="{$vo.num}" name="o_num">
+                    </div>
+
+
+					<div class="form-group">
+                      <label>点击数：</label>
+                      <input type="text" name="view"  class="form-control number"  value="{$vo.view}">
+                    </div>
+
+					<div class="form-group">
+                      <label>票数：</label>
+                      <input type="text" name="ticket"  class="form-control number"  value="{$vo.ticket}">
+                    </div>
+
+
+					<div class="form-group">
+                      <label>手机号：</label>
+                      <input type="text" name="tel"  class="form-control "  value="{$vo.tel}">
+                    </div>
+
+
+
+
+				  <div class="form-group">
+                    <label>姓别：</label>
+                    保密　<input type="radio" id="auth" value = '0' name="sex" <if condition="$vo.sex eq 0">checked</if>>&nbsp;&nbsp;&nbsp;男　<input type="radio" id="auth2" value = "1" name="sex" <if condition="$vo.sex eq 1">checked</if>>&nbsp;&nbsp;&nbsp;女　<input type="radio" id="auth2" value = "2" name="sex" <if condition="$vo.sex eq 2">checked</if>>   
+                  </div>  
+
+
+
+
+
+
+				
+					<div class="form-group">
+                      <label>年龄：</label>
+                      <input type="text" name="age"  class="form-control "  value="{$vo.age}">
+                    </div>
+
+
+
+				
+
+
+
+					<div class="form-group">
+                      <label>地址：</label>
+                      <input type="text" name="address"  class="form-control "  value="{$vo.address}">
+                    </div>
+
+
+
+
+
+
+
+
+					<div class="form-group">
+                      <label>上传照片第一张</label>
+                      <div class="input-group">
+                        <input type="text" id="picurl" name="picurl" class="form-control" value="{$vo.picurl}">
+                        <span class="input-group-addon"><a href="javascript:void();" onclick="upyunWapPicUpload('picurl')"><i class="fa fa-fw fa-upload"></i>点击上传</a></span>
+						<span class="input-group-addon"><a href="javascript:void();" onclick="viewImg('picurl')"><i class="fa fa-fw fa-share"></i>预览</a></span>
+                      </div>
+                    </div>  
+
+
+
+					<div class="form-group">
+                      <label>上传照片第二张</label>
+                      <div class="input-group">
+                        <input type="text" id="picurl1" name="picurl1" class="form-control" value="{$vo.picurl1}">
+                        <span class="input-group-addon"><a href="javascript:void();" onclick="upyunWapPicUpload('picurl1')"><i class="fa fa-fw fa-upload"></i>点击上传</a></span>
+						<span class="input-group-addon"><a href="javascript:void();" onclick="viewImg('picurl1')"><i class="fa fa-fw fa-share"></i>预览</a></span>
+                      </div>
+                    </div> 
+
+
+					<div class="form-group">
+                      <label>上传照片第三张</label>
+                      <div class="input-group">
+                        <input type="text" id="picurl2" name="picurl2" class="form-control" value="{$vo.picurl2}">
+                        <span class="input-group-addon"><a href="javascript:void();" onclick="upyunWapPicUpload('picurl2')"><i class="fa fa-fw fa-upload"></i>点击上传</a></span>
+						<span class="input-group-addon"><a href="javascript:void();" onclick="viewImg('picurl2')"><i class="fa fa-fw fa-share"></i>预览</a></span>
+                      </div>
+                    </div> 
+
+
+					<div class="form-group">
+                      <label>上传照片第四张</label>
+                      <div class="input-group">
+                        <input type="text" id="picurl3" name="picurl3" class="form-control" value="{$vo.picurl3}">
+                        <span class="input-group-addon"><a href="javascript:void();" onclick="upyunWapPicUpload('picurl3')"><i class="fa fa-fw fa-upload"></i>点击上传</a></span>
+						<span class="input-group-addon"><a href="javascript:void();" onclick="viewImg('picurl3')"><i class="fa fa-fw fa-share"></i>预览</a></span>
+                      </div>
+                    </div> 
+
+
+
+					<div class="form-group">
+                      <label>上传照片第五张</label>
+                      <div class="input-group">
+                        <input type="text" id="picurl4" name="picurl4" class="form-control" value="{$vo.picurl4}">
+                        <span class="input-group-addon"><a href="javascript:void();" onclick="upyunWapPicUpload('picurl4')"><i class="fa fa-fw fa-upload"></i>点击上传</a></span>
+						<span class="input-group-addon"><a href="javascript:void();" onclick="viewImg('picurl4')"><i class="fa fa-fw fa-share"></i>预览</a></span>
+                      </div>
+                    </div> 
+					
+
+
+<div class="form-group">
+                      <label>宣言介绍：</label>
+
+ <textarea id="info" name="info"> <?php echo htmlspecialchars($vo['info']); ?> </textarea>
+
+
+
+
+                            <script src="__PUBLIC__/misc/ckeditor/ckeditor.js"></script>
+                            <link rel="stylesheet" href="__PUBLIC__/misc/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css">
+                              <script>
+                                $(function () {
+                                  // Replace the <textarea id="editor1"> with a CKEditor
+                                  // instance, using default configuration.
+                                  CKEDITOR.replace( 'info', {
+                                      filebrowserUploadUrl: '/Member/index.php?m=Upyun&a=upload&from=Wap',
+                                       allowedContent: true,
+                                       fillEmptyBlocks:false,
+                                       basicEntities:false
+                                  });
+                                });
+                              </script>  
+
+
+ </div> 
+
+
+
+       
+
+
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    <button  id="sub" class="btn btn-primary">提交</button>
+                  </div>
+                </form>
+              </div><!-- /.box -->
+         
+            </div><!--/.col (left) -->
+
+          </div>   <!-- /.row -->
+        </section><!-- /.content -->
+
+
+
+      </div><!-- /.content-wrapper -->
+
+      
+    <include file="Public:footer" />
+
+     
+    </div><!-- ./wrapper -->
+
+ 
+
+
+<script src="__PUBLIC__/static/artDialog/jquery.artDialog.js?skin=default"></script>
+<script src="__PUBLIC__/static/artDialog/plugins/iframeTools.js"></script>
+<script src="__PUBLIC__/static/upyun.js?2013"></script>     
+  
+  
+
+
+
+  </body>
+</html>

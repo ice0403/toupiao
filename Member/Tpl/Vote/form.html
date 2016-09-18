@@ -1,0 +1,501 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.config.SITENAME}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css"> 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="__PUBLIC__/misc/html5shiv.min.js"></script>
+        <script src="__PUBLIC__/misc/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .color-palette {
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+      }
+      .color-palette-set {
+        margin-bottom: 15px;
+      }
+      .color-palette span {
+        display: none;
+        font-size: 12px;
+      }
+      .color-palette:hover span {
+        display: block;
+      }
+      .color-palette-box h4 {
+        position: absolute;
+        top: 100%;
+        left: 25px;
+        margin-top: -40px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        display: block;
+        z-index: 7;
+      }
+    </style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+
+      <include file="Public:head" />
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            报名管理
+            <small>列表</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{:U("Vote/index")}"><i class="fa fa-dashboard"></i> 首页</a></li> 
+            <li><a href="#">报名管理</a></li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+
+                <div class="box-body">
+                
+                <div class="box-header">
+                    <form action="{:U("Vote/form",array("ss"=>1))}" method="get">
+                    <div class="form-group">
+                      <label>姓名</label>
+                      <input type="text" name="username" class="form-control" value="<?php echo $_GET['username'];?>">
+                    </div>
+
+                     <div class="form-group">
+                        <label>投票标题</label>
+                        <select name="vid" class="form-control required">
+                          <option value=""></option>
+                          <volist name="voteList" id="voteList">
+                          <option value="{$voteList.id}" <?php if($_GET['vid'] == $voteList['id']){echo 'selected';} ?> >{$voteList.title}</option>
+                          </volist>            
+                        </select>
+                      </div>
+
+
+                      <div style="float:left;">
+                          <input type="submit" value="搜索" class="btn btn-info pull-right btn-sm" />
+                      </div>	
+                        </form>
+                    
+<div style="float:left;margin:0 8px;">
+                        <a href="{:U("Vote/formAdd",array("ss"=>1))}" class="btn btn-block btn-default btn-sm"><i class="fa fa-fw fa-plus"></i>添加</a>
+                    </div>
+
+                    <div style="float:left;">
+                      <a href="#" id="ids0" class="btn btn-block btn-default btn-sm" onclick="action('formDelete&id=','ids0');"> <i class="fa fa-fw fa-remove"></i>
+                       删 除
+                     </a>
+                     </div>
+
+                     <div style="float:left;margin:0 8px;">
+                      <a href="{:U("Vote/exportData")}"  class="btn btn-block btn-default btn-sm" > <i class="fa fa-fw fa-download"></i>
+                       导出数据
+                     </a>
+                     </div> 
+
+                     <div class="alert alert-info" style="float:left;margin-bottom: 0px;padding: 4px 10px 4px 10px;"><button type="button" class="close" data-dismiss="alert" style="margin-left:5px;">×</button><strong>注意!</strong> 点击“投票号”、“点击数”、“票数”可进行排序
+                     </div>
+
+
+                     
+                </div><!-- /.box-header -->
+
+
+
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>选择
+      <input type="checkbox" onclick="addids_all()" ></th>
+                        <th>编号</th>
+                        <th>姓名</th>
+                        <th><?php if($_GET['_order'] == "num"){ ?>
+              <?php if($_GET['_sort'] == "asc"){ ?>
+              <a href="{:U("Vote/form",array("_order"=>"num","_sort"=>"desc","vid"=>$_GET['vid'],"ss"=>1))}"><i class="fa fa-fw fa-sort-amount-asc"></i>
+              <?php }elseif ($_GET['_sort'] == "desc") { ?>
+                  <a href="{:U("Vote/form",array("_order"=>"num","_sort"=>"asc","vid"=>$_GET['vid'],"ss"=>1))}"><i class="fa fa-fw fa-sort-amount-desc"></i>
+              <?php } ?>
+        <?php }else{ ?>  
+                  <a href="{:U("Vote/form",array("_order"=>"num","_sort"=>"asc","vid"=>$_GET['vid'],"ss"=>1))}">
+         <?php } ?>投票号</a></th>
+                        <th><?php if($_GET['_order'] == "view"){ ?>
+              <?php if($_GET['_sort'] == "asc"){ ?>
+                  <a href="{:U("Vote/form",array("_order"=>"view","_sort"=>"desc","vid"=>$_GET['vid'],"ss"=>1))}"><i class="fa fa-fw fa-sort-amount-asc"></i>
+              <?php }elseif ($_GET['_sort'] == "desc") { ?>
+                  <a href="{:U("Vote/form",array("_order"=>"view","_sort"=>"asc","vid"=>$_GET['vid'],"ss"=>1))}"><i class="fa fa-fw fa-sort-amount-desc"></i>
+              <?php } ?>
+        <?php }else{ ?>  
+                  <a href="{:U("Vote/form",array("_order"=>"view","_sort"=>"asc","vid"=>$_GET['vid'],"ss"=>1))}">
+         <?php } ?>点击数</a></th>
+                        <th><?php if($_GET['_order'] == "ticket"){ ?>
+              <?php if($_GET['_sort'] == "asc"){ ?>
+                  <a href="{:U("Vote/form",array("_order"=>"ticket","_sort"=>"desc","vid"=>$_GET['vid'],"ss"=>1))}"><i class="fa fa-fw fa-sort-amount-asc"></i>
+              <?php }elseif ($_GET['_sort'] == "desc") { ?>
+                  <a href="{:U("Vote/form",array("_order"=>"ticket","_sort"=>"asc","vid"=>$_GET['vid']))}"><i class="fa fa-fw fa-sort-amount-desc"></i>
+              <?php } ?>
+        <?php }else{ ?>  
+                  <a href="{:U("Vote/form",array("_order"=>"ticket","_sort"=>"asc","vid"=>$_GET['vid'],"ss"=>1))}">
+         <?php } ?>票数</a></th>
+                        <td >投票标题</td>
+    
+    <td>状态</td>
+    <td>报名时间</td>
+    <td>操作</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                          <volist id="vo" name="list">
+    <tr>
+      <td>
+        <input name="id" value="{$vo['id']}" type="checkbox" onclick="addids(this)"></td>
+      <td>
+          {$vo['id']}
+      </td>     
+       <td>
+          {$vo['username']}
+      </td>
+      <td>
+          {$vo['num']}
+      </td>
+      <td>
+          {$vo['view']}
+      </td>
+      <td>{$vo['ticket']}</td>
+      <td style="text-align:left;">
+		<?php
+		 $tmp = M("Vote")->where('id='.$vo['vid'])->field('title,isPay')->find();
+		 echo $tmp['title'];
+		?>
+	  
+	  </td>
+      
+      <td>
+            <eq name="vo.status" value="0">
+                <span class="badge bg-red">待审</span>
+            </eq>
+            <eq name="vo.status" value="1">
+                <span class="badge bg-light-blue">已审</span>
+            </eq>  
+            <?php
+            if($tmp['isPay']){
+            ?>
+            <eq name="vo.isPay" value="0">
+                <span class="badge bg-red">未支付</span>
+            </eq>
+            <eq name="vo.isPay" value="1">
+                <span class="badge bg-light-blue">已支付</span>
+            </eq>  
+            <?php 
+            }
+            ?>
+
+			
+	  </td>
+      <td>{$vo['addtime']|date="Y-m-d H:i:s",###}</td>
+
+
+
+     <td>
+
+            <a title="编辑" href="{:U("Vote/formEdit",array("id"=>$vo['id'],"ss"=>1))}"><i class="fa fa-fw fa-edit"></i></a> | 
+
+            <a href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("Vote/formDelete",array("id"=>$vo['id']))}');"><i class="fa fa-fw fa-remove"></i></a> | 
+
+            <a class="btn btn-warning btn-xs" href="{:U("Vote/voteRecord",array("username"=>$vo['username'],"ss"=>2))}" >投票记录
+                   </a>
+
+          <a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal{$vo['id']}">详细查看</a>
+
+     
+      <div id="myModal{$vo['id']}" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                   <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                      <h4 class="modal-title">详细查看</h4>
+                  </div>
+              <div class="modal-body" style="text-align:center;">
+
+                <p style="text-align:left;">
+                   <b>姓名：</b>{$vo['username']}
+                </p>
+                <p style="text-align:left;">
+                   <b>投票号：</b>{$vo['num']}
+                </p>
+                <p style="text-align:left;">
+                   <b>点击数：</b>{$vo['view']}
+                </p>
+                <p style="text-align:left;">
+                   <b>票数：</b>{$vo['ticket']}
+                </p>
+                
+                  <p style="text-align:left;">
+                   <b style="float:left">照片：</b>
+      
+       
+       <neq name="vo.picurl" vlaue="">
+       <div style="float:left">
+       <a href="{$vo.picurl}" target="_blank"><img src="{$vo['picurl']}" width="100" height="130"></a>
+       </div>
+
+        <div style="float:left">
+                <?php if($vo['p_make']){ echo '<p style="padding:0px;margin:0px;">设备制造商:'. $vo['p_make'].' </p>';} ?>
+                <?php if($vo['p_date']){ echo '<p style="padding:0px;margin:0px;">拍摄时间:'. $vo['p_date'].' </p>';} ?>
+                <?php if($vo['p_model']){ echo '<p style="padding:0px;margin:0px;">型号:'. $vo['p_model'].' </p>';} ?>
+        </div>
+
+
+        <div style="clear:both;"></div>
+       </neq>
+
+
+       <neq name="vo.picurl1" vlaue="">
+       <div style="float:left;margin-left:42px;margin-top:8px;">
+       <a href="{$vo.picurl1}" target="_blank"><img src="{$vo['picurl1']}" width="100" height="130"></a>
+       </div>
+
+        <div style="float:left;margin-top:8px;">
+                <?php if($vo['p_make1']){ echo '<p style="padding:0px;margin:0px;">设备制造商:'. $vo['p_make1'].' </p>';} ?>
+                <?php if($vo['p_date1']){ echo '<p style="padding:0px;margin:0px;">拍摄时间:'. $vo['p_date1'].' </p>';} ?>
+                <?php if($vo['p_model1']){ echo '<p style="padding:0px;margin:0px;">型号:'. $vo['p_model1'].' </p>';} ?>
+        </div>       
+
+        <div style="clear:both;"></div>
+       </neq>
+
+
+       <neq name="vo.picurl2" vlaue="">
+       <div style="float:left;margin-left:42px;margin-top:8px;">
+       <a href="{$vo.picurl2}" target="_blank"><img src="{$vo['picurl2']}" width="100" height="130"></a>
+       </div>
+
+        <div style="float:left;margin-top:8px;">
+                <?php if($vo['p_make2']){ echo '<p style="padding:0px;margin:0px;">设备制造商:'. $vo['p_make2'].' </p>';} ?>
+                <?php if($vo['p_date2']){ echo '<p style="padding:0px;margin:0px;">拍摄时间:'. $vo['p_date2'].' </p>';} ?>
+                <?php if($vo['p_model2']){ echo '<p style="padding:0px;margin:0px;">型号:'. $vo['p_model2'].' </p>';} ?>
+        </div> 
+
+        <div style="clear:both;"></div>
+       </neq>
+
+
+       <neq name="vo.picurl3" vlaue="">
+       <div style="float:left;margin-left:42px;margin-top:8px;">
+       <a href="{$vo.picurl3}" target="_blank"><img src="{$vo['picurl3']}" width="100" height="130"></a>
+       </div>
+
+        <div style="float:left;margin-top:8px;">
+                <?php if($vo['p_make3']){ echo '<p style="padding:0px;margin:0px;">设备制造商:'. $vo['p_make3'].' </p>';} ?>
+                <?php if($vo['p_date3']){ echo '<p style="padding:0px;margin:0px;">拍摄时间:'. $vo['p_date3'].' </p>';} ?>
+                <?php if($vo['p_model3']){ echo '<p style="padding:0px;margin:0px;">型号:'. $vo['p_model3'].' </p>';} ?>
+        </div> 
+
+        <div style="clear:both;"></div>
+       </neq>
+
+
+
+
+       <neq name="vo.picurl4" vlaue="">
+       <div style="float:left;margin-left:42px;margin-top:8px;">
+       <a href="{$vo.picurl4}" target="_blank"><img src="{$vo['picurl4']}" width="100" height="130"></a>
+       </div>
+
+        <div style="float:left;margin-top:8px;">
+                <?php if($vo['p_make4']){ echo '<p style="padding:0px;margin:0px;">设备制造商:'. $vo['p_make4'].' </p>';} ?>
+                <?php if($vo['p_date4']){ echo '<p style="padding:0px;margin:0px;">拍摄时间:'. $vo['p_date4'].' </p>';} ?>
+                <?php if($vo['p_model4']){ echo '<p style="padding:0px;margin:0px;">型号:'. $vo['p_model4'].' </p>';} ?>
+        </div> 
+
+        <div style="clear:both;"></div>
+       </neq>
+
+       (点击查看大图)
+                </p>
+
+                <p style="text-align:left;">
+                    <b>姓别：</b>
+                    <eq name="vo.sex" value="0">
+                    <span class="badge bg-yellow">保密</span>
+                    </eq>
+                    <eq name="vo.sex" value="1">
+                    <span class="badge bg-light-blue">男</span>
+                    </eq>            
+                    <eq name="vo.sex" value="2">
+                    <span class="badge bg-red">女</span>
+                    </eq>  
+                </p>
+
+              <p style="text-align:left;">
+                  <b>状态：</b>
+                  <eq name="vo.status" value="0">
+                  <span class="badge bg-red">待审</span>
+                  </eq>
+                  <eq name="vo.status" value="1">
+                  <span class="badge bg-light-blue">已审</span>
+                  </eq>            
+              </p>
+
+                <neq name="vo.age" value="">
+                <p style="text-align:left;">
+                   <b>年龄：</b>{$vo['age']}
+                </p>
+                </neq>
+
+                <neq name="vo.address" value="">
+                <p style="text-align:left;">
+                   <b>地址：</b>{$vo['address']}
+                </p>
+                </neq>
+
+                <p style="text-align:left;">
+                   <b>手机：</b>{$vo['tel']}
+                </p>
+                <p style="text-align:left;">
+                   <b>报名时间：</b> {$vo['addtime']|date="Y-m-d H:i:s",###}
+                </p>
+
+                <neq name="vo.company" value="">
+                <p style="text-align:left;">
+                   <b>公司名称：</b> {$vo.company}
+                </p>
+                </neq>
+
+                <p style="text-align:left;">
+                   <b>介绍：</b>{$vo['info']}  
+                </p>
+
+
+                <neq name="vo.recording" value="">
+                <p style="text-align:left;">
+                   <b>录音文件：</b> {$vo.recording}
+                </p>
+                </neq>
+
+                <neq name="vo.video" value="">
+                <p style="text-align:left;">
+                   <b>视频文件：</b> {$vo.video}
+                </p>
+                </neq>
+
+                </div>
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                   </div>
+                </div>
+                </div>
+
+
+
+              </div>
+              <div class="modal-body"></div>
+            </div>
+      </td>
+    </tr>
+  </volist>                 
+                    </tbody>
+                    
+                  </table>
+                </div><!-- /.box-body -->
+
+                <div class="row" style="margin-left:5px;">
+                  <div class="col-sm-5"><div class="dataTables_info">{$totalCount} 条记录 {$currentPage}/{$numPerPage} 页</div></div>
+                  <div class="col-sm-6">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                      {$page}
+                   </ul>
+                  </div>
+                  </div>
+                </div>
+              
+
+              </div><!-- /.box -->
+
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      
+
+
+
+<include file="Public:footer" />
+
+
+
+    </div><!-- ./wrapper -->
+
+
+
+  <script type="text/javascript">
+        var ids = "";
+        function addids(bb){
+            if($(bb).is(':checked')){
+              ids+=","+$(bb).val(); 
+            }else{
+               ids = ids.replace(","+$(bb).val(),""); 
+            }
+            //console.log(ids);
+        }
+        var is_all = true;
+        function addids_all(){
+          if(is_all){
+            $("input[name='id']").attr("checked","true"); 
+            is_all = false;
+
+            $("input[name='id']:checkbox:checked").each(function(){ 
+              ids+=","+$(this).val(); 
+            });
+          }else{
+            $("input[name='id']").removeAttr("checked");
+            is_all = true;
+            ids = "";
+          }
+        }
+        
+        function action(aa,bb){
+          if(ids == ""){
+            alert("请选择"); return;
+          }
+          if(ids !==""){
+            ids = ids.substring(1);
+          }    
+          console.log(ids);      
+          tmp = "index.php?m=Vote&a="+aa;          
+          $("#"+bb).attr("href",tmp+ids);
+        }
+      </script>
+
+
+  </body>
+</html>

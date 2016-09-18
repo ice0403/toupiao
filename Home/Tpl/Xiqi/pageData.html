@@ -1,0 +1,41 @@
+
+<volist id="vo1" name="list">
+    <div class="li">
+    <a href="__URL__/content/subscribe/{$subscribe}/id/{$vo1['vid']}/fid/{$vo1.id}
+                                <?php
+
+                                if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                    echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                                }
+
+                                ?>.html">
+    <div class="li_img radius shadow">
+    <img src="{$vo1.picurl}" width="180px" height="150px"/>
+    <div class="li_txt">{$vo1.username}</div>
+    </div>
+    </a>
+    <div class="li_floor_txt">
+    <span class="f_l">{$vo1.num}号</span>
+    <span class="f_r" style="text-align:right;">{$vo1.ticket}票</span>
+    </div>
+    </div>
+
+</volist>
+
+
+
+<div class="current" style="display:none;">
+<?php 
+if( $currentPage >= $totalPages    ){
+?>
+0
+<?php
+}else{
+?>
+{$currentPage}
+<?php
+}
+?>
+</div>

@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.config.SITENAME}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css"> 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="__PUBLIC__/misc/html5shiv.min.js"></script>
+        <script src="__PUBLIC__/misc/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .color-palette {
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+      }
+      .color-palette-set {
+        margin-bottom: 15px;
+      }
+      .color-palette span {
+        display: none;
+        font-size: 12px;
+      }
+      .color-palette:hover span {
+        display: block;
+      }
+      .color-palette-box h4 {
+        position: absolute;
+        top: 100%;
+        left: 25px;
+        margin-top: -40px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        display: block;
+        z-index: 7;
+      }
+    </style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+
+      <include file="Public:head" />
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            粉丝管理
+            <small>列表</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{:U("Vote/index")}"><i class="fa fa-dashboard"></i> 首页</a></li> 
+            <li><a href="#">粉丝管理</a></li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+
+                
+               
+               
+
+                <div class="box-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        
+                        <th>编号</th>
+                        <th>微信昵称</th>
+                        <th>城市</th>
+                        <th>省份</th>
+                        <th>国家</th>
+                        <th>微信头像</th>
+                        <th>姓别</th>
+						<th>关注时间</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <volist id="vo" name="list">
+						<tr>
+
+
+						<td>{$vo['id']}</td>
+
+						<td>
+						{$vo['wechaname']}
+						</td>
+
+						<td>{$vo['city']}</td>
+						<td>{$vo['province']}</td>
+						<td>{$vo['country']}</td>
+
+						<td><img  src="{$vo['wechahead']}" width="80px"  height="80px"></td>
+
+
+						<td>
+                            <eq name="vo.sex" value="0" >
+                            <span class="badge bg-yellow">未知</span>
+                            </eq>
+                            <eq name="vo.sex" value="1" >
+                            <span class="badge bg-light-blue">男</span>
+                            </eq>
+                            <eq name="vo.sex" value="2" >
+                            <span class="badge bg-red">女</span>
+                            </eq>
+						</td>
+						<td>{$vo['subscribe_time']|date="Y-m-d H:i:s",###}</td>				                            
+                         </tr>
+                        </volist>                    
+                    </tbody>
+                    
+                  </table>
+                </div><!-- /.box-body -->
+                <div class="row" style="margin-left:5px;">
+                    <div class="col-sm-5"><div class="dataTables_info">{$totalCount} 条记录 {$currentPage}/{$totalPages} 页</div></div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination">
+                                {$page}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+              
+
+              </div><!-- /.box -->
+
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      
+    <include file="Public:footer" />
+
+     
+
+
+  </body>
+</html>

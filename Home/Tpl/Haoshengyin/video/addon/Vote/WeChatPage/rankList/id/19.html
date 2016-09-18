@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="telephone=no" name="format-detection" />
+    <title>西双版纳好声音</title>
+    <link rel="stylesheet" href="../../../../../Public/static/jm/jquery.mobile-1.4.5.css" />
+    <link href="../../../../../Addons/Vote/View/19/Public/app.css@v=1456302357" rel="stylesheet" type="text/css">
+    <script src="../../../../../../res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../../../../../Public/static/jquery-2.0.3.min.js"></script>
+    <script src="../../../../../Public/static/jm/jquery.mobile-1.4.5.js"></script>
+    <script src="../../../../../Public/static/waypoints/jquery.waypoints.min.js"></script>
+    <script src="../../../../../Public/static/waypoints/shortcuts/sticky.min.js"></script>
+    <link rel="stylesheet" href="../../../../../Public/static/layer.m/need/layer.css" />
+    <script src="../../../../../Public/static/layer.m/layer.m.js"></script>
+    <script src="../../../../../Public/static/jplugin/lazyload/jquery.lazyload.min.js"></script>
+    <script src="../../../../../Addons/Vote/View/19/Public/app.js"></script>
+</head>
+<body>
+<script>
+    wx.config({
+        debug: false,
+        appId: 'wx5bcf7a586ccac2ca',
+        timestamp: '1456302357',
+        nonceStr: 'SjTpopmVN85ec8Gk',
+        signature: '9c6bf6f24f3ad791956b00c02e5348e5ec098cd0',
+        jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','hideMenuItems']
+    });
+
+    var shareWeixin = {
+        title: '西双版纳好声音', // 分享标题
+        desc: '西双版纳好声音·邀请你来帮TA投票！',
+        link: '../../index/id/19.html', // 分享链接
+        imgUrl: '../../../../../../cdn.weishangtui.com/Uploads/Picture/2015-12-29/56822208932b8.jpg', // 分享图标
+        success: function () {
+        },
+        cancel: function () {
+        }
+    };
+
+    wx.ready(function(){
+        wx.onMenuShareTimeline(shareWeixin);
+        wx.onMenuShareAppMessage(shareWeixin);
+        wx.onMenuShareQQ(shareWeixin);
+        wx.onMenuShareWeibo(shareWeixin);
+//            wx.hideMenuItems({
+//                menuList: ['menuItem:share:timeline'] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+//            });
+    })
+</script>
+<div data-role="page" class="app-list-page">
+    <img src="../../../../../Addons/Vote/View/19/Public/d_head.png" class="app-logo"/>
+    <table class="app-stat">
+        <tr><td><img src="../../../../../Addons/Vote/View/19/Public/lb_csxs.png"/>792</td>
+            <td><img src="../../../../../Addons/Vote/View/19/Public/lb_ztps.png"/>130303</td>
+            <td><img src="../../../../../Addons/Vote/View/19/Public/lb_fwl.png"/>1566715</td></tr>
+    </table>
+    <div class="app-search-box">
+        <form method="post" action="http://xsbnrtv.m.weishangtui.com/addon/Vote/WeChatPage/rankList/id/19.html">
+            <table>
+                <tr>
+                    <td class="search-type">
+                        <div data-role="controlgroup" data-type="horizontal" data-mini="true">
+                            <input type="radio" name="t" id="search-by-code" value="0" checked="checked">
+                            <label for="search-by-code">搜编号</label>
+                            <input type="radio" name="t" id="search-by-name" value="1 ">
+                            <label for="search-by-name">搜昵称</label>
+                        </div></td>
+                    <td><input name="k" class="search-key" type="text" placeholder="搜索你喜欢的选手" /></td>
+                    <td>
+                        <a href="#" class="btn-query"><img src="../../../../../Addons/Vote/View/19/Public/btn_search.png"></a></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div role="main" class="ui-content">
+        <div class="app-sort">
+        </div>
+        <div class="ui-grid-a app-top-list">
+            <div class="ui-block-a">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/6070.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/9abe3e44e3203a103cd04e9fbd76778b.png"/></a>
+                        <div>排名: 1                            <img class="rank-img" src="../../../../../Addons/Vote/View/19/Public/ic_rank_top1.png" /></div>
+                    </div>
+                    <div class="vote-stat-info">
+                        票数:<span>8854</span>
+                    </div>
+                </div>
+                <div>
+                    <p>张国庆<br>编号:471</p>
+                </div>
+            </div><div class="ui-block-b">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/5707.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/7f895da4a3b95f7b9b04e5cbb0162d18.png"/></a>
+                        <div>排名: 2                            <img class="rank-img" src="../../../../../Addons/Vote/View/19/Public/ic_rank_top2.png" /></div>
+                    </div>
+                    <div class="vote-stat-info">
+                        票数:<span>6664</span>
+                    </div>
+                </div>
+                <div>
+                    <p>赧凤莲<br>编号:208</p>
+                </div>
+            </div><div class="ui-block-a">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/5878.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/d0a5c7692bdf543b239485d3d847731f.png"/></a>
+                        <div>排名: 3                            <img class="rank-img" src="../../../../../Addons/Vote/View/19/Public/ic_rank_top3.png" /></div>
+                    </div>
+                    <div class="vote-stat-info">
+                        票数:<span>6240</span>
+                    </div>
+                </div>
+                <div>
+                    <p>刀榕<br>编号:321</p>
+                </div>
+            </div><div class="ui-block-b">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/5565.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/5c3f6ca9c06c01684cde05e998260d40.png"/></a>
+                        <div>排名: 4                            </div>
+                    </div>
+                    <div class="vote-stat-info">
+                        票数:<span>5375</span>
+                    </div>
+                </div>
+                <div>
+                    <p>周文强<br>编号:131</p>
+                </div>
+            </div>        </div>        <div class="ui-grid-b app-more-list">
+            <div class="ui-block-a">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/5373.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/d370a235ea57b8756c7da53a1af351df.png"/></a>
+                        <div>名次: 5</div>
+                    </div>
+                    <div class="vote-stat-info">
+                        <span>5260票</span>
+                    </div>
+                </div>
+                <div>
+                    <p>杨洁<br>编号:022</p>
+                </div>
+            </div><div class="ui-block-b">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/6135.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/692384c6baad3f934a9ff9e375ad1935.png"/></a>
+                        <div>名次: 6</div>
+                    </div>
+                    <div class="vote-stat-info">
+                        <span>3470票</span>
+                    </div>
+                </div>
+                <div>
+                    <p>岩温香<br>编号:536</p>
+                </div>
+            </div><div class="ui-block-c">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/5629.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/699d0c20d8cf712ea38871fb3d82c9fa.png"/></a>
+                        <div>名次: 7</div>
+                    </div>
+                    <div class="vote-stat-info">
+                        <span>3233票</span>
+                    </div>
+                </div>
+                <div>
+                    <p>王梅琼<br>编号:174</p>
+                </div>
+            </div><div class="ui-block-a">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/5580.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/0bdfe267c87a689f00a2094aebf7b454.png"/></a>
+                        <div>名次: 8</div>
+                    </div>
+                    <div class="vote-stat-info">
+                        <span>2906票</span>
+                    </div>
+                </div>
+                <div>
+                    <p>李颖晖<br>编号:146</p>
+                </div>
+            </div><div class="ui-block-b">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/6150.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/71db6d51088fda3044d2f8bdbcbe61d7.png"/></a>
+                        <div>名次: 9</div>
+                    </div>
+                    <div class="vote-stat-info">
+                        <span>2535票</span>
+                    </div>
+                </div>
+                <div>
+                    <p>李忠明<br>编号:551</p>
+                </div>
+            </div><div class="ui-block-c">
+                <div class="vote-item">
+                    <div class="picture">
+                        <a data-ajax="false" href="../../detail/id/19/void/5648.html"><img src="../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/0d689e4f6c45ebb43fa9c435e8cc6608.png"/></a>
+                        <div>名次: 10</div>
+                    </div>
+                    <div class="vote-stat-info">
+                        <span>2275票</span>
+                    </div>
+                </div>
+                <div>
+                    <p>梭和<br>编号:185</p>
+                </div>
+            </div>        </div>
+                <div id="pullUp" style="text-align: center; padding: 10px;">
+            <span class="pullUpIcon"></span><span class="pullUpLabel">加载更多</span>
+        </div></div>
+<div class="app-footer">
+    <div data-role="navbar" class="app-nav">
+        <ul>
+            <li><a data-icon="custom" class="ui-icon-home" href="../../index/id/19.html"></a></li>
+            <li><a data-icon="custom" class="ui-btn-active ui-icon-rank" data-ajax="false" href="19.html"></a></li>
+            <li><a data-icon="custom" class="ui-icon-rule" href="javascript://"></a></li>
+            <li><a data-icon="custom" class="ui-icon-reg" href="../../reg/id/19.html" data-ajax="false"></a></li>
+        </ul>
+    </div>
+</div>
+    <script>
+        var itemCount = 10;
+        $(function(){
+        new Waypoint.Sticky({
+            element: $('.app-search-box')[0]
+        });
+
+            $(document).on("scrollstop",function(){
+                if($(document).height() > $(window).height())
+                {
+                    if($(window).scrollTop() == $(document).height() - $(window).height()){
+                        loadMore();
+                    }
+                }
+            });
+
+            function loadMore(){
+                if($("#pullUp").css('display') == 'none') return;
+                layer.open({type:2});
+                $.ajax({
+                    url: "../../moreList/id/19/o/0.html",
+                    type: 'POST',
+                    data: {s:itemCount},
+                    dataType: "html",
+                    success: function (html) {
+                        layer.closeAll();
+                        $(".app-more-list").append(html)
+                        itemCount = itemCount + 9;
+                        if(html=="" || html == null){
+                            $("#pullUp").css('display','none');
+                        }
+                    },
+                    error: function(err){
+                        $app.showMessage("哎呀,出错了!请重试!")
+                    }
+                });
+            }
+
+            $('.ui-icon-rule').click(function(){
+                $app.showRule("../../rule/id/19.html");
+            })
+
+            $('.ui-icon-reg').click(function(){
+                if("$isReg" == "1") return;
+                if("" == "1"){
+                    $app.alertRegClose();
+                    return false;
+                }
+                if("" != "1"){
+                    $app.showRegDesc('../../../../../Addons/Vote/View/19/Public/img_gzyd.jpg');
+                    return false;
+                }
+            })
+
+            $('.btn-query').click(function(){
+                var type = $(':checked').val();
+                var key = $('.search-key').val();
+                if(key == undefined || key == ""){
+                    $app.showMessage("请输入关键字!"+type);
+                    return;
+                }
+                $('form').submit();
+                return;
+                var wait = layer.open({type: 2});
+                $.ajax({
+                    url: "../../searchVoteOption/id/19.html",
+                    type: 'POST',
+                    data: {t:type,k:key},
+                    dataType: "json",
+                    success: function (result) {
+                        layer.close(wait);
+                        if(result.status>0) {
+                            $app.showMessage(result.msg)
+                            return;
+                        }
+                        location.href = result.detailUrl;
+                    },
+                    error: function(err){
+                        $app.showMessage("哎呀,出错了!请重试!")
+                    }
+                });
+            })
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.config.SITENAME}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css"> 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="__PUBLIC__/misc/html5shiv.min.js"></script>
+        <script src="__PUBLIC__/misc/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .color-palette {
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+      }
+      .color-palette-set {
+        margin-bottom: 15px;
+      }
+      .color-palette span {
+        display: none;
+        font-size: 12px;
+      }
+      .color-palette:hover span {
+        display: block;
+      }
+      .color-palette-box h4 {
+        position: absolute;
+        top: 100%;
+        left: 25px;
+        margin-top: -40px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        display: block;
+        z-index: 7;
+      }
+    </style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+
+      <include file="Public:head" />
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            自定义菜单管理
+            <small>列表</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{:U("Vote/index")}"><i class="fa fa-dashboard"></i> 首页</a></li> 
+            <li><a href="#">自定义菜单管理</a></li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+
+                
+                <div class="box-header">
+                    <div style="float:left;margin:0 8px;">
+                        <a href="{:U("System/addMenu",array("ss"=>2))}" class="btn btn-block btn-default btn-sm"><i class="fa fa-fw fa-plus"></i>添加</a>
+                    </div>
+                    <div style="float:left;">
+
+              <small>        注意! 1级菜单最多只能开启3个，2级子菜单最多开启5个! (通过认证的订阅号或者服务号才能使用自定义菜单) </small>    
+
+
+                     </div>
+
+                     
+                </div><!-- /.box-header -->
+               
+
+                <div class="box-body">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                       
+                        <th>显示顺序</th>
+                        <th>主菜单名称</th>
+                        <th>菜单类型</th>
+                        <th>类型数值</th>
+                        <th>操作</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <volist id="vo" name="list">
+                          <tr>
+                            
+
+                            <td> {$vo['sort']}</td>
+
+                             <td style="text-align:left;">{$vo['title']}</td>
+
+<td>
+             <neq name="vo.pid" value="0" >
+           <eq name="vo.typeid" value="0" >
+                    <span class="label label-success">关键词回复菜单</span>
+             </eq>
+             <eq name="vo.typeid" value="1" >
+                    <span class="label label-important">url链接菜单</span>
+             </eq> 
+           </neq>
+           <eq name="vo.pid" value="0" >父级菜单</eq>
+      </td>
+      <td>
+             <neq name="vo.pid" value="0" >
+               <eq name="vo.typeid" value="0" >
+                     {$vo['keyword']}
+               </eq>
+               <eq name="vo.typeid" value="1" >
+                      {$vo['url']}
+
+               </eq>   
+             </neq> 
+             <eq name="vo.pid" value="0" >无</eq>
+      </td>
+  	  <td>
+          <a title="编辑" href="{:U("System/editMenu",array("id"=>$vo['id'],"ss"=>2))}"><i class="fa fa-fw fa-edit"></i></a> | 
+          <a href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("System/deleteDiymenu",array("id"=>$vo['id']))}');"><i class="fa fa-fw fa-remove"></i></a>
+	  		  
+  	  </td>
+    </tr>
+
+    <?php
+      $tmp = M("Diymenu")->where("pid=".$vo['id'])->select();
+      foreach ($tmp as $key => $value) {
+    ?>
+    <tr>
+      <td>
+         <?php echo $value['sort']; ?>
+      </td>
+      <td style="text-align:left;">
+        <img src="__PUBLIC__/images/bg_repno.gif" />
+        <?php echo $value['title']; ?></td>
+      <td>
+             <?php if($value['typeid'] == 0){ ?>
+                    <span class="label label-success">关键词回复菜单</span>
+             <?php } ?>  
+
+             <?php if($value['typeid'] == 1){ ?>
+                  <span class="label label-danger">url链接菜单</span>
+             <?php } ?>  
+      </td>
+      <td>
+             <?php if($value['typeid'] == 0){ ?>
+                <?php echo $value['keyword']; ?>
+             <?php } ?>  
+
+             <?php if($value['typeid'] == 1){ ?>
+                <?php echo $value['url']; ?>
+             <?php } ?>         
+      </td>
+      
+
+      <td>
+          <a title="编辑" href="{:U("System/editMenu",array("id"=>$value['id'],"ss"=>2))}"><i class="fa fa-fw fa-edit"></i></a> | 
+          <a href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("System/deleteDiymenu",array("id"=>$value['id']))}');"><i class="fa fa-fw fa-remove"></i></a>
+      </td>
+
+
+
+    <?php
+      }
+    ?>
+
+
+                
+                        </volist>                    
+                    </tbody>
+                    
+
+
+                  </table>
+                </div><!-- /.box-body -->
+<div class="box-footer">
+
+<a href="{:U("System/greateMenu")}" ><button  class="btn btn-primary">生成自定义菜单</button> </a>
+          
+		<P>			
+
+					<p style="color:red">
+生成自定义菜单温馨提示：
+</p>
+<p style="color:red">
+(使用前提是已经拥有了自定义菜单的用户（认证订阅号或者服务号）才能够使用，)
+</p>
+<p style="color:red">
+第一步:必须先填写【AppId】【 AppSecret】！
+</p>
+<p style="color:red">
+第二步:添加菜单，
+</p>
+<p style="color:red">
+第三步:点击生成!
+</p>
+<p style="color:red">
+注意：1级菜单最多只能开启3个，2级子菜单最多开启5个；<BR>
+点击生成菜单常出现错误问题:<BR>
+1、生成信息40017  表示父级菜单下面必须要有子菜单；<BR>
+2、生成信息40018  表示父级菜单或者子菜单字数太长太多；
+</p>
+<p style="color:red">
+官方说明：修改后，需要重新关注，或者最迟隔天才会看到修改后的效果！
+</p>
+                  </div>
+
+
+    </tr>
+
+              
+
+              </div><!-- /.box -->
+
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      
+    <include file="Public:footer" />
+
+     <script type="text/javascript">
+        function addids(){
+          ids ="";
+          $("input[name='id']:checkbox:checked").each(function(){ 
+            ids+=","+$(this).val(); 
+          });
+          if(ids !==""){
+            ids = ids.substring(1);
+            tmp = "__URL__/deleteAd/id/";
+            $("#ids").attr("href",tmp+ids);
+          }
+          else{
+            $("#ids").attr("href","#");
+          }         
+
+        }
+        var is_all = true;
+        function addids_all(){
+          if(is_all){
+            $("input[name='id']").attr("checked","true"); 
+            is_all = false;
+          }else{
+            $("input[name='id']").removeAttr("checked");
+            is_all = true;
+            $("#ids").attr("href","#");
+          }
+          addids();
+        }
+        
+        function del(){
+          if($("#ids").attr("href") == "#"){
+            alert("请选择"); return;
+          }
+        }
+  
+      </script>
+
+
+  </body>
+</html>

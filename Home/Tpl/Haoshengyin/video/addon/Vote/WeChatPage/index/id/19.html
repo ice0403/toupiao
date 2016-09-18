@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="telephone=no" name="format-detection" />
+    <title>西双版纳好声音</title>
+    <link rel="stylesheet" href="../../../../../Public/static/jm/jquery.mobile-1.4.5.css" />
+    <link href="../../../../../Addons/Vote/View/19/Public/app.css@v=1456302356" rel="stylesheet" type="text/css">
+    <script src="../../../../../Public/static/jquery-2.0.3.min.js"></script>
+    <script src="../../../../../../res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../../../../../Public/static/jm/jquery.mobile-1.4.5.js"></script>
+    <script src="../../../../../Public/static/waypoints/jquery.waypoints.min.js"></script>
+    <script src="../../../../../Public/static/waypoints/shortcuts/sticky.min.js"></script>
+    <script src="../../../../../Public/static/angular.min.js"></script>
+    <link rel="stylesheet" href="../../../../../Public/static/layer.m/need/layer.css" />
+    <script src="../../../../../Public/static/layer.m/layer.m.js"></script>
+    <script src="../../../../../Addons/Vote/View/19/Public/app.js"></script>
+</head>
+<body>
+<div data-role="page" class="app-index-page">
+    <script>
+        wx.config({
+            debug: false,
+            appId: 'wx5bcf7a586ccac2ca',
+            timestamp: '1456302356',
+            nonceStr: '2wANjH7dFmNmTFdB',
+            signature: '2a886ab7b723bf22505d146b04219e1a6b55876e',
+            jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','hideMenuItems']
+        });
+
+        var shareWeixin = {
+            title: '西双版纳好声音', // 分享标题
+            desc: '西双版纳好声音·邀请你来帮TA投票！',
+            link: '19.html', // 分享链接
+            imgUrl: '../../../../../../cdn.weishangtui.com/Uploads/Picture/2015-12-29/56822208932b8.jpg', // 分享图标
+            success: function () {
+            },
+            cancel: function () {
+            }
+        };
+
+        wx.ready(function(){
+            wx.onMenuShareTimeline(shareWeixin);
+            wx.onMenuShareAppMessage(shareWeixin);
+            wx.onMenuShareQQ(shareWeixin);
+            wx.onMenuShareWeibo(shareWeixin);
+
+//            wx.hideMenuItems({
+//                menuList: ['menuItem:share:timeline'] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+//            });
+        })
+    </script>
+    <div class="head-empty">
+        <img src="../../../../../Addons/Vote/View/19/Public/img_idx_head.png">
+    </div>
+    <div class="user-detail">
+        <img class="user-head" src=""/>
+        <div class="user-name">参赛者</div>
+        <div class="user-code">排名: 未参赛</div>
+        <div class="user-reward-code">票数:0</div>
+    </div>
+    <div class="ui-grid-b">
+        <div class="ui-block-a"><a href="../../reg/id/19.html" data-ajax="false"><img class="btn-idx-sc" src="../../../../../Addons/Vote/View/19/Public/btn_idx_sc.png"></a></div>
+        <div class="ui-block-b"><img class="btn-idx-tpgz" src="../../../../../Addons/Vote/View/19/Public/btn_idx_tpgz.png"></div>
+        <div class="ui-block-c"><a href="../../rankList/id/19.html" data-ajax="false"><img class="btn-idx-phb" src="../../../../../Addons/Vote/View/19/Public/btn_idx_phb.png"></a></div>
+    </div>
+    <div class="copy"><a data-ajax="false" href="../../../../../../mp.weixin.qq.com/s@__biz=MzAxNjcyNjc2OQ==&mid=400149487&idx=1&sn=e3ba7cdd48deb208ce66c3722a773a10#rd">爱拓客©技术支持</a></div>
+    <script>
+        $(document).ready(function(){
+            $('.btn-idx-sc').parent().click(function(){
+                if("" == "1"){
+                    $app.alertRegClose();
+                    return false;
+                }
+                if("" != "1"){
+                    $app.showRegDesc('../../../../../Addons/Vote/View/19/Public/img_gzyd.jpg',"../../../../../../mp.weixin.qq.com/s@__biz=MzA5NzQ3ODIxOQ==&mid=401751933&idx=1&sn=90b0fd2eb02abba5e7523d06b39f6d32#rd");
+                    return false;
+                }
+            })
+
+            $('.btn-idx-qzwm').click(function(){
+                $app.showRegDesc('../../../../../Addons/Vote/View/19/Public/img_gzyd.jpg',"../../../../../../mp.weixin.qq.com/s@__biz=MzA5NzQ3ODIxOQ==&mid=401751933&idx=1&sn=90b0fd2eb02abba5e7523d06b39f6d32#rd");
+            })
+
+            $('.btn-idx-tpgz').click(function(){
+                $app.showRule("../../rule/id/19.html");
+            })
+        })
+    </script>
+</div>
+</body>
+</html>

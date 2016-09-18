@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          name="viewport">
+    <meta content="telephone=no" name="format-detection"/>
+    <title>西双版纳好声音</title>
+    <link rel="stylesheet" href="../../../../../Public/static/jm/jquery.mobile-1.4.5.css"/>
+    <link href="../../../../../Addons/Vote/View/19/Public/app.css@v=1456302354" rel="stylesheet" type="text/css">
+    <script src="../../../../../../res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../../../../../Public/static/jquery-2.0.3.min.js"></script>
+    <script src="../../../../../Public/static/jm/jquery.mobile-1.4.5.js"></script>
+    <link rel="stylesheet" href="../../../../../Public/static/layer.m/need/layer.css"/>
+    <script src="../../../../../Public/static/layer.m/layer.m.js"></script>
+    <script src="../../../../../Addons/Vote/View/19/Public/app.js"></script>
+</head>
+<body>
+<div data-role="page" class="app-reg-page">
+    <link rel="stylesheet" href="../../../../../Public/static/cropper/cropper.min.css"/>
+    <script src="../../../../../Public/static/cropper/cropper.min.js"></script>
+    <script>
+        wx.config({
+            debug: false,
+            appId: 'wx5bcf7a586ccac2ca',
+            timestamp: '1456302354',
+            nonceStr: 'IctRCUjYBhAML6Ou',
+            signature: 'ddf632a932b794e3c5b3a65678ab268b6355a03a',
+            jsApiList: [
+                "hideMenuItems",
+                'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice',
+                'chooseImage', 'uploadImage',
+                'onVoicePlayEnd', 'uploadVoice', 'downloadVoice',
+            ]
+        });
+
+        wx.ready(function() {
+            wx.hideMenuItems({
+                menuList: [
+                    "menuItem:share:appMessage",
+                    "menuItem:share:timeline",
+                    "menuItem:share:qq",
+                    "menuItem:share:weiboApp",
+                    "menuItem:favorite",
+                    "menuItem:share:facebook",
+                    "menuItem:share:QZone",
+                ] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+            });
+        });
+    </script>
+    <div role="main" class="ui-content">
+        <img src="../../../../../Addons/Vote/View/19/Public/img_reg_head.png" style="width: 100%">
+        <table>
+            <tr>
+                <td><img class="up-picture" src="../../../../../Addons/Vote/View/19/Public/ic_upload.png"/></td>
+                <td><img class="up-audio"
+                         data-success-img="/Addons/Vote/View/19/Public/ic_record_success.png"
+                         src="../../../../../Addons/Vote/View/19/Public/ic_record.png"/>
+                    <input data-role="none" id="recordId" type="text" name="record_id" data-msg="您还未上传录音!"
+                           maxlength="255"  style="display: none"></td>
+            </tr>
+        </table>
+        <div class="reg-info">
+            <input data-role="none" type="text" class="input-name" name="name" data-msg="请填写姓名" value="">
+            <select data-role="none" name="ext-1" class="input-sex" data-msg="请选择性别">
+                <option></option>
+                <option value="男">男</option>
+                <option value="女">女</option>
+            </select>
+            <input data-role="none" type="text" class="input-age" name="ext-2" data-msg="请填写年龄" value="">
+            <input data-role="none" type="text" class="input-addr" name="ext-3" data-msg="请填写地区" placeholder="省/市/区" value="">
+            <input data-role="none" type="text" data-regexp="^\d{11}$" class="input-tel" name="tel" data-msg="请填写11位手机号码" value="">
+            <input data-role="none" type="checkbox" id="input-check" class="input-check" name="ext-4" data-msg="请阅读并同意遵守参赛规则条款">
+            <label for="input-check"></label>
+        </div>
+        <table>
+            <tr>
+                <td colspan="2">
+                    <div class="ui-grid-b preview">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="reg-submit-button">
+            <img src="../../../../../Addons/Vote/View/19/Public/btn_submit_reg.png">
+        </div>
+    </div>
+    <div class="app-footer">
+        <div data-role="navbar" class="app-nav">
+            <ul>
+                <li><a href="../../index/id/19.html" data-icon="custom" class="ui-icon-home"></a></li>
+                <li><a href="../../rankList/id/19.html" data-ajax="false" data-icon="custom" class="ui-icon-rank"></a></li>
+                <li><a href="javascript:void(0)" data-icon="custom" class="ui-icon-rule"></a></li>
+                <li><a href="19.html" data-ajax="false" data-icon="custom" class="ui-icon-reg ui-btn-active"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $(".up-audio").click(function () {
+                $app.recording();
+            })
+
+            function cropImage(imgUrl) {
+                        var cropPage = layer.open({
+                            type: 1,
+                            shadeClose: false,
+                            content: "<div class='container'>" +
+                            "<img width='95%' src='" + imgUrl + "'>" +
+                            "</div><div class='reg-rotate'>旋转</div>",
+                            style: 'width:90%;position: relative;',
+                            btn: ['确定', '取消'],
+                            yes: function () {
+                                var data = $cropImg
+                                        .cropper("getCroppedCanvas", {width: 380, height: 500})
+                                        .toDataURL();
+                                $('.up-picture').data('hash', true);
+                                $('.up-picture').attr('src', data);
+                                $('.up-picture').addClass('sel');
+                                layer.close(cropPage);
+                            }
+                        });
+                        var $cropImg = $('.container > img');
+                        $cropImg.css('max-height', document.documentElement.clientHeight * 0.8 + "px");
+                        $('.reg-rotate').click(function () {
+                            $cropImg.cropper('rotate', 90);
+                        })
+
+                        $cropImg.cropper({
+                            aspectRatio: 1,
+                            autoCropArea: 0.65,
+                            strict: false,
+                            guides: false,
+                            highlight: false,
+                            dragCrop: false,
+                            cropBoxMovable: false,
+                            cropBoxResizable: false,
+                            checkImageOrigin: false
+                        });
+            };
+
+            $(".up-picture").click(function () {
+                    wx.chooseImage({
+                        count: 1, // 默认9
+                        sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                        success: function (res) {
+                            var wait = layer.open({type:2});
+                            wx.uploadImage({
+                                localId: res.localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+                                isShowProgressTips: 0, // 默认为1，显示进度提示
+                                success: function (res) {
+                                    var url = "../../getImg.html&sid="+res.serverId;
+                                    cropImage(url);
+                                    layer.close(wait);
+                                }
+                            });
+                        }
+                    });
+            });
+
+            $('.ui-icon-rule').click(function () {
+                $app.showRule("../../rule/id/19.html");
+            });
+
+            $('.reg-submit-button > img').click(function () {
+                var pictures = $('.preview img');
+                if ($('.up-picture').data('hash') != true) {
+                    $app.showMessage("请选择要参赛的照片!");
+                    return;
+                }
+
+                var postData = new FormData();
+                var isReturn = false;
+                $('input[type=text]').each(function () {
+                    var input = $(this);
+                    var val = input.val();
+                    if (val == undefined || val == "") {
+                        $app.showMessage(input.data("msg"));
+                        isReturn = true;
+                        return false;
+                    }
+                    var reg = input.data('regexp');
+                    if(reg != null && new RegExp(reg,"gi").test(val) == false){
+                        $app.showMessage(input.data("msg"));
+                        isReturn = true;
+                        return false;
+                    }
+                    postData.append(input.attr("name"), val);
+                })
+
+                if(isReturn) return;
+
+                $('select').each(function () {
+                    var input = $(this);
+                    var val = input.val();
+                    if (val == undefined || val == "") {
+                        $app.showMessage(input.data("msg"));
+                        isReturn = true;
+                        return false;
+                    }
+                    postData.append(input.attr("name"), val);
+                })
+
+                if(isReturn) return;
+
+                var check = $("input[type='checkbox']:checked");
+                if(check.length == 0){
+                    $app.showMessage($("input[type='checkbox']").data("msg"));
+                    return;
+                }
+
+                postData.append(check.attr("name"), "同意");
+                postData.append("img[]", $('.up-picture').attr('src'));
+
+                var wait = layer.open({
+                    type: 2,
+                    shadeClose: false
+                });
+
+                $.ajax({
+                    url: "19.html",
+                    type: 'POST',
+                    data: postData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    success: function (result) {
+                        layer.close(wait);
+                        if (result.status > 0) {
+                            $app.showMessage(result.msg)
+                            return;
+                        }
+                        var gameUrl = "../../lottery/id/19.html";
+                        var htmlContent = result.msg;
+                        layer.open({
+                            content: htmlContent,
+                            style: 'width:90%;text-align: center;',
+                            end: function(){
+                                location.href = result.detailUrl;
+                            }
+                        });
+                    },
+                    error: function (err) {
+                        layer.close(wait);
+                        $app.showMessage("哎呀,出错了!请重试!<br>"+JSON.stringify(err))
+                    }
+                });
+            });
+        });
+
+
+        function getObjectURL(file) {
+            var url = null;
+            if (window.createObjectURL != undefined) {
+                url = window.createObjectURL(file)
+            } else if (window.URL != undefined) {
+                url = window.URL.createObjectURL(file)
+            } else if (window.webkitURL != undefined) {
+                url = window.webkitURL.createObjectURL(file)
+            }
+            return url;
+        }
+
+    </script>
+</div>
+</body>
+</html>

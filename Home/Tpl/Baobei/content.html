@@ -1,0 +1,425 @@
+<!--微信分享-->
+<?php
+
+if($member['m_appid'] && $member['m_appsecret']){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$form.username}-{$vo['title']}',
+desc: '<?php echo compress_html(preg_replace('/[\'\"]/i', '',strip_tags($form['info'])));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/content",array("id"=>$vo['id'],"fid"=>$form['id'],"subscribe"=>$subscribe))}',
+imgUrl: '{$form['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) { 
+//alert(res.errMsg); 
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+o_url = window.location.href;
+n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+ChangeUrl(document.title, n_url);
+<?php } ?>
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>{$vo['title']}</title>
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta name="HandheldFriendly" content="true" />
+        <meta name="MobileOptimized" content="width" />
+        <meta id="viewport" content="width=device-width, user-scalable=no,initial-scale=1" name="viewport" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="telephone=no" name="format-detection" />
+        <link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/css/index.css" type="text/css" rel="stylesheet"/>
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/js/jquery.min.js"></script>
+    </head>
+<?php 
+        if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+        ?>
+        <script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}
+
+        </script>
+        <?php } ?>   
+
+
+    <body>
+		 <literal>
+    	<style>
+            .loading{ position:fixed;top:0;left:0;background-color:#7f46ff;width:100%; height:100%; z-index:999999999}
+            .load_box{position:absolute; top:50%; left:0; width:100%}
+            .loading .spinner{margin:0 auto;width:64px;height:64px;position:relative;}
+            .loading .color{background:#fff;}
+            .loading .cube1,.loading .cube2{width:30px;height:30px;position:absolute;top:0;left:0;-webkit-animation:cubemove 1.8s infinite ease-in-out;animation:cubemove 1.8s infinite ease-in-out;}
+            .loading .cube2{-webkit-animation-delay:-0.9s;animation-delay:-0.9s;}
+            .loading .load_text{margin-top:25px}
+            @-webkit-keyframes cubemove{25%{-webkit-transform:translateX(42px) rotate(-90deg) scale(0.5)}50%{-webkit-transform:translateX(42px) translateY(42px) rotate(-180deg)}75%{-webkit-transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5)}100%{-webkit-transform:rotate(-360deg)}}
+            @keyframes cubemove{25%{transform:translateX(42px) rotate(-90deg) scale(0.5);-webkit-transform:translateX(42px) rotate(-90deg) scale(0.5);}50%{transform:translateX(42px) translateY(42px) rotate(-179deg);-webkit-transform:translateX(42px) translateY(42px) rotate(-179deg);}50.1%{transform:translateX(42px) translateY(42px) rotate(-180deg);-webkit-transform:translateX(42px) translateY(42px) rotate(-180deg);}75%{transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);-webkit-transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);}100%{transform:rotate(-360deg);-webkit-transform:rotate(-360deg);}}
+        </style>
+         </literal>
+ 
+        <div class="page">
+        	<volist name="ad" id="adlist">
+ 
+        	<img src="{$adlist['picurl']}" class="img100"/>
+            
+  </volist>
+
+
+            <div class="searchArea" style="margin-top:0">
+            	
+
+				
+<form action="{:U("Index/content")}" id="search_form" method="get">
+ <input type="hidden" name="id" value="{$vo.id}" />
+<input type="hidden" name="subscribe" value="{$subscribe}" />
+
+
+                <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/searchInput.png" class="img100 searchBut"/>
+ 
+
+                <input style="height:26px;line-height:26px;width:80%;" type="search" class="seacontent" id="searchText" value="" name="keyword" placeholder="请输入姓名/编号"/>
+
+
+                 <input type="submit" name="seachid" id="searchBtn" value="" class="searchBut_a" style="position:absolute; right:0; top:0; bottom:0;  width:18%;left:80%">
+ </form>
+
+
+            </div>
+			
+            <a href="{:U("Index/index",array("id"=>$form['vid']))}"><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/back.png"  style="display:block; width:10%; margin-left:5%; margin-bottom:5%;"/></a>
+            
+            <div class="bmCont details">
+				
+                <div class="line clr">
+                    <span class="color_dark_red">姓名:</span>{$form.username}               </div>
+				<div class="line clr">
+                    <span class="color_dark_red">编号:</span>{$form.num}              </div>
+                
+                <div class="line clr">
+                    <span class="color_dark_red">票数:</span>{$form.ticket}票
+                </div>
+                
+                <div class="line clr">
+                    <span class="color_dark_red">个人宣言:</span><span class="color_light_blue">描述：{$form.info}</span>
+                </div>
+                <div class="babyImg text-center">
+
+<neq name="form.picurl" value=""> 
+        <img src="{$form.picurl}" />
+        </neq>
+        <neq name="form.picurl1" value=""> 
+        <img src="{$form.picurl1}" />
+        </neq>
+        <neq name="form.picurl2" value=""> 
+        <img src="{$form.picurl2}" />
+        </neq>
+        <neq name="form.picurl3" value=""> 
+        <img src="{$form.picurl3}" />
+        </neq>
+        <neq name="form.picurl4" value=""> 
+        <img src="{$form.picurl4}" />
+        </neq>
+
+                </div>
+            </div>
+            
+            <div class="btnGroup text-center">
+
+
+         <?php 
+        if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+        ?>
+
+            <eq name="vo.isVerify" value="0">
+
+<img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/tp.png" onclick="window.location.href='__URL__/vote/vid/{$form['id']}/id/{$vo['id']}'" class='vote_but' style="margin-right:10%"/>
+
+            </eq>
+            <eq name="vo.isVerify" value="1">
+
+
+<img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/tp.png" onclick="showVerify({$form['id']},{$vo['id']})" class='vote_but' style="margin-right:10%"/>
+
+            </eq>
+
+        <?php
+        }else{
+        ?>
+
+<img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/tp.png" onclick="loaddzp()" class='vote_but' style="margin-right:10%"/>
+
+            
+        <?php
+        }
+        ?>
+
+
+
+
+                <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/lp.png"  onclick="_system._guide
+(true)" />
+            </div>            
+        </div>
+        
+
+
+
+
+<section>
+
+
+
+
+
+
+
+
+
+<!--弹出关注层-->
+                    <style>
+#plug {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999999;
+        }
+
+                    .dzpwrap {
+                    background: none repeat scroll 0 0 #F8F8F8;
+                    border-radius: 1px 1px 1px 1px;
+                    position:absolute;
+                    width: 280px;
+                    }
+                    .dzpwrap .dzptit {
+                    background-image: url("");
+                    background-position: 14px 14px;
+                    background-repeat: no-repeat;
+                    background-size: 24px auto;
+                    font-size: 1.1em;
+                    line-height: 40px;
+                    text-align:center;
+                    padding: 7px 0 0 0px;
+                    }
+                   
+                    .dzpwrapcont.dzpwrapcontent {
+                    background-color: #ff403a;
+                    }
+
+                    .dzpwrapcont.dzpwrapcontent img {
+                     max-width:250px;
+                    }
+
+
+                    .dzpwrapcont {
+                    padding: 0 14px 16px;
+                    }
+                    .btndzp {
+                    border-radius: 5px 5px 5px 5px;
+                    display: inline-block;
+                    text-decoration: none;
+                    vertical-align: middle;
+                    box-shadow: 0 6px #AB3C3C;
+                    }
+                    .dzpwrapcont .btndzp {
+                    -moz-border-bottom-colors: none;
+                    -moz-border-image: none;
+                    -moz-border-left-colors: none;
+                    -moz-border-right-colors: none;
+                    -moz-border-top-colors: none;
+                    color: #5D5D5D;
+                    display: block;
+                    font-size: 1.6em;
+                    line-height: 36px;
+                    text-align: center;
+                    }
+                    .dzpwrapcont .btnRed {
+                        background:none repeat scroll 0 0 #e8e363;
+                    color: #5c5c5c;
+                    letter-spacing:2px;
+                    font-weight:bold;
+                    margin: 16px 0 0;
+                    }
+                    </style>
+
+<script>
+function loaddzp(){
+$('#plug').show();
+var div =$('.dzpwrap');
+div.css('zIndex',99999999);
+div.css('display','block');
+    div.css('left',parseInt(($(window).width()-div.width())/2));
+    var top = parseInt($(window).scrollTop()+($(window).height()-div.height())/2-45);
+    div.css('top',top);
+
+}
+
+function noplug(){
+      if($(".dzpwrap").css('display')=='block')$(".dzpwrap").css('display','none');
+      $("#plug").hide();
+}
+
+</script>
+
+<div class="dzpwrap" style="display:none">
+    <article >
+        <header class="dzptit">添加我们后,回复【{$vo['keyword']}】参与活动</header>
+        <section class="dzpwrapcont dzpwrapcontent">
+            <p style="text-align:center;">
+                 <img src="{$vo.wx_picurl}" style="margin:0 auto;" />
+            </p> 
+            <a href="{$vo['wx_url']}" class="btndzp btnRed">如何添加我们 ?</a>
+            <a id="dzpclose" class="btndzp btnRed" onclick="noplug();">取消,继续浏览</a>
+        </section>
+    </article>
+</div>
+<div style="display: none;" id="plug"></div>
+<!--./弹出关注层-->
+
+
+
+
+
+
+
+
+<!--我要拉票-->
+<style type="text/css">
+#cover{display:none;position:absolute;left:0;top:0;z-index:18888;background-color:#000000;opacity:0.7;}
+#guide{display:none;position:absolute;right:18px;top:5px;z-index:19999;}
+#guide img{width:260px;height:180px;}
+</style>
+<div id="cover"></div>
+<div id="guide"><img src="__PUBLIC__/images/guide1.png"></div>
+<script type="text/javascript">
+    var _system={
+        $$:function(id){return document.getElementById(id);},
+   _client:function(){
+      return {w:document.documentElement.scrollWidth,h:document.documentElement.scrollHeight,bw:document.documentElement.clientWidth,bh:document.documentElement.clientHeight};
+   },
+   _scroll:function(){
+      return {x:document.documentElement.scrollLeft?document.documentElement.scrollLeft:document.body.scrollLeft,y:document.documentElement.scrollTop?document.documentElement.scrollTop:document.body.scrollTop};
+   },
+   _cover:function(show){
+      if(show){
+     this.$$("cover").style.display="block";
+     this.$$("cover").style.width=(this._client().bw>this._client().w?this._client().bw:this._client().w)+"px";
+     this.$$("cover").style.height=(this._client().bh>this._client().h?this._client().bh:this._client().h)+"px";
+  }else{
+     this.$$("cover").style.display="none";
+  }
+
+   },
+   _guide:function(click){
+      this._cover(true);
+      this.$$("guide").style.display="block";
+      this.$$("guide").style.top=(_system._scroll().y+5)+"px";
+      window.onresize=function(){_system._cover(true);_system.$$("guide").style.top=(_system._scroll().y+5)+"px";};
+  if(click){_system.$$("cover").onclick=function(){
+         _system._cover();
+         _system.$$("guide").style.display="none";
+ _system.$$("cover").onclick=null;
+ window.onresize=null;
+  };}
+   },
+   _zero:function(n){
+      return n<0?0:n;
+   }
+}
+</script>
+<!--END 我要拉票-->
+
+
+
+
+
+		
+    </body>
+</html>

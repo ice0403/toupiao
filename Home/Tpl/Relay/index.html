@@ -1,0 +1,782 @@
+<?php
+        if($_GET['itemID']){
+            //判断是否itemID存在
+            $tmp = M('Relay_list')->where('id='.$_GET['itemID'])->field('id')->find();
+            if($tmp){
+                $itemID = $_GET['itemID'];
+            }else{
+                $itemID = ''; 
+            }
+            Cookie::set('itemID_'.$_GET['id'],$itemID,C("cookie_time"));//用于判断点击图文过来
+		}else{
+            if(Cookie::get('itemID_'.$_GET['id'])){
+                $itemID = Cookie::get('itemID_'.$_GET['id']);
+            }else{
+                $itemID = $relay['id'];
+            }
+		}
+	?>
+
+
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$vo['title']}</title> 
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'/>
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/base.css">
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/swiper.min.css">
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/style.css">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery-2.1.4.min.js"></script>
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/swiper.jquery.min.js"></script>
+<script>var timer=0;
+$(function(){
+    var docHeight = $(document).height();
+    $(".fullBg").height(docHeight);
+    $(".fullBg2").height(docHeight);
+    tab(".tabBox .hd ul li",".tabBox .bd .row","on");
+    centerTop(".w0");
+    centerWindow(".w1");
+    $(".fullBg").click(function(){
+        $(".window").removeClass("animate").hide();
+        $(this).hide();
+        clearTimeout(timer);
+    });
+	    timeShow();//倒计时
+	
+	 });
+
+ var submitData = {
+					rid:<?php echo $vo['id'];?>,
+                    mid:'{$member.m_id}',
+                    name:'{$weixinUser.wechaname}',
+					picurl:'{$weixinUser.wechahead}',
+					token:'<?php echo Cookie::get('token_'.$_GET['id']);?>',
+					wecha_id:'<?php echo Cookie::get('wecha_id_'.$_GET['id']);?>'
+				}
+
+//接力成功
+function btnClick(){
+		$.ajax({
+			type:"POST",
+			url:"{:U("Relay/share")}",
+			dataType:"json",
+			data:{
+				type:'ticket',
+				token:'<?php echo Cookie::get('token_'.$_GET['id']);?>',
+				id:'<?php echo $itemID;?>',
+				rid:<?php echo $vo['id'];?>,
+				wecha_id:'<?php echo Cookie::get('wecha_id_'.$_GET['id']);?>'
+			},
+			success:function(data){
+				if(data.error == 0){
+					$(".fullBg").show();
+                    $(".w1").addClass("animate").show();
+                    if(data.result){
+                        if(data.result > 0 ){
+                            //更新当前relay.id 
+                            submitData.id = data.result;
+                        }
+                    }
+                    closedWindow();
+                }else{
+                    alert2(data.message);
+				}
+			}
+		});
+}
+
+var daoshi = 60;
+function showWindow(){
+    $(".fullBg").show();
+    $(".w0").addClass("animate").show();
+	$('#telyzbut').click(function(){
+		var tel = $('input[name=tel]').val();
+		var tel_length = tel.length;
+		if(tel == ''){
+			alert('请填写您的手机号');
+		}else if(tel_length != 11){
+			alert('请填写正确的手机号');
+		}else{
+			$('#telyzbut').text('手机号码验证中');
+            submitData.tel = tel;
+
+            <eq name="weixinUser.wechaname" value="">
+            name = $('input[name=name]').val();
+            if(name == ''){
+                alert('姓名不能为空!');
+                return;
+            }
+            submitData.name = name;
+            </eq>
+
+            <eq name="weixinUser.wechahead" value="">
+             picurl = $('input[name=picurl]').val();
+            if(picurl == ''){
+                alert('头像不能为空!');
+                return;
+            }
+            submitData.picurl = picurl;
+            </eq>
+
+			$.ajax({
+				type:"POST",
+				url:"{:U("Relay/insertform")}",
+				dataType:"json",
+                data:submitData,
+				success:function(data){
+					if(data.error == 0){
+						$('#telyzbut').text(data.message);
+						window.location.href='{:U("Relay/index",array("id"=>$vo['id'],"wecha_id"=>Cookie::get('wecha_id_'.$_GET['id']),"token"=>Cookie::get('token_'.$_GET['id'])))}';
+					}else if(data.error == 1){
+						alert(data.message);
+					}
+				}
+			});
+		}
+	});
+}
+function closedWindow(){
+    timer=setTimeout(function(){
+        $(".fullBg").hide();$(".w1").removeClass("animate").hide();;
+    },5000);
+}
+
+function tab(a,b,c){
+    var len=$(a);
+    len.bind("click",function(){
+        var index = 0;
+        $(this).addClass(c).siblings().removeClass(c);
+        index = len.index(this);
+        $(b).eq(index).show().siblings().hide();
+        return false;
+    }).eq(0).trigger("click");
+}
+//2.将盒子方法放入这个方，方便法统一调用
+function centerWindow(a) {
+    center(a);
+    //自适应窗口
+    $(window).bind('scroll resize',
+        function() {
+            center(a);
+        });
+}
+function centerTop(a) {
+    var wWidth = $(window).width();
+    var boxWidth = $(a).width();
+    var scrollLeft = $(window).scrollLeft();
+    var left = scrollLeft + (wWidth - boxWidth) / 2;
+    $(a).css({
+        "left": left
+    });
+}
+//1.居中方法，传入需要剧中的标签
+function center(a) {
+    var wWidth = $(window).width();
+    var wHeight = $(window).height();
+    var boxWidth = $(a).width();
+    var boxHeight = $(a).height();
+    var scrollTop = $(window).scrollTop();
+    var scrollLeft = $(window).scrollLeft();
+    var top = scrollTop + (wHeight - boxHeight) / 2;
+    var left = scrollLeft + (wWidth - boxWidth) / 2;
+    $(a).css({
+        "top": top,
+        "left": left
+    });
+}
+
+
+function timeShow(){
+    var show_time = $(".timeShow");
+    endtime = new Date("{$vo.enddate|date="m/d/Y H:i",### }");//结束时间
+    today = new Date();//当前时间
+    delta_T = endtime.getTime() - today.getTime();//时间间隔
+    window.setTimeout(timeShow,1000);
+    total_days = delta_T/(24*60*60*1000);//总天数
+    total_show = Math.floor(total_days);//实际显示的天数
+    total_hours = (total_days - total_show)*24;//剩余小时
+    hours_show = Math.floor(total_hours);//实际显示的小时数
+    total_minutes = (total_hours - hours_show)*60;//剩余的分钟数
+    minutes_show = Math.floor(total_minutes);//实际显示的分钟数
+    total_seconds = (total_minutes - minutes_show)*60;//剩余的分钟数
+    seconds_show = Math.floor(total_seconds);//实际显示的秒数
+    if(total_days<10){
+        total_days="0"+total_days;
+    }
+    if(hours_show<10){
+        hours_show="0"+hours_show;
+    }
+    if(minutes_show<10){
+        minutes_show="0"+minutes_show;
+    }
+    if(seconds_show<10){
+        seconds_show="0"+seconds_show;
+    }
+    show_time.find("li").eq(0).text(total_show);//显示在页面上
+    show_time.find("li").eq(2).text(hours_show);
+    show_time.find("li").eq(4).text(minutes_show);
+    show_time.find("li").eq(6).text(seconds_show);
+}
+
+function share(){
+	$('.share_bg').show();
+	$('.share_bg').click(function(){
+		if($(this).css('display') == 'block'){
+			$(this).css('display','none');
+		}
+	});
+}
+$(function(){
+    countTop();
+    $(window).bind('scroll resize',
+        function() {
+            countTop();
+        });
+    function countTop(){
+        var ftH=$("footer").height();
+        var wHeight = $(window).height();
+        var top = wHeight - ftH;
+        $("footer").css({"top":top});
+
+    }
+});
+	</script><style>	.share_bg {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		background: rgba(0,0,0,0.7);
+		z-index: 99;
+	}
+	.tabBox .bd .prize .prizeImg h4{background-color: #aaa;}
+	</style></head><body>	
+
+            <!--系统消息-->
+            {$msg}
+            <!--END 系统消息-->
+
+<!--music-->
+    <neq name="vo.music" value="">
+       <input style="display:none" type="text" id="audiofile" size="80" value="{$vo['music']}">
+          <div class="music" id="music" ontouchstart="musicControls();">
+                 <audio id="audio" loop="loop" style="display:none;width:0;height:0;"  oncanplay="canplay();"></audio>
+                 </div>
+                 <script>
+                    var audio = document.getElementById("audio");
+                    var music = document.getElementById("music");
+                    music.played = 0;
+                    function musicControls(){
+                            audio.src = document.getElementById('audiofile').value;
+                            if(music.played == 0){
+                                   audio.play();
+                                   music.className = music.className.replace(" musicstop","");
+                                   music.className = music.className + " musicplay";
+                                   music.played = undefined;
+
+                            }else{
+                                 audio.pause();
+                                 music.className = music.className.replace(" musicplay","");
+                                 music.className = music.className + " musicstop";
+                                 music.played = 0;
+
+                            }
+
+                    }
+function canplay(){
+     music.className = music.className + " musicplay";
+
+}
+<eq name="vo.isPlay" value="1">
+    $( document ).ready(function() {
+    musicControls();
+    });
+</eq>
+</script>
+
+<literal>
+<style>
+.music {
+        background: url("<?php echo C('site_url'); ?>/Home/Tpl/Index/c2/music.png") no-repeat scroll 0 0 transparent;
+           background-size:34px;
+              top: 20px;
+                 height: 34px;
+                    position: fixed;
+                       right: 20px;
+                          width: 34px;
+                             z-index: 999;
+                                
+}
+  .musicplay{-webkit-animation:musicplay 1.2s linear 0s infinite;animation:musicplay 1.2s linear infinite;}
+    .musicstop{-webkit-animation:musicstop 1.2s linear 0s infinite;animation:musicstop 1.2s linear infinite;}
+    @keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @-webkit-keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+    @-webkit-keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+      </style>
+        </literal>
+
+        </neq>
+
+<!--END music-->
+
+
+
+
+
+
+<neq name="subscribe" value="1">
+    <!--微信关注 -->
+    <link rel="stylesheet" type="text/css" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/fans.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/guanz.css" />
+		<a href="javascript:;" style="display:block" class="closed"><div class="_fly" id="fly_page" style="overflow:hidden"></div></a>
+		<div class="_flys" id="fly_pages" style="overflow:hidden">
+			<div class="pwpage" style="z-index: 9999;">
+			    <div class="pwd">
+			    	<h1>第一步：长按二维码并识别</h1>
+			        <p class="title" style="margin:0px">请长按下图并选择识别图中二维码参与活动</p>
+			        <img class="erweima" src="{$vo.wx_picurl}">
+			        <div style="display:">
+						<p class="title" style="margin:0px">无法识别二维码请点击下面按钮参与活动</p>
+						<div class="wxname" id="wxsub"><a href="{$vo.wx_url}" style="display:block;color: #fff;font-weight:normal">立即获得权限</a></div>
+			        </div>
+			        <div style="display:block">
+			        <h1>第二步：进入公众号聊天框</h1>
+			        <p class="title" style="margin:0px">请输入关键词验证</p>
+			        <p class="title" style="margin:0px">【<span class="key">{$vo.keyword}</span>】</p>
+			        </div>
+			    </div>
+			</div>
+		</div>
+        <script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/topNotice.js"></script>
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery.leanModal.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/leanModal.css" />
+	<div id="memberNoticeBox" style="display: none; position: fixed; opacity: 1; z-index: 11000; left: 50%; margin-left: -170px; top: 110px;">
+		<h1>提醒</h1>
+		<div class="txtfield">您好，您还没有权限参加活动。 &nbsp; ( 公众号：{$member.m_wxname} )</div>
+		<a href="{$vo.wx_url}" class="flatbtn" style="display:block;color: #fff;">立即获得权限</a>
+		<a class="flatbtn btnC hidemodal">关闭</a>
+	</div>
+	 <div id="lean_overlay" style="display: none; opacity: 0.45;"></div>
+	<script type="text/javascript">
+	$(function(){
+		$("a.closed").click(function(){
+			$(".closed").hide();
+        	$("._flys").hide();
+		});
+		$('#modaltrigger_notice').leanModal({
+			top:110,
+			overlay:0.45,
+			closeButton:".hidemodal"
+		});
+	});
+	</script>
+    <!--END 关注 -->
+</neq> 
+
+
+
+
+
+<!--AD-->
+	<header class="scroll"><!-- Swiper --><div class="swiper-container"><div class="swiper-wrapper">
+	  <volist name="ad" id="adlist">
+		<div class="swiper-slide"><a href="{$adlist['url']}"><img src="{$adlist['picurl']}" width="100%"></a><div class="title">{$adlist['title']}</div></div>
+	  </volist>
+	    </div></div>
+	    <script>           
+		 var swiper = new Swiper('.swiper-container', {
+                loop:true,
+                autoplay: 5000//可选选项，自动滑动
+            });
+        </script>
+    </header>
+<!--END AD-->
+
+
+<section class="oTime">
+    <div class="timeBox">
+        <?php
+        if($vo['enddate'] > time() ){
+        ?>
+
+        <h2>时间还剩</h2><ul class="timeShow"><li class="bg">00</li><li class="oText">天</li><li class="bg">00</li><li class="oText">时</li><li class="bg">00</li><li class="oText">分</li><li class="bg">00</li><li class="oText">秒</li></ul>
+        <?php }else{ ?>
+          <h2>{$msg}</h2>
+        <?php } ?>
+
+
+    </div>
+</section><section class="topUser">
+            
+
+
+        <!--接入成功-->
+        <?php 
+        if(!empty($itemID) && $itemID != $relay['id'] ){
+
+            $refRelay = M('Relay_list')->where("id=".$itemID)->field('id,rid,picurl,name,view,ticket')->find();
+            if($refRelay){
+        ?>
+        <div class="userBox"><div class="fl userAvatar"><img style="border-radius: 100%;" src="{:$refRelay['picurl']}"/></div><div class="userDesc"><h2>{:$refRelay['name']}</h2><P>排名：第<em>
+                    <?php
+                    $Model = new Model();
+                    $tmp = $Model->query("select * from (SELECT id,ticket,@curRank := @curRank + 1 AS rank FROM ".C("DB_PREFIX")."relay_list p, (SELECT @curRank := 0) r  where rid=".$refRelay['rid']."  ORDER BY  ticket desc) as b where b.id=".$itemID);
+
+                    if($tmp){
+                    echo $tmp[0]['rank'];
+                    }
+                    ?>
+
+</em>位</P></div><div class="tipBox"><div class="tip tip0"><h3>转发数</h3><p>{:$refRelay['view']}</p></div><div class="tip tip1"><h3>接力值</h3><p>{:$refRelay['ticket']}</p></div></div></div>
+        <?php
+              }
+          }else {  ?>
+        <!--END 接入成功-->
+
+            <neq name="relay.picurl" value="">
+            <div class="userBox"><div class="fl userAvatar"><img style="border-radius: 100%;" src="{$relay.picurl}"/></div><div class="userDesc"><h2>{$relay.name}</h2><P>排名：第<em>
+
+                        <?php
+                        $Model = new Model();
+                        $tmp = $Model->query("select * from (SELECT id,ticket,@curRank := @curRank + 1 AS rank FROM ".C("DB_PREFIX")."relay_list p, (SELECT @curRank := 0) r  where rid=".$relay['rid']."  ORDER BY  ticket desc) as b where b.id=".$relay['id']);
+
+                        if($tmp){
+                        echo $tmp[0]['rank'];
+                        }
+                        ?>
+
+</em>位</P></div><div class="tipBox"><div class="tip tip0"><h3>转发数</h3><p>{$relay.view}</p></div><div class="tip tip1"><h3>接力值</h3><p>{$relay.ticket}</p></div></div></div>
+            </neq>
+        <?php }  ?>
+    </section>
+
+
+            <if condition="$relay.tel neq '' ">
+            <section class="checkBtn animate clearfix"><a href="{:U("Relay/content",array("id"=>$relay['rid'],"reid"=>$relay['id']))}" class="up35">查看谁给我接力</a></section>
+            </if>
+
+            <section class="oTab"><div class="tabBox"><div class="hd clearfix"><ul><li class="li0 on" style="margin:0 2px"><i></i>活动规则</li><li class="li1" style="margin:0 2px"><i></i>活动奖品</li><li class="li2" style="margin:0 2px"><i></i>排行top{$vo.num}</li></ul></div><div class="bdRound">
+
+
+        <div class="bd" style="padding-top: 15px;"><div class="row rule" style="line-height:20px">{$vo.info}</div>
+        <div class="row prize">{$vo.prize}</div>
+
+
+        <div class="row list"><ul>
+                <volist id="vo1" name="list">
+                <li><div class="userBox"><div class="fl userAvatar"><img src="{$vo1.picurl}"></div><div class="userDesc"><h2>{$vo1.name}</h2><!-- 6个字 --><p>
+                        <?php
+                        echo preg_replace("/([0-9]{3})\.?([0-9]{4})\.?([0-9]{4})/", "$1****$3", $vo1['tel']);
+                        ?>
+                </p></div><div class="tipBox"><div class="tip tip2"><h3>转发数</h3><p>{$vo1.view}</p></div><div class="tip tip1"><h3>接力值</h3><p>{$vo1.ticket}</p></div></div><div class="num"><span><i>{$i}</i></span><s></s></div></div></li><li>
+                </volist>
+        </ul></div>
+
+
+
+        </div></div></div></section>
+
+
+       <?php  if($vo['enddate'] > time() ){ ?>
+       <footer>
+           <div class="oBtn">
+
+               <if condition="$subscribe eq 0 ">
+               <a href='#memberNoticeBox' id='modaltrigger_notice'>我也参与</a>
+               <else />
+               <if condition="$relay.tel eq '' ">
+               <a href='javascript:void(0);' onclick="showWindow();"; >我也参与</a>
+               <else />
+               <?php 
+               if(!empty($itemID) && $itemID != $relay['id'] ){
+               ?>
+               <a href="<?php echo C('site_url'); ?>{:U("Relay/index",array("id"=>$vo['id'],"itemID"=>$relay['id']))}">返回我的</a>
+               <a href="javascript:;" onclick="share()">给TA接力</a>
+               <?php }else {  ?>
+               <a href="javascript:;" onclick="share()" style="background: #aa2343;color: #fff;"> 找朋友接力 </a>
+               <?php } ?>
+               </if>
+               </if>
+
+       </div></footer>
+       <?php } ?>
+
+<div class="fullBg"></div><div class="fullBg2"></div>
+        
+        
+        <!--接入成功弹出提示-->
+        <?php 
+        if( !empty($itemID) && $itemID != $relay['id'] && $subscribe == 1 && $vo['enddate'] > time() ){
+            if($refRelay){
+        ?>
+        <script>
+        $( document ).ready(function() {
+            btnClick();
+        });
+        </script>
+        <div class="window w1" style="z-index:1000"><div class="windowThis"><div class="succeed"><div class="userAvatar"><div class="imgBox"><img src="{:$refRelay['picurl']}"/></div></div><div class="title"><h3>给 {:$refRelay['name']}</h3><div class="tipWord"></div></div><div class="roundLight rotate360"><img class="" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/roundLight.png"/></div></div></div></div>
+        <?php 
+            }
+         } ?>
+        <!--END 接入成功-->
+
+
+
+        <div class="window w0" style="position: fixed;top: 20px;margin-top: 0"><div class="windowThis"><div class="hd"></div><div class="bd"><div class="adMargin">
+                        <div class="row"><div class="putBorder"><i></i><input type="tel" placeholder="手机号" name="tel"/></div></div>
+                        <?php
+
+                        if(empty($weixinUser['wechaname']) || empty($weixinUser['wechahead'])){
+                        ?>
+                        <div class="row"><div class="putBorder"><input type="name" placeholder="姓名" name="name"/></div></div>
+                        <div style="display:none;" id="h_num">0</div>
+                        <div class="row"><div class="putBorder"><a href="javascript:;" class="getCode" onclick="upyunWapPicUpload('picurl','','',{$member.m_id})">上传头像</a><i></i><input type="text"  id="picurl" name="picurl" style="margin-top:-30px;"/></div></div>
+                        <?php } ?>
+
+                        <div class="row"><button id="telyzbut">确定</button></div><div class="row"><P>活动时间：{$vo.startdate|date="Y-m-d",###}至{$vo.enddate|date="Y-m-d",###}</P></div></div></div><div class="ft"></div></div></div>
+
+
+
+<div class="share_bg"><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/share-guide.png"></div><style>	.fullBg2{background-color: #000;left: 0;opacity: 0.8;position: fixed;top: 0;z-index: 3;filter: alpha(opacity=80);-moz-opacity: 0.8;-khtml-opacity: 0.8;display: none;z-index: 888;width: 100%;}
+	.w0 .windowThis .bd .row button{width: 100%;height: 30px;background: #f6514b;text-align: center;line-height: 30px;font-size: 1.4rem;color: #fff;border-radius: 5px}
+	.tips{width: 100%;position: fixed;top: 0;left: 0;display: none;z-index: 999999999999999999}
+	.tips h3{width: 70%;padding: 10px 0;  margin: 0 auto;  background: rgba(255,255,255,1);  text-align: center;  font-size: 1.2rem; color: red;}
+</style><div class="tips" style="display: none;"><h3></h3></div><script type="text/javascript">function alert(text){
+	var t=null;
+	clearTimeout(t);
+	var tip= $(".tips");
+	tip.find('h3').html(text);
+	tip.slideDown();
+	t=setTimeout(function(){ tip.slideUp()},3000);
+}
+function alert2(text){
+	var t=null;
+	clearTimeout(t);
+	var tip= $(".tips");
+	tip.find('h3').html(text);
+	tip.slideDown();
+}
+
+
+
+
+window.shareData = {  
+            "imgUrl": "{$vo.picurl}", 
+            "timeLineLink": "<?php echo C('site_url'); ?>{:U("Relay/index",array("id"=>$vo['id'],"itemID"=>$itemID))}",
+            "sendFriendLink": "<?php echo C('site_url'); ?>{:U("Relay/index",array("id"=>$vo['id'],"itemID"=>$itemID))}",
+            "weiboLink": "<?php echo C('site_url'); ?>{:U("Relay/index",array("id"=>$vo['id'],"itemID"=>$itemID))}",
+            "tTitle": "我正在参加“{$vo['title']}”活动，快来帮我拿大奖！",
+            "tContent": "<?php echo str_replace(array("\r\n","\'"),array("",""),strip_tags($vo['wx_info']));?>"
+};
+</script>	
+
+
+
+<!--微信分享-->
+<?php
+if($member['m_appid'] && $member['m_appsecret']){
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+
+<style type="text/css">.share-callback {color:#fff;display:none;background:#666;width:200px;line-height:50px;height:50px;font-size:16PX;font-weight:bold;text-align:center;position:absolute;top:40%;left:20%;-moz-border-radius: 25px;-webkit-border-radius: 25px;border-radius:25px;z-index:999;}</style>
+
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>	
+	<span class="share-callback">分享成功</span>
+	<script type="text/javascript">
+		wx.config({
+		 debug: false,
+		 appId: '<?php echo $signPackage["appId"];?>',
+		 timestamp: <?php echo $signPackage["timestamp"];?>,
+		 nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+		 signature: '<?php echo $signPackage["signature"];?>',
+		  jsApiList: [
+	    	'checkJsApi',
+		    'onMenuShareTimeline',
+		    'onMenuShareAppMessage',
+		    'onMenuShareQQ',
+		    'onMenuShareWeibo',
+			'openLocation',
+			'getLocation',
+			'addCard',
+			'chooseCard',
+			'openCard',
+			'hideMenuItems',
+			'previewImage',
+            "startRecord", 
+            "stopRecord", 
+            "onVoiceRecordEnd", 
+            "playVoice", 
+            "pauseVoice",
+            "stopVoice", 
+            "onVoicePlayEnd", 
+            "uploadVoice", 
+            "downloadVoice",
+             "closeWindow"
+		  ]
+		});
+	</script>
+	<script type="text/javascript">
+	wx.ready(function () {
+	  // 1 判断当前版本是否支持指定 JS 接口，支持批量判断
+	  /*document.querySelector('#checkJsApi').onclick = function () {
+	    wx.checkJsApi({
+	      jsApiList: [
+	        'getNetworkType',
+	        'previewImage'
+	      ],
+	      success: function (res) {
+	        //alert(JSON.stringify(res));
+	      }
+	    });
+	  };*/
+	  // 2. 分享接口
+	  // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareAppMessage({
+			title: window.shareData.tTitle,
+			desc: window.shareData.tContent,
+			link: window.shareData.sendFriendLink,
+			imgUrl: window.shareData.imgUrl,
+		    type: '', // 分享类型,music、video或link，不填默认为link
+		    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		    success: function () { 
+				shareHandle('frined');
+		    },
+		    cancel: function () { 
+		        //alert('分享朋友失败');
+		    }
+		});
+
+
+	  // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: window.shareData.fTitle?window.shareData.fTitle:window.shareData.tTitle,
+			link: window.shareData.sendFriendLink,
+			imgUrl: window.shareData.imgUrl,
+		    success: function () { 
+				shareHandle('frineds');
+		        //alert('分享朋友圈成功');
+		    },
+		    cancel: function () { 
+		        //alert('分享朋友圈失败');
+		    }
+		});	
+
+	  // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareWeibo({
+			title: window.shareData.tTitle,
+			desc: window.shareData.tContent,
+			link: window.shareData.sendFriendLink,
+			imgUrl: window.shareData.imgUrl,
+		    success: function () { 
+				shareHandle('weibo');
+		       	//alert('分享微博成功');
+		    },
+		    cancel: function () { 
+		        //alert('分享微博失败');
+		    }
+		});
+		if(window.shareData.timeline_hide == '1'){
+			wx.hideMenuItems({
+			  menuList: [
+				'menuItem:share:timeline', //隐藏分享到朋友圈
+			  ],
+			});
+		}
+		wx.error(function (res) {
+			/*if(res.errMsg == 'config:invalid signature'){
+				wx.hideOptionMenu();
+			}else if(res.errMsg == 'config:invalid url domain'){
+				wx.hideOptionMenu();
+			}else{
+				wx.hideOptionMenu();
+				//alert(res.errMsg);
+			}*/
+			if(res.errMsg){
+				wx.hideOptionMenu();
+			}
+
+			<?php
+			if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+			o_url = window.location.href;
+			n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+			n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>","");
+            n_url = n_url.replace("\/wecha\_id\/<?php echo $_GET['wecha_id'];?>","");
+			n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>","");
+			ChangeUrl(document.title, n_url);
+			<?php } ?>
+
+		});
+	});
+		
+	function shareHandle(to) {
+
+		var ShareNum = {
+			type:'view',
+			rid:<?php echo $vo['id'];?>,
+			token:'<?php echo Cookie::get('token_'.$_GET['id']);?>',
+			wecha_id:'<?php echo Cookie::get('wecha_id_'.$_GET['id']);?>'
+		}
+		$.post('{:U("Relay/share")}',ShareNum,function (data) {if(window.shareData.isShareNumReload == 1){location.reload();}},'json');
+	
+		if ('function' == typeof shareCallback) {
+			shareCallback(to);					
+		} else {
+			$('.share-callback').css('left', ($(document).width() - 200) / 2).fadeIn(1000);
+			$('.share-callback').fadeOut(3000);
+		}
+	}
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+<?php
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+?>
+<script type="text/javascript">
+function ChangeUrl(page, url) {
+if (typeof (history.pushState) != "undefined") {
+var obj = { Page: page, Url: url  };
+history.pushState(obj, obj.Page, obj.Url);
+} else {
+alert("Browser does not support HTML5.");
+}
+}
+</script>
+<?php } ?>
+
+
+<?php
+if(empty($_GET['itemID'])){
+    Cookie::set('itemID_'.$_GET['id'],'',-3600);
+}
+?>
+
+
+<script src="__PUBLIC__/static/artDialog/jquery.artDialog.js?skin=default"></script>
+<script src="__PUBLIC__/static/artDialog/plugins/iframeTools.js"></script>
+<script src="__PUBLIC__/static/upyun.js?2013"></script>     
+
+</body></html>

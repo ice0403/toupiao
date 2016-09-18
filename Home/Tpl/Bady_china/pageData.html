@@ -1,0 +1,65 @@
+ <volist id="vo1" name="list">
+                        <ol class="li" id="olli" >
+
+
+						
+
+
+                            <li class="item">
+                            <a  href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                                <?php
+                                if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+                                }
+                                ?>.html" >
+                                <img src="{$vo1.picurl}" style="width:100%;height:auto;">
+                                <div class="ryynet_1">{$vo1.num}号</div>
+                            </a>
+
+							<div class="item-wrap">
+								<a class="msg clearfix">
+									<div class="name">{$vo1.username}</div>
+									<div class="votes" id="43">{$vo1.ticket}票</div>
+								</a>
+
+ <?php
+                                    if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+                                    ?>
+                                    <eq name="vo.isVerify" value="0">
+                                    <a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"  ><div class="com-btn bgc-orange" '>投Ta一票</div></a>
+                                    </eq>
+                                    <eq name="vo.isVerify" value="1">
+                                    <a href="javascript:void(0);"  onclick="showVerify({$vo1['id']},{$vo['id']})" ><div class="com-btn bgc-orange"  >投Ta一票</div></a>
+                                    </eq>
+                                    <?php
+                                    }else{
+                                    ?>
+                                    <div class="com-btn bgc-orange"  onclick="loaddzp()">投Ta一票</div>
+                                    <?php
+                                    }
+                                    ?>
+
+							
+
+
+							</div>
+						</li>
+						
+
+</ol>
+</volist>
+
+
+                  <div class="current" style="display:none;">
+                        <?php 
+                        if( $currentPage >= $totalPages    ){
+                        ?>
+                        0
+                        <?php
+                        }else{
+                        ?>
+                        {$currentPage}
+                        <?php
+                        }
+                        ?>
+                    </div>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="telephone=no" name="format-detection" />
+    <title>西双版纳好声音</title>
+    <link rel="stylesheet" href="../../../../../../../Public/static/jm/jquery.mobile-1.4.5.css" />
+    <link href="../../../../../../../Addons/Vote/View/19/Public/app.css@v=1456302435" rel="stylesheet" type="text/css">
+    <script src="../../../../../../../../res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="../../../../../../../Public/static/jquery-2.0.3.min.js"></script>
+    <script src="../../../../../../../Public/static/jm/jquery.mobile-1.4.5.js"></script>
+    <script src="../../../../../../../Public/static/angular.min.js"></script>
+    <link rel="stylesheet" href="../../../../../../../Public/static/layer.m/need/layer.css" />
+    <script src="../../../../../../../Public/static/layer.m/layer.m.js"></script>
+    <script src="../../../../../../../Addons/Vote/View/19/Public/app.js"></script>
+</head>
+<body>
+<script>
+    wx.config({
+        debug: false,
+        appId: 'wx5bcf7a586ccac2ca',
+        timestamp: '1456302435',
+        nonceStr: 'DhFtPyjmNJVYYZOU',
+        signature: '2859da2c65c57bc529de2a3f86a2212f5dc32867',
+        jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','hideMenuItems',
+        'downloadVoice','playVoice','onVoicePlayEnd','pauseVoice']
+    });
+
+    var shareWeixin = {
+        title: '西双版纳好声音', // 分享标题
+        desc: '西双版纳好声音·杨洁邀请你来帮TA投票！',
+        link: location.href, // 分享链接
+        imgUrl: '../../../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/d370a235ea57b8756c7da53a1af351df.png', // 分享图标
+        success: function () {
+        },
+        cancel: function () {
+        }
+    };
+
+    wx.ready(function(){
+        wx.onMenuShareTimeline(shareWeixin);
+        wx.onMenuShareAppMessage(shareWeixin);
+        wx.onMenuShareQQ(shareWeixin);
+        wx.onMenuShareWeibo(shareWeixin);
+
+
+        wx.onVoicePlayEnd({
+            success: function (res) {
+                playing = false;
+                pause = false;
+                $(".voice-play").attr("src","../../../../../../../Addons/Vote/View/19/Public/btn_voice_play.png");
+            }
+        });
+
+//        wx.hideMenuItems({
+//            menuList: ['menuItem:share:timeline'] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+//        });
+    })
+</script>
+<div data-role="page" class="app-detail-page">
+    <link rel="stylesheet" href="../../../../../../../Public/static/slick/slick.css" />
+    <link rel="stylesheet" href="../../../../../../../Public/static/slick/slick-theme.css" />
+    <script src="../../../../../../../Public/static/slick/slick.min.js"></script>
+    <img src="../../../../../../../Addons/Vote/View/19/Public/head_detail.png" style="width: 90%; margin: 10px auto; display: block">
+    <div role="main" class="ui-content">
+                    <a data-ajax="false" href="../../../../lottery/id/16.html">
+                <img class="btn-lottery" style="display: none" src="../../../../../../../Addons/Vote/View/19/Public/btn_cj.png"></a>        <div class="user-info">
+                        <img class="picture" src="../../../../../../../../cdn.weishangtui.com/Uploads/Picture/Addons/Vote/d370a235ea57b8756c7da53a1af351df.png">
+            <div class="rank-info">
+                <span class="rank-lb">名次 5</span><br>
+                票 数 5260            </div>
+            <div class="detail-head">
+                <span class="nickname">杨洁</span>
+                <div class="code">编 号 022</div>
+
+            </div>
+            <div class="play-contr">
+                <div class="cur-time">00:00</div>
+                <div class="time-border"><div class="progress"></div></div>
+                <div class="times">00:00</div>
+            </div>
+            <img src="../../../../../../../Addons/Vote/View/19/Public/btn_voice_play.png" class="voice-play">
+        </div>
+        <!--<div class="user-detail">-->
+            <!--<p><b>我的才艺</b><br/>同意</p>-->
+            <!--<img src="/Addons/Vote/View/19/Public/btn_voice_play.png" class="voice-play">-->
+        <div class="ui-grid-b detail-buttons">
+            <div class="ui-block-a"><button data-role="none"  class="btn-tp"></button></div>
+            <div class="ui-block-b"><button data-role="none" class="btn-lp"></button></div>
+            <div class="ui-block-c"><button data-role="none" class="btn-tc"></button></div>
+        </div>
+        <!--</div>-->
+        <div class="comment">
+            <div class="tools">
+                <div class="wytc">我要点评</div>
+                <div class="close"><span>收起评论</span><span>评论(3325)</span></div>
+                </div>
+            <div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/kMIDAwdhGc7l2hkRQCibLiaIZicYdtZMEoVle8tjlzOPzibLVXTLHPbPwFqwvBnUzG56iauSz5iaujkvwicnDCjn3zicRPXZCRrUYWIp/46"></td>
+                        <td class="nickname">版纳世杰魔术</td>
+                        <td class="time">02-11 14:06</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">您声音不错，加我呗？，想学魔术的请加我956119614说明来意世杰我很忙</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/VXjhO499aHrlG29D0GLSIXAnqoza9icX0evrhGXjf6mWUK7qyKb0k1Ru6kAibKd1TYRomYIyCfhyV7drNdp6CHKbichxoHhOwKY/46"></td>
+                        <td class="nickname">€※葬₩爱</td>
+                        <td class="time">02-05 13:03</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">好听，不知道你是不是在勐捧读过小学的那个杨洁</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/VXjhO499aHrRRbZdX1JvBpRoSgLkt9IW1xwuTjGa3yWlOa7iaxWbIWNhx99ib0qiaFPibLpSD9ArDSE8HGdWdBYBIUVx8JwpuS9q/46"></td>
+                        <td class="nickname">姑娘你必须拼命努力</td>
+                        <td class="time">01-28 16:57</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">加油，你是最最棒的</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/m46jGQTejkibZkjvvrhNOUCJrNSvwtQUvK69Rf1rkIKygE7vxRQCd1DGia2mrHLjB3LQHXOIJkgTZekibSMpvKP263KwFDlhhr9/46"></td>
+                        <td class="nickname"></td>
+                        <td class="time">01-28 11:32</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">你很不错的，过路的陌生姐姐给你点赞</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/dibCvqHg4Wndt8aiatv6qc4icVQOLvQz7cMckSJ7VVfhuxribsnH1x9aTmnibFqakxHWPz4qW9ageOfibT3QAMdOp03MvvyMicPqbfN/46"></td>
+                        <td class="nickname">Yan  .wen. j</td>
+                        <td class="time">01-23 01:47</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">加油</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/Og0ia92joxHlj2tc9KGF8LUve8jHCeemiaVXvcefaeqUwEWn75GIY6Z5Pd4Ue3KugMIJMdtkgiamd8vR1xKBtTcPe35B45ZDq3V/46"></td>
+                        <td class="nickname">Ai_宛若</td>
+                        <td class="time">01-21 14:31</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">赞赞赞</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/m46jGQTejk8ib7bTHQM98tUNb5YDOXF7WcvzbXic8rrJoqmoFOL09NBHgFMicJXbd06EHdRDuAg8IIUCBGjwbmW9J8dgMwsAicCA/46"></td>
+                        <td class="nickname">幽若的舂天</td>
+                        <td class="time">01-21 09:30</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">唱的真美</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/ajNVdqHZLLCp6DEpKlKWCkCmj7Xl661xx32j5iaRlqXoloZeXxX0v72D9IoUsia55SiaY9FglickCxmQh8ssd3lAW57HyuDBhs9ZiaIOib38G8Tog/46"></td>
+                        <td class="nickname">小鱼刀</td>
+                        <td class="time">01-21 00:34</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">好听顶一个</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/h6ibj2Liblcnj2WQlRWEMtpAyDCaFuDiadsCFNrtp6MQCjlXOz6Tjw4QxO1uzlMCCdibIabepoL52WFDqKaLYMMcLjk6baqduzCib/46"></td>
+                        <td class="nickname">           . Vi</td>
+                        <td class="time">01-20 14:13</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">加油！</td></tr>
+                </table>
+                </div><div class="comm_item">
+                <table>
+                    <tr>
+                        <td rowspan="2" class="head"><img src="../../../../../../../../wx.qlogo.cn/mmopen/Q3auHgzwzM4jDibmrOmUrERIWlGkZ3P0GyNZLCCuhqQibw6CcfUVTzAsTP01koiajsRMk6Jib6Qfc6jWtgLDdUiccgHTpZrl3qwvrOHVrJ8c0lBg/46"></td>
+                        <td class="nickname">小凤</td>
+                        <td class="time">01-19 11:47</td>
+                    </tr>
+                    <tr><td class="content" colspan="2">唱的很好，加油！！！</td></tr>
+                </table>
+                </div>        </div>
+            </div>
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" data-fullscreen="true">
+        <div data-role="navbar" class="app-nav">
+            <ul>
+                <li><a href="../../../../index/id/19.html" data-ajax="false"  data-icon="custom" class="ui-icon-home"></a></li>
+                <li><a href="../../../../rankList/id/19.html" data-ajax="false" data-icon="custom" class="ui-icon-rank"></a></li>
+                <li><a href="#" data-icon="custom" class="ui-icon-rule"></a></li>
+                <li><a href="../../../../reg/id/19.html" data-ajax="false" data-icon="custom" class="ui-icon-reg ui-btn-active"></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="geetest">
+        <div class="bg"></div>
+        <div class="wrap">
+            <div class="top">
+                <a class="exit" id="close" href="javascript:;"></a>
+                <div class="title">
+                    请通过验证
+                </div>
+            </div>
+            <script async type="text/javascript" src="../../../../../../../../api.geetest.com/get.php@gt=41ad2dd5aa551c1a9391d0f34852e482&width=300"></script>
+        </div>
+
+    </div>
+    <audio id="voice" src="../../../../../../../../cdn.weishangtui.com/Uploads/Voice/Addons/Vote/b991cd40598ecc1116e31f8162dd4a80.mp3" preload="auto" />
+    <script>
+        Date.prototype.format = function(format)
+        {
+            var o = {
+                "M+" : this.getMonth()+1, //month
+                "d+" : this.getDate(),    //day
+                "h+" : this.getHours(),   //hour
+                "m+" : this.getMinutes(), //minute
+                "s+" : this.getSeconds(), //second
+                "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+                "S" : this.getMilliseconds() //millisecond
+            }
+            if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+                    (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+            for(var k in o)if(new RegExp("("+ k +")").test(format))
+                format = format.replace(RegExp.$1,
+                        RegExp.$1.length==1 ? o[k] :
+                                ("00"+ o[k]).substr((""+ o[k]).length));
+            return format;
+        }
+    </script>
+    <script>
+        var playing = false;
+        var pause = false;
+        var voiceId = null;
+        var voice = null;
+
+        $(document).ready(function(){
+
+            $('.vote-picture-list').slick({
+                arrows: false
+            });
+
+            $(".btn-tp").click(function(){
+                $(".geetest").css("display","block");
+            });
+
+            $("#close").click(function(){
+                $(".geetest").css("display","none");
+            })
+
+            $(".btn-lp").click($app.showShare);
+            $(".btn-cs").click(function(){
+                if($('.ui-icon-reg').click() == false) return;
+                location.href = $('.ui-icon-reg').attr("href");
+            });
+            $('.ui-icon-reg').click(function(){
+                if("$isReg" == "1") return;
+                if("" == "1"){
+                    $app.alertRegClose();
+                    return false;
+                }
+                if("" != "1"){
+                    $app.showRegDesc('../../../../../../../Addons/Vote/View/19/Public/img_gzyd.jpg',"../../../../../../../../mp.weixin.qq.com/s@__biz=MzA5NzQ3ODIxOQ==&mid=401751933&idx=1&sn=90b0fd2eb02abba5e7523d06b39f6d32#rd");
+                    return false;
+                }
+            })
+            $('.ui-icon-rule').click(function(){
+                $app.showRule("../../../../rule/id/19.html");
+            });
+
+            voice = document.getElementById("voice");
+
+            voice.onloadedmetadata = function(){
+                $('.times').text(new Date(voice.duration*1000).format('mm:ss'));
+            }
+
+            voice.addEventListener("timeupdate", function(){
+                var v = voice.currentTime / voice.duration * 100;
+                if(v > 100) v = 100;
+                $('.progress').width(v + "%");
+                $('.cur-time').text(new Date(voice.currentTime*1000).format('mm:ss'));
+            }, true);
+
+            voice.onended = function(){
+                $(".voice-play").click();
+            };
+
+            voice.onpause = function(){pause = true};
+            $(".voice-play").click(function(){
+                if(pause)
+                {
+                    pause = false;
+                    voice.play();
+                    $(".voice-play").attr("src", "../../../../../../../Addons/Vote/View/19/Public/btn_voice_play.gif")
+                }else{
+                    pause = true;
+                    voice.pause();
+                    $(".voice-play").attr("src","../../../../../../../Addons/Vote/View/19/Public/btn_voice_play.png");
+                }
+                return;
+
+                if(playing) {
+                    if(pause) {
+                        pause = false;
+                        playVoice(voiceId);
+                    }
+                    else {
+                        pause = true;
+                        wx.pauseVoice({localId: voiceId});
+                        $(".voice-play").attr("src","../../../../../../../Addons/Vote/View/19/Public/btn_voice_play.png");
+                    }
+                }else{
+                    wx.downloadVoice({
+                        serverId: 'rksBULDBJguhZg25aLnVPyBOXjZRQ0iqh5P_6Z9ddJDRbXQshzlugR4PYD0Siiz2', // 需要下载的音频的服务器端ID，由uploadVoice接口获得
+                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                        success: function (res) {
+                            playing = true;
+                            pause = false;
+                            voiceId = res.localId;
+                            playVoice();
+                        }
+                    });
+                }
+            });
+
+            $('.comment .close').click(function(){
+                $('.comment').hide();
+            });
+
+            $('.btn-tc').click(function(){
+                $('.comment').show();
+                $('html,body').animate({scrollTop: $('.comment .close').offset().top}, 1000);
+            });
+
+            $('.wytc').click(function() {
+                if("" != "1"){
+                    $app.showRegDesc('../../../../../../../Addons/Vote/View/19/Public/img_gzyd.jpg');
+                    return false;
+                }
+                layer.open({
+                    type: 1,
+                    content: "<h2>发表你的评论!</h2>" +
+                    "<textarea name='comm' placeholder='您的评论' rows='7'></textarea>",
+                    className: 'comment-pop',
+                    btn: ['确认', '取消'],
+                    shadeClose: true,
+                    no: function(){
+                        var wait = layer.open({type:2});
+                        layer.close(wait);
+                    }, yes: function(){
+                        var content = $('textarea[name=comm]').val();
+                        var wait = layer.open({type:2});
+                        $.ajax({
+                            url: "../../../../comm/id/19/void/5373.html",
+                            type: 'POST',
+                            data:  {comm :content} ,
+                            dataType: "json",
+                            success: function (result) {
+                                layer.closeAll();
+                                if(result.status == 0) {
+                                    layer.open({content:'提交成功', time: 2});
+                                    var data = result.data;
+                                    var firstItem = $('.comm_item:eq(0)');
+                                    var newItem = firstItem.clone();
+                                    firstItem.find('.head img').attr('src', data.headimgurl);
+                                    firstItem.find('.nickname').text(data.nickname);
+                                    firstItem.find('.time').text(data.time);
+                                    firstItem.find('.content').text(data.content);
+                                    firstItem.after(newItem);
+                                }else{
+                                    $app.showMessage(result.msg);
+                                }
+                            } ,
+                            error: function(err){
+                                $app.showMessage("哎呀,出错了!请重试!");
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        function playVoice(){
+            wx.playVoice({
+                localId: voiceId // 需要播放的音频的本地ID，由stopRecord接口获得
+            });
+            $(".voice-play").attr("src", "../../../../../../../Addons/Vote/View/19/Public/btn_voice_play2.gif")
+        }
+
+        window.gt_custom_ajax = function(result, id, message) {
+            if(result) {
+                var value = $('#'+id).find('input');
+                var wait = layer.open({type:2});
+                $(".geetest").css("display","none");
+                $.ajax({
+                    url: "../../../../vote/id/19/void/5373.html",
+                    data: {
+                        "c":value[0].value,
+                        "v":value[1].value,
+                        "s":value[2].value
+                    },
+                    type: 'POST',
+                    success: function(result){
+                        layer.close(wait);
+                        if(result.status == 1010){
+                            $app.alertVoteClose();
+                            return;
+                        }else if(result.status == 1012){
+                            $app.showRegDesc('../../../../../../../Addons/Vote/View/19/Public/img_tpgz.jpg',"../../../../../../../../mp.weixin.qq.com/s@__biz=MzA5NzQ3ODIxOQ==&mid=401751933&idx=1&sn=90b0fd2eb02abba5e7523d06b39f6d32#rd");
+                            return;
+                        }
+
+                        var gameUrl = "../../../../../../../../game.weishangtui.com/go2/38";
+                        var htmlContent = result.msg;
+
+                        layer.open({
+                            content: htmlContent,
+                            style: 'width:90%;text-align: center;',
+                            end: function(){
+                                window.location.reload(true);
+                            }
+                        });
+                    },
+                    error: function(result){
+                        alert(JSON.stringify(result));
+                    }
+                })
+            }
+        }
+    </script>
+</div>
+</body>
+</html>

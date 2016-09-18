@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$Think.config.SITENAME}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="__PUBLIC__/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__PUBLIC__/misc/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__PUBLIC__/dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="__PUBLIC__/misc/html5shiv.min.js"></script>
+        <script src="__PUBLIC__/misc/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .color-palette {
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+      }
+      .color-palette-set {
+        margin-bottom: 15px;
+      }
+      .color-palette span {
+        display: none;
+        font-size: 12px;
+      }
+      .color-palette:hover span {
+        display: block;
+      }
+      .color-palette-box h4 {
+        position: absolute;
+        top: 100%;
+        left: 25px;
+        margin-top: -40px;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        display: block;
+        z-index: 7;
+      }
+    </style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <include file="Public:head" />
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            在线付款
+            <small>列表</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="__APP__"><i class="fa fa-dashboard"></i>首页</a></li>
+            <li><a href="#">在线付款</a></li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+
+                <div class="box-body">
+
+
+                    <div class="box-header">
+                        <form action="{:U("Pay/index",array("ss"=>1))}" method="get">
+                            <div class="form-group">
+                                <label>报名选手名称</label>
+                                <input type="text" name="username" class="form-control" value="<?php echo $_GET['username'];?>">
+                            </div>
+
+                            <div style="float:left;">
+                                <input type="submit" value="搜索" class="btn btn-info pull-right btn-sm" />
+                            </div>	
+                        </form>
+
+
+
+                    </div><!-- /.box-header -->
+
+
+
+
+                <section id="no-more-tables">
+                  <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>订单号</th>
+                        <th>付款方式</th>
+                        <th>报名选手</th>
+                        <th>产品名称</th>
+                        <th>生成日期</th>
+                        <th>金额</th>
+                        <th>状态</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <volist name="list" id="vo">
+                         <tr>
+                            <td data-title="订单号">{$vo.buyid}</td>
+                            <td data-title="付款方式">
+                                <eq name="vo.payment" value="alipay">
+                                       <span class="label label-default">支付宝</span>
+                                </eq>
+                                
+                               <eq name="vo.payment" value="weixin">
+                                    <span class="label label-primary">微信</span>
+                                </eq>
+                            </td>
+                            <td data-title="投票选手">
+                                <?php 
+                                $tmp = M("Form")->where("id='".$vo['form_id']."'")->field("username")->find();
+                                    echo $tmp['username'];
+                                ?>
+                            </td>
+                            <td data-title="产品名称">{$vo.pname}</td>
+                            <td data-title="生成日期">{$vo.mtime|date="Y-m-d H:i:s",###}</td>
+                            <td data-title="金额">{$vo.money}</td>
+                            <td data-title="状态">
+                                <eq name="vo.sta" value="0">
+                                       <span class="label label-warning">未付款</span>
+                                </eq>
+                                
+                                <eq name="vo.sta" value="1">
+                                    <span class="label label-success">已付款</span>
+                                </eq>
+
+                            </td>
+                            
+                        </tr>
+                     </volist>    
+                    </tbody>
+                    
+                  </table>
+                  </section>
+                </div><!-- /.box-body -->
+
+                <div class="row container-fluid">
+                  <div class="col-sm-5"><div class="dataTables_info">{$totalCount} 条记录 {$currentPage}/{$totalPages} 页</div></div>
+                  <div class="col-sm-6">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                      {$page}
+                   </ul>
+                  </div>
+                  </div>
+                </div>
+
+              </div><!-- /.box -->
+
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      
+    <include file="Public:footer" />
+
+    </div><!-- ./wrapper -->
+
+
+
+  </body>
+</html>

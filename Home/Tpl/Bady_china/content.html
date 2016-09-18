@@ -1,0 +1,537 @@
+<!--微信分享-->
+<?php
+
+if($member['m_appid'] && $member['m_appsecret']){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [ 
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$form.username}-{$vo['title']}',
+desc: '<?php echo compress_html(preg_replace('/[\'\"]/i', '',strip_tags($form['info'])));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/content",array("id"=>$vo['id'],"fid"=>$form['id'],"subscribe"=>$subscribe))}',
+imgUrl: '{$form['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) {
+//alert(res.errMsg);
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+o_url = window.location.href;
+n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+ChangeUrl(document.title, n_url);
+<?php } ?>
+}
+
+);
+</script>
+
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+
+
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+?>
+<script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}
+</script>
+<?php } ?>
+
+<!DOCTYPE html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no，minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="apple-mobile-web-app-title" content="应用标题">
+	<meta content="telephone=no" name="format-detection" />
+	<meta content="email=no" name="format-detection" />
+	<meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
+	<meta name="keywords" content="balabalabalabala,xixihaha">
+	<meta name="description" content="balabalabala,xixihdhd">
+	<!-- uc强制竖屏 --><meta name="screen-orientation" content="portrait">
+	<!-- UC强制全屏 --> <meta name="full-screen" content="yes">
+	<!-- UC应用模式 --> <meta name="browsermode" content="application">
+	<!-- QQ强制竖屏 --><meta name="x5-orientation" content="portrait">
+	<!-- QQ强制全屏 --><meta name="x5-fullscreen" content="true">
+	<!-- QQ应用模式 --><meta name="x5-page-mode" content="app">
+<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/css/style.css" rel="stylesheet">
+	
+		<title>{$vo['title']}</title>
+	
+
+
+<!--通用js-->
+		<link rel="stylesheet" type="text/css" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/css/style.css"/>
+        <script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/jquery-1.4.2.min.js"></script>
+        <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/c2/colorbox.css">
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/static/jquery.colorbox.js" type="text/javascript"></script>
+        <!--END通用js-->
+
+</head>
+
+<body>
+
+	
+<!--广告-->
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.css">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.min.js"></script>
+<div class="form-group">
+    <style>
+    .swiper-container{width:100%;color:#fff;text-align:center;}.pagination{position:absolute;z-index:20;right:10px;}.swiper-pagination-switch{display:inline-block;width:5px;height:5px;border-radius:5px;background:#222;margin-right:5px;opacity:0.8;border:1px solid #fff;cursor:pointer;}.swiper-visible-switch{background:#aaa;}.swiper-active-switch{background:#fff;}
+    .imgplay{width:100%}
+    </style>
+    <div id="content" style="max-width: 640px;margin: 0 auto;     padding-top: 0px;">
+        <!--headpic-->
+        <div class="swiper-container" style="display:block;">
+            <div class="swiper-wrapper">
+                <volist name="ad" id="adlist">
+                <div class="swiper-slide">
+                    <a href="{$adlist['url']}"><img class="imgplay" src="{$adlist['picurl']}" /></a></div>
+                    </volist>
+                    
+                    
+                </div>
+            </div>
+            <div class="pagination" style="margin-top:-10px;"></div>
+        </div>
+        
+        <!-- Initialize Swiper -->
+        <script>
+        var swiper = new Swiper('.swiper-container', {
+        pagination: '.pagination',
+        calculateHeight:true,
+        paginationClickable: true,
+        autoplay:2500
+        });
+        </script>
+    </div>
+<!--END 广告-->
+
+
+
+
+    <div class="vote-detail com-bg-img">
+        <div class="main">
+           
+
+
+
+
+
+            <div class="msg">
+                <div class="name">名氏 <i class="com-t-cloud">{$form.username}</i></div>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>编号：<i class="fc-red">{$form.num}</i>号</td>
+                       
+                    </tr>
+                    <tr>
+                        <td>票数：<i id="69" class="fc-red">{$form.ticket}</i>票</td>
+                     
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="com-t-box">
+                  个人宣言： {$form.info}                                                         </div>
+				 <!--for-->
+    <neq name="form.picurl" value="">
+      <div id="content_pic" style="margin-top:20px;border:solid 1px #fff;">
+      <img src="{$form.picurl}" style="width:100%"/>
+      </div>
+    </neq>
+    <neq name="form.picurl1" value="">
+      <div id="content_pic" style="margin-top:20px;border:solid 1px #fff;">
+      <img src="{$form.picurl1}" style="width:100%"/>
+      </div>
+    </neq>
+    <neq name="form.picurl2" value="">
+      <div id="content_pic" style="margin-top:20px;border:solid 1px #fff;">
+      <img src="{$form.picurl2}" style="width:100%"/>
+      </div>
+    </neq>
+    <neq name="form.picurl3" value="">
+      <div id="content_pic" style="margin-top:20px;border:solid 1px #fff;">
+      <img src="{$form.picurl3}" style="width:100%"/>
+      </div>
+    </neq>
+    <neq name="form.picurl4" value="">
+      <div id="content_pic" style="margin-top:20px;border:solid 1px #fff;">
+      <img src="{$form.picurl4}" style="width:100%"/>
+      </div>
+    </neq>          
+                
+
+
+
+
+<?php
+        if( !empty($subscribe)  || $member['m_isConnent'] === '0'  ){
+        ?>
+
+           <eq name="vo.isVerify" value="0">
+                <a href="__URL__/vote/vid/{$form['id']}/id/{$vo['id']}"  ><div class="com-btn-big" rak="10300" vote="69" >投Ta一票</div></a>
+            </eq>
+            <eq name="vo.isVerify" value="1">
+                <a href="javascript:void(0);"  onclick="showVerify({$form['id']},{$vo['id']})"  ><div class="com-btn-big" rak="10300" vote="69" >投Ta一票</div></a>
+            </eq>
+
+        <?php
+        }else{
+        ?>
+       <div class="com-btn-big" rak="10300" vote="69" onclick="loaddzp()">投Ta一票</div>
+        <?php
+        }
+        ?>
+
+
+				
+				
+<div class="com-btn-big" rak="10300" vote="69" onclick="share()">给Ta拉票</div>
+
+<a href="{:U("Index/index",array("id"=>$form['vid']))}"  ><div class="com-btn-big" rak="10300" vote="69" >查看更多</div></a>
+
+
+
+            </div>
+        </div>
+
+
+<style>
+p {
+line-height:25px;
+}
+
+</style>
+<div class="msg">
+                <div class="name">活动 <i class="com-t-cloud">规则：</i></div>
+					 {$vo.info}
+</div>
+
+
+
+        <div class="com-under" style="    text-align: center;">
+
+
+
+
+
+      <?php
+                    if($member['m_copyright']){
+                    ?>
+                        <a href="#" style="color: #5e5e5e;font-size: 14px;">{$member.m_copyright}</a>
+                    <?php
+                    }else{
+                    ?>  
+                        <a href="http://toupiao.lanrenmb.com/m/" style="color: #5e5e5e;font-size: 14px;"><?php echo C('copyright'); ?></a>
+                    <?php } ?>
+           
+        </div>
+    </div>
+	 
+ 
+
+
+
+
+<div class="com-footer">
+    <div class="fixed-wrap">
+        <a class="footer-item" style="background-image: url(<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/images/icon_footer_home_gray.png);"  href="{:U("Index/index",array("id"=>$form['vid']))}">投票首页</a>
+
+
+
+
+
+
+        <a class="footer-item" style="background-image: url(<eq name="vo.ico_3" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/daohang_03.png</eq><neq name="vo.ico_3" value="">{$vo['ico_3']}</neq>);"   <eq name="vo.dao_33" value="">id="paihang" href="__URL__/rank/id/{$vo['id']}"</eq>
+<neq name="vo.dao_33" value="">href="{$vo['dao_33']}"</neq>><eq name="vo.dao_3" value="">排行榜</eq><neq name="vo.dao_3" value="">{$vo['dao_3']}</neq></a>
+
+
+
+
+
+
+        <a class="footer-item"  style="background-image: url(<eq name="vo.ico_1" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/baoming.png</eq><neq name="vo.ico_1" value="">{$vo['ico_1']}</neq>);"  <eq name="vo.dao_11" value="">href="__URL__/signup/subscribe/{$subscribe}/id/{$vo['id']}
+                            <?php 
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html"</eq>
+                            <neq name="vo.dao_11" value="">href="{$vo['dao_11']}"</neq>><eq name="vo.dao_1" value="">我要报名</eq><neq name="vo.dao_1" value="">{$vo['dao_1']}</neq></a>
+
+
+
+
+
+        <a class="footer-item"  <eq name="vo.dao_22" value="">href="tel:{$vo['tel']}"</eq> <neq name="vo.dao_22" value="">href="{$vo['dao_22']}"</neq>  style="background-image: url(<eq name="vo.ico_2" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/daohang_01.png</eq><neq name="vo.ico_2" value="">{$vo['ico_2']}</neq>);"   href="/index.php/Home/Game/rule.html"><eq name="vo.dao_2" value="">在线咨询</eq><neq name="vo.dao_2" value="">{$vo['dao_2']}</neq></a>
+        
+		<a class="footer-f4item"  style="background-image: url(<eq name="vo.ico_4" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/daohang_04.png</eq><neq name="vo.ico_4" value="">{$vo['ico_4']}</neq>);"    <eq name="vo.dao_44" value="">onclick="share()"</eq> <neq name="vo.dao_44" value=""><a  href="{$vo['dao_44']}"></neq> ><eq name="vo.dao_4" value="">点击拉票</eq><neq name="vo.dao_4" value="">{$vo['dao_4']}</neq></a>
+    </div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+<!--share-->
+<div id="bg" class="bg" style="display:none;"></div>
+<div class="share">
+  <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/fx1.png" style="width: 100%;">
+</div>
+<style type="text/css">
+.share {display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.7);z-index: 9696969;}
+</style>
+<script type="text/javascript">
+  function share(){
+  $(".share").show();
+}
+$(function(){
+  $(".share").click(function() {
+    $(this).hide() ;
+  }) ;
+});
+</script>
+<!--./share-->
+
+<!--弹出关注层-->
+                    <style> 
+#plug {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999999;
+        }
+
+                    .dzpwrap {
+                    background: none repeat scroll 0 0 #F8F8F8;
+                    border-radius: 1px 1px 1px 1px;
+                    position:absolute;
+                    width: 280px;
+                    }
+                    .dzpwrap .dzptit {
+                    background-image: url("");
+                    background-position: 14px 14px;
+                    background-repeat: no-repeat;
+                    background-size: 24px auto;
+                    font-size: 1.1em;
+                    line-height: 40px;
+                    text-align:center;
+                    padding: 7px 0 0 0px;
+                    }
+                    
+                   .dzpwrapcont.dzpwrapcontent {
+                    background-color: <if condition="$vo['bgcolor'] neq '' ">{$vo.bgcolor}</if> <if condition="$vo['bgcolor'] eq '' ">#FF9900</if>;
+                    }
+
+                    .dzpwrapcont.dzpwrapcontent img {
+                     max-width:250px;
+                    }
+                    
+                    .dzpwrapcont {
+                    padding: 0 14px 16px;
+                    }
+                    .btndzp {
+                    border-radius: 5px 5px 5px 5px;
+                    display: inline-block;
+                    text-decoration: none;
+                    vertical-align: middle;
+                    
+                    }
+                    .dzpwrapcont .btndzp {
+                    -moz-border-bottom-colors: none;
+                    -moz-border-image: none;
+                    -moz-border-left-colors: none;
+                    -moz-border-right-colors: none;
+                    -moz-border-top-colors: none;
+                    color: #5D5D5D;
+                    display: block;
+                    font-size: 1.6em;
+                    line-height: 36px;
+                    text-align: center;
+                    }
+                    .dzpwrapcont .btnRed {
+                        background:none repeat scroll 0 0 #e8e363;
+                    color: #5c5c5c;
+                    letter-spacing:2px;
+                    font-weight:bold;
+                    margin: 16px 0 0;
+                    }
+                    </style>
+
+<script>
+function loaddzp(){
+$('#plug').show();
+var div =$('.dzpwrap');
+div.css('zIndex',99999999);
+div.css('display','block');
+    div.css('left',parseInt(($(window).width()-div.width())/2));
+    var top = parseInt($(window).scrollTop()+($(window).height()-div.height())/2-45);
+    div.css('top',top);
+
+}
+
+function noplug(){
+      if($(".dzpwrap").css('display')=='block')$(".dzpwrap").css('display','none');
+      $("#plug").hide();
+}
+
+</script>
+
+<div class="dzpwrap" style="display:none">
+    <article >
+        <header class="dzptit">添加我们后,回复【{$vo['keyword']}】参与活动</header> 
+        <section class="dzpwrapcont dzpwrapcontent">
+            <p style="text-align:center;">
+			<BR>
+                 <img src="{$vo.wx_picurl}" style="margin:0 auto;" />
+            </p>           
+            <a href="{$vo['wx_url']}" class="btndzp btnRed">如何添加我们 ?</a> 
+            <a id="dzpclose" class="btndzp btnRed" onclick="noplug();">取消,继续浏览</a>
+        </section>
+    </article>
+</div>
+<div style="display: none;" id="plug"></div>
+<!--./弹出关注层-->
+
+
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+?>
+<script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}
+$( document  ).ready(function() {
+        o_url = window.location.href;
+        n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+        //console.log(n_url);
+        n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+        ChangeUrl(document.title, n_url);
+
+        });
+</script>
+<?php } ?>
+
+
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/swipe.js"></script> 
+<script type="text/javascript"> 
+
+
+function showVerify(vid,id){
+     $.colorbox({top:"10px",innerWidth:220,innerHeight:220,iframe:true, href:"/Home/index.php?m=Public&a=lanren_verify&mid=<?php echo $member['m_id'];?>&vid="+vid+"&id="+id});
+}
+
+
+
+$(function(){
+          $("#paihang").click(function(){
+            $(this).colorbox({top:"20px",iframe:true, width:"90%", height:"90%"});
+          });
+});
+
+
+  
+  </script>
+
+
+
+</body>
+</html>

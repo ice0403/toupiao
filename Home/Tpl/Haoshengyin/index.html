@@ -1,0 +1,411 @@
+<!--微信分享-->
+<?php
+
+if($member['m_appid'] && $member['m_appsecret']){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$vo['title']}',
+desc: '<?php echo str_replace(array("\r\n","\'"),array("",""),strip_tags($vo['wx_info']));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/index",array("id"=>$vo['id']))}',
+imgUrl: '{$vo['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) { 
+//alert(res.errMsg); 
+        o_url = window.location.href;
+        n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+        n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+        ChangeUrl(document.title, n_url);
+
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+<!DOCTYPE html>
+<html ng-app>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="telephone=no" name="format-detection" />
+     <title>{$vo['title']}</title>
+    <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/jm/jquery.mobile-1.4.5.css" />
+    <link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Addons/Vote/View/19/Public/app.css" rel="stylesheet" type="text/css">
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/jquery-2.0.3.min.js"></script>
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/jm/jquery.mobile-1.4.5.js"></script>
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/waypoints/jquery.waypoints.min.js"></script>
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/waypoints/shortcuts/sticky.min.js"></script>
+    <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/layer.m/need/layer.css" />
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/layer.m/layer.m.js"></script>
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Public/static/jplugin/lazyload/jquery.lazyload.min.js"></script>
+    <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Addons/Vote/View/19/Public/app.js"></script>
+            <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/c2/colorbox.css">
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/static/jquery.colorbox.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<?php 
+        if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+        ?>
+        <script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}
+     </script>
+        <?php } ?>
+
+
+
+
+		    <neq name="vo.music" value="">
+       <input style="display:none" type="text" id="audiofile" size="80" value="{$vo['music']}">
+          <div class="music" id="music" ontouchstart="musicControls();">
+                 <audio id="audio" loop="loop" style="display:none;width:0;height:0;"  oncanplay="canplay();"></audio>
+                 </div>
+                 <script>
+                    var audio = document.getElementById("audio");
+                    var music = document.getElementById("music");
+                    music.played = 0;
+                    function musicControls(){
+                            audio.src = document.getElementById('audiofile').value;
+                            if(music.played == 0){
+                                   audio.play();
+                                   music.className = music.className.replace(" musicstop","");
+                                   music.className = music.className + " musicplay";
+                                   music.played = undefined;
+
+                            }else{
+                                 audio.pause();
+                                 music.className = music.className.replace(" musicplay","");
+                                 music.className = music.className + " musicstop";
+                                 music.played = 0;
+
+                            }
+
+                    }
+function canplay(){
+     music.className = music.className + " musicplay";
+
+}
+</script>
+
+<literal>
+<style>
+.music {
+        background: url("<?php echo C('site_url'); ?>/Home/Tpl/Index/c2/music.png") no-repeat scroll 0 0 transparent;
+           background-size:34px;
+              top: 20px;
+                 height: 34px;
+                    position: fixed;
+                       right: 20px;
+                          width: 34px;
+                             z-index: 999;
+                                
+}
+  .musicplay{-webkit-animation:musicplay 1.2s linear 0s infinite;animation:musicplay 1.2s linear infinite;}
+    .musicstop{-webkit-animation:musicstop 1.2s linear 0s infinite;animation:musicstop 1.2s linear infinite;}
+    @keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @-webkit-keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+    @-webkit-keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+      </style>
+        </literal>
+
+        </neq>
+
+
+<div data-role="page" class="app-list-page">
+
+    <volist name="ad" id="adlist">
+        <if condition="$i eq 1">
+        <img src="{$adlist['picurl']}" class="app-logo" />
+        </if>
+    </volist>
+
+    <table class="app-stat">
+        <tr><td><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Addons/Vote/View/19/Public/lb_csxs.png"/>{$vo['person']}</td>
+            <td><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Addons/Vote/View/19/Public/lb_ztps.png"/>{$vo['tickets']}</td>
+            <td><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/video/Addons/Vote/View/19/Public/lb_fwl.png"/>{$vo['count']}</td></tr>
+    </table>
+    <div class="app-search-box">
+
+     <form action="{:U("Index/content")}" id="search_form" method="get">
+		<input type="hidden" name="id" value="{$vo.id}" />
+		<input type="hidden" name="subscribe" value="{$subscribe}" />
+            <table>
+                <tr>
+                    
+                    <td>
+					<input name="keyword" class="search-key" id="searchText" type="search" placeholder="搜索你喜欢的选手" autocomplete="off"/></td>
+                    <td> <input type="submit" name="seachid" id="searchBtn" value="搜索">
+                        </td>
+                </tr>
+            </table>
+        </form>
+
+
+
+
+
+
+
+    </div>
+    <div role="main" class="ui-content">
+        <div class="app-sort">
+        </div>
+        <div class="ui-grid-a app-top-list">
+            
+			
+			
+	      </div>      
+		  <div class="ui-grid-b app-more-list">
+  
+
+<div class="current" style="display:none;">
+<?php 
+if( $currentPage >= $totalPages    ){
+?>
+0
+<?php
+}else{
+?>
+{$currentPage}
+<?php
+}
+?>
+</div>			
+
+
+
+        <?php 
+           $ss = M("Form")->where("vid=".$_GET['id']." and status=1")->field("id")->order("ticket desc,addtime")->select(); //排名
+           foreach ($ss as $key => $value) {
+               $ssr[] = $value['id'];
+           }   
+        ?>
+        <volist id="vo1" name="list">
+        <div class="ui-block-c">
+            <div class="vote-item">
+                <div class="picture">
+                    <a data-ajax="false" href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                        <?php
+                        if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+                        echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+                        }
+                    ?>.html"><img src="{$vo1['picurl']}"/></a>
+                    <a data-ajax="false" href="{$vo1['picurl']}"/></a>
+                    <div>名次: 
+                    <?php 
+                        echo array_search($vo1['id'], $ssr)+1; 
+                    ?>
+                    </div>
+                </div>
+                <div class="vote-stat-info">
+                    <span>{$vo1['ticket']}票</span>
+                </div>
+            </div>
+            <div>
+                <p>{$vo1['username']} <br>编号:{$vo1['num']}</p>
+            </div>
+        </div>
+        </volist>
+	
+	 
+	 </div>
+        </div>
+<div class="app-footer">
+    <div data-role="navbar" class="app-nav">
+        <ul>
+            <li><a href="__URL__/index/id/{$vo['id']}.html" data-ajax="false"  data-icon="custom" class="ui-icon-home"></a></li>
+                <li><a href="__URL__/rank/subscribe/{$subscribe}/id/{$vo['id']}" data-ajax="false" data-icon="custom" class="ui-icon-rank"></a></li>
+                <li><a href="javascript:void(0)" data-icon="custom" class="ui-icon-rule"></a></li>
+                <li><a href="__URL__/signup/subscribe/{$subscribe}/id/{$vo['id']}
+                            <?php 
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html" data-ajax="false" data-icon="custom" class="ui-icon-reg ui-btn-active"></a>
+                </li>
+        </ul>
+    </div>
+</div>
+    
+
+    <script>
+        $(function(){
+        new Waypoint.Sticky({
+            element: $('.app-search-box')[0]
+        });
+
+            $(document).on("scrollstop",function(){
+                if($(document).height() > $(window).height())
+                {
+                    console.log($(document).height());
+                    console.log($(window).height());
+                    console.log($(window).scrollTop());
+                    
+                    if($(window).scrollTop() +1 == $(document).height() - $(window).height()){
+                        loadMore();
+                    }
+                }
+            });
+
+            function loadMore(){
+                current = parseInt($(".current").last().text())+1;
+                if(current ==1) return;
+                layer.open({type:2});
+                $.ajax({
+url: "__URL__/pageData/listRows/{$numPerPage}/_order/{$order}/subscribe/{$subscribe}/id/{$vo['id']}/<?php echo C('VAR_PAGE');?>/"+current,
+                    type: 'GET',
+                    dataType: "html",
+                    success: function (html) {
+                        layer.closeAll();
+                        $(".app-more-list").append(html)
+                        if(current ==1){
+                            $("#pullUp").css('display','none');
+                        }
+                    },
+                    error: function(err){
+                        $app.showMessage("哎呀,出错了!请重试!")
+                    }
+                });
+            }
+
+            $('.ui-icon-rule').click(function(){
+                 $.colorbox({innerWidth:'93%',innerHeight:'90%',html:"<?php echo compress_html(str_replace('"',"'",$vo['info']));?>"});
+            })
+
+
+            $('.btn-query').click(function(){
+                var type = $(':checked').val();
+                var key = $('.search-key').val();
+                if(key == undefined || key == ""){
+                    $app.showMessage("请输入关键字!"+type);
+                    return;
+                }
+                $('form').submit();
+                return;
+                var wait = layer.open({type: 2});
+                $.ajax({
+                    url: "",
+                    type: 'GET',
+                    data: {t:type,k:key},
+                    dataType: "json",
+                    success: function (result) {
+                        layer.close(wait);
+                        if(result.status>0) {
+                            $app.showMessage(result.msg)
+                            return;
+                        }
+                        location.href = result.detailUrl;
+                    },
+                    error: function(err){
+                        $app.showMessage("哎呀,出错了!请重试!")
+                    }
+                });
+            })
+        });
+    </script>
+
+
+
+
+</div>
+</body>
+</html>

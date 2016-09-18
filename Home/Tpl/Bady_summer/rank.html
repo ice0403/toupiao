@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="description" content="V5智能客服">
+	<title>选手票数排行榜</title> 
+	<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/summer/css/common.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/summer/css/rank.css" rel="stylesheet" type="text/css">
+</head>
+
+
+
+<body marginwidth="0" marginheight="0">
+	<div class="main">
+
+		<div class="header">
+			<div class="top">
+				<div class="top_left"></div>
+				<div class="top_right">
+					<div class="aname_top"></div>
+					<div class="aname" id="act_name">{$vo['title']}</div>
+				</div>
+			</div>
+			<div class="line"></div>
+
+		</div>
+		<div class="bodyer">
+			<div class="list" id="list">
+
+
+			<?php $i=1;$tmp=99999;?>
+	  <volist id="vo1" name="list">
+	  <a href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                                    <?php
+                                    if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+                                    echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+                                    }
+                                ?>.html">
+			<div player_id="12" class="item"><div class="left_div"><div class="rank_id"><i><?php echo $i;?></i></div>	
+			<div class="photo" id="photo_12" style="background-image: url({$vo1['picurl']});"></div>
+			<div class="pid_hao"><span class="pid">{$vo1['num']}</span><span class="hao">&nbsp;号</span></div></div><div class="mid_div" style="color: #828282;">{$vo1['username']}</div>
+			<div class="right_div"><span class="ofvote" style="color: #828282;">{$vo1['ticket']}</span><span class="piao">&nbsp;票</span></div></div></a>
+			
+<?php 
+		if($tmp == $vo1['ticket']){
+			continue;
+		}
+		$tmp = $vo1['ticket'];
+		//$i++;
+		?>
+		</volist>
+
+			
+		</div>
+		</div>
+		
+		<div style="clear:both;height:1em;"></div>
+		<div class="copyright">
+							<?php
+                    if($member['m_copyright']){
+                    ?>
+                        <a href="#" style="color: #5e5e5e;font-size: 14px;">{$member.m_copyright}</a>
+                    <?php
+                    }else{
+                    ?>  
+                        <a href="http://toupiao.lanrenmb.com/m/" ><?php echo C('copyright'); ?></a>
+                    <?php } ?>
+					</div>
+		
+		<div class="clearDiv"></div>
+	
+		
+<if condition="$vo['bgcolor'] neq '' ">
+<style>
+.link {background-color: <?php echo $vo['bgcolor'];?>;}
+
+</style>
+</if>
+
+
+	<div class="footer">
+			<div class="link">
+				<div class="linkc" onclick="history.go(-1)"><div class="back"></div><div class="link_name">返回</div></div>
+				<div onclick="share()"><div class="what_name" style="color: #fff;">我要拉票</div><div class="what_ad"></div></div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!--share-->
+	<script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/jquery-1.4.2.min.js"></script>
+<div id="bg" class="bg" style="display:none;"></div>
+<div class="share">
+  <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/fx1.png" style="width: 100%;">
+</div>
+<style type="text/css">
+.share {display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.7);z-index: 9696969;}
+</style>
+<script type="text/javascript">
+  function share(){
+  $(".share").show();
+}
+$(function(){
+  $(".share").click(function() {
+    $(this).hide() ;
+  }) ;
+});
+</script>
+<!--./share-->
+
+
+</body></html>

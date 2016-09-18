@@ -1,0 +1,590 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<title>{$vo['title']}</title>	
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=yes">
+<meta name="format-detection" content="email=no">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery-2.1.3.min.js" type="text/javascript"></script>
+
+<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/css/mobile/common.css" rel="stylesheet" type="text/css"/>
+
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/c2/colorbox.css">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/static/jquery.colorbox.js" type="text/javascript"></script>
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/yxMobileSlider.js" type="text/javascript"></script>
+<script type="text/javascript">
+$( document ).ready(function() {
+    $(".slider").yxMobileSlider({during:5000,height:300});
+});
+function showVerify(vid,id){
+     $.colorbox({top:"10px",innerWidth:220,innerHeight:220,iframe:true, href:"/Home/index.php?m=Public&a=lanren_verify&mid=<?php echo $member['m_id'];?>&vid="+vid+"&id="+id});
+}
+</script>
+<script type="text/javascript">
+$(function(){
+	$("#fly_page").hide();
+	//$("#TopTipClose").click();//执行关闭
+	$("#TopTipHolder").hide();
+});
+</script>
+
+
+
+<!--微信分享-->
+<?php
+
+if($member['m_appid'] && $member['m_appsecret']){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$vo['title']}',
+desc: '<?php echo compress_html(preg_replace('/[\'\"]/i', '',strip_tags($form['info'])));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/index",array("id"=>$vo['id']))}',
+imgUrl: '{$vo['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) {
+//alert(res.errMsg);
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+o_url = window.location.href;
+n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+ChangeUrl(document.title, n_url);
+<?php } ?>
+
+
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+?>
+<script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}</script>
+<?php } ?>
+
+
+
+
+
+</head>
+
+
+        <style>
+        .slider{display:none;}
+        .focus span{width:5px;height:5px;margin-left:5px;border-radius:50%;background:#CDCDCD;font-size:0}
+        .focus span.current{background:red;}
+        </style>
+
+<style>
+a{text-decoration:none;}
+#max-boxs{position: absolute;top:0;left:0;right:0;bottom:50px;background:#FEE3E4;overflow: auto;}
+#max-floor{position: absolute;height:50px;line-height:10px;left:0;right:0;bottom:0;background:#FFF;font-size:0.9em;}
+#max-floor a{float:left;width:25%;text-align:center;color:#272727;}
+#max-floor a.fon{color:#DF1A23;}
+#max-floor a img{width:36px;}
+</style>
+<body>
+	<div id="max-boxs">
+		<style>
+.f_l{float:left;}
+.f_r{float:right;}
+.f_m{margin:0 auto;}
+.radius{ -moz-border-radius: 3px;      /* Gecko browsers */
+    -webkit-border-radius: 3px;   /* Webkit browsers */
+    border-radius:3px;            /* W3C syntax */
+}
+
+.shadow{
+-moz-box-shadow: 0.5px 3px 3px 1px #9AA9C5; /* 老的 Firefox */
+box-shadow: 0.5px 3px 3px 1px #9AA9C5;
+-webkit-box-shadow: 0.5px 3px 3px 1px #9AA9C5;
+}
+
+.vote_box{overflow:hidden;}
+.adv{width:100%;overflow:hidden;}
+.adv a,.adv a img{display:block;width:100%;}
+
+.dis_none{display:none;}
+.rank_box{width:90%;margin:15px auto;}
+.images_box{text-align:center;margin:15px 0;}
+.images_box img{width:100%;margin-bottom:5px;}
+.base_info{line-height:30px;font-size:1.1em;text-align:center;color:#BA161D;}
+.base_info span{margin:0 15px;}
+.line{overflow:hidden;line-height:24px;background:url("<?php echo C('site_url'); ?>/Home/Tpl/Xiqi/hongse/images/mobile/vote/line.png") top center no-repeat;background-size:contain; 
+margin:15px 0;padding-top:15px;color:#727272;}
+.declaration{text-indent:2em;}
+.explanation{}
+.e_title{font-size:1.2em;text-align:center;line-height:30px;}
+.e_content img{width:100%;}
+
+.vote_handle{height:60px;overflow:hidden;overflow:hidden;}
+.bnt{height:40px;width:40%;text-align:center;background:#DF1A23;color:#FFF;display:block;margin:0 auto;line-height:40px;font-size:1.2em;}
+.vote_handle .v_err{background:#8397B9;}
+
+/*提示框*/
+#Tbox{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.3);}
+#Tbox .Tb_msg{width:50%;overflow:hidden;margin:30% auto;padding:15px;line-height:30px;background:#FFF;text-align:center;}
+
+#share_box{position:fixed;left:0;top:0;right:0;bottom:0;background:RGBA(0,0,0,0.6);}
+#share_box img{display:block;width:50%;float:right;margin-top:5px;}
+.share_box{width:90%;margin:25px auto;text-align:center;color:#FFF;clear:both;}
+
+/*图片查看*/
+#ImagesLook{position: fixed;top:0;left:0;right:0;bottom:0;z-index:900;background:#000;}
+#ImagesLook p{position: fixed;top:0;right:0;z-index:889;width:40px;height:40px;background:url('<?php echo C('site_url'); ?>/Home/Tpl/Xiqi/hongse/images/mobile/vote/del.png') center center no-repeat;}
+#ImagesLook div{display:table-cell;
+text-align:center;
+vertical-align:middle;}
+#ImagesLook img{max-width:80%;max-height:80%;}
+</style>
+<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/css/mobile/event_qrcode.css" rel="stylesheet"/>
+
+
+<div class="vote_box">
+
+    <div class="slider">
+    <ul>
+    <volist name="ad" id="adlist">
+    <li><a href="{$adlist['url']}"><img src="{$adlist['picurl']}" /></a></li>
+    </volist>
+    </ul>
+    </div>  
+	
+	
+	
+	<div class="rank_box">
+        <div class="images_box">
+                           
+
+					<neq name="form.picurl" value="">
+      
+      <img src="{$form.picurl}" style="width:100%" class="shadow radius"/>
+     
+    </neq>
+    <neq name="form.picurl1" value="">
+     
+      <img src="{$form.picurl1}" style="width:100%" class="shadow radius"/>
+     
+    </neq>
+    <neq name="form.picurl2" value="">
+     
+      <img src="{$form.picurl2}" style="width:100%" class="shadow radius"/>
+      
+    </neq>
+    <neq name="form.picurl3" value="">
+      
+      <img src="{$form.picurl3}" style="width:100%" class="shadow radius"/>
+     
+    </neq>
+    <neq name="form.picurl4" value="">
+     
+      <img src="{$form.picurl4}" style="width:100%" class="shadow radius"/>
+    
+    </neq>            
+					
+					
+					
+					
+					</div>
+        <div class="base_info">
+            <span>{$form.num}号</span>
+            <span>{$form.username}</span>
+            <span><font color="red">{$form.ticket}</font>票</span>
+        </div>
+                    <div class="declaration line">{$form.info}</div>
+                <div class="vote_handle">
+
+
+	
+
+<?php 
+        if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+        ?>
+
+            <eq name="vo.isVerify" value="0">
+                <a href="__URL__/vote/vid/{$form['id']}/id/{$vo['id']}"  class="bnt f_l radiu">我要投票</a>
+            </eq>
+            <eq name="vo.isVerify" value="1">
+                <a href="javascript:void(0);"  onclick="showVerify({$form['id']},{$vo['id']})" class="bnt f_l radiu">我要投票</a>
+            </eq>
+
+        <?php
+        }else{
+        ?>
+            <a href="javascript:void(0);" class="bnt f_l radiu" onclick="loaddzp()">我要投票</a>
+        <?php
+        }
+        ?>
+
+
+    <a onclick="_system._guide(true)" class="bnt f_r radius" id="vote_s">帮我拉票</a>
+
+
+        </div>
+        <div class="explanation line">
+            <div class="e_title">活动说明</div>
+            <div class="e_content"><p>{$vo.info}</p></div>
+        
+        </div>
+    </div>
+</div>
+
+<center>
+
+        <?php
+                    if($member['m_copyright']){
+                    ?>
+                        <a href="#" style="color: #5e5e5e;font-size: 14px;">{$member.m_copyright}</a>
+                    <?php
+                    }else{
+                    ?>  
+                        <a href="http://toupiao.lanrenmb.com/m/" style="color: #5e5e5e;font-size: 14px;"><?php echo C('copyright'); ?></a>
+                    <?php } ?>
+
+
+</div>   <div style="height:50px;"></center>
+
+</div>
+
+    <div id="max-floor">
+       <eq name="vo.dao_11" value=""> <a href="__URL__/signup/subscribe/{$subscribe}/id/{$vo['id']}
+                            <?php 
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html"></eq>
+                            <neq name="vo.dao_11" value=""><a href="{$vo['dao_11']}"></neq>
+
+       
+        <img src="<eq name="vo.ico_1" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/explain_on_1.png</eq><neq name="vo.ico_1" value="">{$vo['ico_1']}</neq>" /><br/>
+        <eq name="vo.dao_1" value="">报名</eq><neq name="vo.dao_1" value="">{$vo['dao_1']}</neq>
+        </a>
+       <eq name="vo.dao_22" value=""><a href="tel:{$vo['tel']}"></eq> <neq name="vo.dao_22" value=""><a href="{$vo['dao_22']}"></neq>    
+        <img src="<eq name="vo.ico_2" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/enroll_on_1.png</eq><neq name="vo.ico_2" value="">{$vo['ico_2']}</neq>" /><br/>
+        <eq name="vo.dao_2" value="">咨询</eq><neq name="vo.dao_2" value="">{$vo['dao_2']}</neq></a>
+        <eq name="vo.dao_33" value="">
+<a id="paihang" href="__URL__/rank/subscribe/{$subscribe}/id/{$vo['id']}">
+</eq>
+<neq name="vo.dao_33" value=""><a  href="{$vo['dao_33']}"></neq>
+        <img src="<eq name="vo.ico_3" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/rank_on_1.png</eq><neq name="vo.ico_3" value="">{$vo['ico_3']}</neq>" /><br/>
+        <eq name="vo.dao_3" value="">排行</eq><neq name="vo.dao_3" value="">{$vo['dao_3']}</neq></a>
+      <eq name="vo.dao_44" value="">   <a onclick="_system._guide(true)"> </eq>   <neq name="vo.dao_44" value=""><a  href="{$vo['dao_44']}"></neq>
+        <img src="<eq name="vo.ico_4" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/iconfont-fenxiang1.png</eq><neq name="vo.ico_4" value="">{$vo['ico_4']}</neq>" /><br/>
+        <eq name="vo.dao_4" value="">点击拉票</eq><neq name="vo.dao_4" value="">{$vo['dao_4']}</neq></a>
+    </div>
+
+
+
+
+<!--投票提示 -->
+<!--div id="vote_notice" class="myDiv" style="display:none">投票成功</div-->
+<div id="notice_vote" style="z-index:99;left:58%;top: 30%;width:250px;height:40px; line-height:40px;color:#fff; font-size:18px;  border-radius: 9px;  background-color: #2dcc70;  margin: 0 auto; text-align:center; font-family:'微软雅黑';margin-left:-150px!important;margin-top:-60px!important;margin-top:0px;position:fixed!important;display:none">投票成功</div>
+<div id="no_follow" style="z-index:99;left:48%;top: 30%;width:315px;height:40px; line-height:40px;margin-left:-150px;margin-right:150px;margin-top:-60px;position:fixed;display:none">{pigcms:$memberNotice}</div>
+<div id="bg" class="bg" style="display:none;"></div>
+<!--投票时的临时记录数据-->
+<input type="hidden" id="stat" value="true" />
+<input type="hidden" id="last_notice" value="" />
+<input type="hidden" id="last_id" value="" />
+
+
+<!--弹出关注层-->
+                    <style> 
+#plug {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999999;
+        }
+
+                    .dzpwrap {
+                    background: none repeat scroll 0 0 #F8F8F8;
+                    border-radius: 1px 1px 1px 1px;
+                    position:absolute;
+                    width: 280px;
+                    }
+                    .dzpwrap .dzptit {
+                    background-image: url("");
+                    background-position: 14px 14px;
+                    background-repeat: no-repeat;
+                    background-size: 24px auto;
+                    font-size: 1.1em;
+                    line-height: 40px;
+                    text-align:center;
+                    padding: 7px 0 0 0px;
+                    }
+                    
+
+                    .dzpwrapcont.dzpwrapcontent {
+                    background-color: #ff403a;
+                    }
+
+                    .dzpwrapcont.dzpwrapcontent img {
+                     max-width:250px;
+                    }   
+
+                    .dzpwrapcont {
+                    padding: 0 14px 16px;
+                    }
+                    .btndzp {
+                    border-radius: 5px 5px 5px 5px;
+                    display: inline-block;
+                    text-decoration: none;
+                    vertical-align: middle;
+                    box-shadow: 0 6px #AB3C3C;
+                    }
+                    .dzpwrapcont .btndzp {
+                    -moz-border-bottom-colors: none;
+                    -moz-border-image: none;
+                    -moz-border-left-colors: none;
+                    -moz-border-right-colors: none;
+                    -moz-border-top-colors: none;
+                    color: #5D5D5D;
+                    display: block;
+                    font-size: 1.6em;
+                    line-height: 36px;
+                    text-align: center;
+                    }
+                    .dzpwrapcont .btnRed {
+                        background:none repeat scroll 0 0 #e8e363;
+                    color: #5c5c5c;
+                    letter-spacing:2px;
+                    font-weight:bold;
+                    margin: 16px 0 0;
+                    }
+                    </style>
+
+<script>
+function loaddzp(){
+$('#plug').show();
+var div =$('.dzpwrap');
+div.css('zIndex',99999999);
+div.css('display','block');
+    div.css('left',parseInt(($(window).width()-div.width())/2));
+    var top = parseInt($(window).scrollTop()+($(window).height()-div.height())/2-45);
+    div.css('top',top);
+
+}
+
+function noplug(){
+      if($(".dzpwrap").css('display')=='block')$(".dzpwrap").css('display','none');
+      $("#plug").hide();
+}
+
+</script>
+
+<div class="dzpwrap" style="display:none">
+    <article >
+        <header class="dzptit">添加我们后,回复【{$vo['keyword']}】参与活动</header> 
+        <section class="dzpwrapcont dzpwrapcontent">
+            <p style="text-align:center;">
+                 <img src="{$vo.wx_picurl}" style="margin:0 auto;" />
+            </p>         
+            <a href="{$vo['wx_url']}" class="btndzp btnRed">如何添加我们 ?</a> 
+            <a id="dzpclose" class="btndzp btnRed" onclick="noplug();">取消,继续浏览</a>
+        </section>
+    </article>
+</div>
+<div style="display: none;" id="plug"></div>
+<!--./弹出关注层-->
+
+
+<style type="text/css">
+
+#cover{display:none;position:absolute;left:0;top:0;z-index:18888;background-color:#000000;opacity:0.7;}
+
+#guide{display:none;position:absolute;right:18px;top:5px;z-index:19999;}
+
+#guide img{width:260px;height:180px;}
+
+</style>
+<div id="cover"></div>
+
+<div id="guide"><img src="__PUBLIC__/images/guide1.png"></div>              
+<script type="text/javascript">
+
+    var _system={
+
+        $$:function(id){return document.getElementById(id);},
+
+   _client:function(){
+
+      return {w:document.documentElement.scrollWidth,h:document.documentElement.scrollHeight,bw:document.documentElement.clientWidth,bh:document.documentElement.clientHeight};
+
+   },
+
+   _scroll:function(){
+
+      return {x:document.documentElement.scrollLeft?document.documentElement.scrollLeft:document.body.scrollLeft,y:document.documentElement.scrollTop?document.documentElement.scrollTop:document.body.scrollTop};
+
+   },
+
+   _cover:function(show){
+
+      if(show){
+
+     this.$$("cover").style.display="block";
+
+     this.$$("cover").style.width=(this._client().bw>this._client().w?this._client().bw:this._client().w)+"px";
+
+
+     this.$$("cover").style.height=(this._client().bh>this._client().h?this._client().bh:this._client().h)+"px";
+
+
+  }else{
+
+
+     this.$$("cover").style.display="none";
+
+
+  }
+
+
+   },
+
+
+   _guide:function(click){
+
+
+      this._cover(true);
+
+
+      this.$$("guide").style.display="block";
+
+
+      this.$$("guide").style.top=(_system._scroll().y+5)+"px";
+
+
+      window.onresize=function(){_system._cover(true);_system.$$("guide").style.top=(_system._scroll().y+5)+"px";};
+
+
+  if(click){_system.$$("cover").onclick=function(){
+
+
+         _system._cover();
+
+
+         _system.$$("guide").style.display="none";
+
+
+ _system.$$("cover").onclick=null;
+
+
+ window.onresize=null;
+
+
+  };}
+
+
+   },
+
+
+   _zero:function(n){
+
+
+      return n<0?0:n;
+
+
+   }
+
+
+}
+
+</script>
+
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,334 @@
+<!--微信分享-->
+
+<?php
+
+
+
+if(C('appid') && C('appsecret')){
+
+
+
+require_once "../Public/weixin/jssdk.php";
+
+$jssdk = new JSSDK(C('appid'), C('appsecret'));
+
+$signPackage = $jssdk->GetSignPackage();
+
+?>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script>
+
+
+
+  wx.config({
+
+    debug: false,
+
+    appId: '<?php echo $signPackage["appId"];?>',
+
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+
+    signature: '<?php echo $signPackage["signature"];?>',
+
+jsApiList: [
+
+        'checkJsApi',
+
+        'onMenuShareTimeline',
+
+        'onMenuShareAppMessage',
+
+        'onMenuShareQQ',
+
+        'onMenuShareWeibo',
+
+        'hideMenuItems',
+
+        'showMenuItems',
+
+        'hideAllNonBaseMenuItem',
+
+        'showAllNonBaseMenuItem',
+
+        'translateVoice',
+
+        'startRecord',
+
+        'stopRecord',
+
+        'onRecordEnd',
+
+        'playVoice',
+
+        'pauseVoice',
+
+        'stopVoice',
+
+        'uploadVoice',
+
+        'downloadVoice',
+
+        'chooseImage',
+
+        'previewImage',
+
+        'uploadImage',
+
+        'downloadImage',
+
+        'getNetworkType',
+
+        'openLocation',
+
+        'getLocation',
+
+        'hideOptionMenu',
+
+        'showOptionMenu',
+
+        'closeWindow',
+
+        'scanQRCode',
+
+        'chooseWXPay',
+
+        'openProductSpecificView',
+
+        'addCard',
+
+        'chooseCard',
+
+        'openCard'
+
+      ]
+
+  });
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+wx_error = 0;
+wx.ready(function () {
+var shareData = {
+title: '{$form.username}-{$vo['title']}',
+desc: '<?php echo compress_html(preg_replace('/[\'\"]/i', '',strip_tags($form['info'])));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/content",array("id"=>$vo['id'],"fid"=>$form['id']))}',
+imgUrl: '{$form['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) { 
+wx_error = 1;
+//alert(res.errMsg); 
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; minimum-scale=1.0; user-scalable=no;" />
+<title>{$form.username}-{$vo['title']}</title>
+<link href="<?php echo C('site_url'); ?>/Home/Tpl/index_pai/pai/css/css.css" type="text/css" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images//touch.css">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery-2.1.3.min.js" type="text/javascript"></script>
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/app.js" type="text/javascript"></script>
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery.masonry.min.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/c2/colorbox.css?ver=0.0.4">
+<script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/static/jquery.colorbox.js?ver=0.0.4"></script>
+        
+        <?php 
+        if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+        ?>
+        <script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}
+$( document  ).ready(function() {
+		if (typeof wx_error == 'undefined') return;
+	    if(wx_error == 1){
+			o_url = window.location.href;
+			n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+			n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+			ChangeUrl(document.title, n_url);
+		}
+
+        });
+        </script>
+        <?php } ?> 
+</head>
+<body>
+    <h1>{$vo['title']}</h1>
+    <div class="box box1">
+	    <neq name="form.picurl" value=""> 
+        <img src="{$form.picurl}" width="100%"/>
+        </neq>
+        <p>{$form.username}</p>
+    </div>
+    <div class="clear"></div>
+    
+    <div class="box box2"><span class="box2-sp1">第1名</span><span class="box2-sp2">{$form.ticket}票</span></div>
+    <div class="clear"></div>
+    
+    <div class="box box3">
+
+
+
+
+					<?php 
+
+					if( (Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])) || C('isConnent') === '0' ){
+					?>
+
+
+					<eq name="vo.isVerify" value="0">
+
+					 <a href="__URL__/vote/vid/{$form['id']}/id/{$vo['id']}" ><div class="box3-r">我要支持</div></a>
+					
+					</eq>
+					<eq name="vo.isVerify" value="1">
+
+					<div class="box3-r" onclick="showVerify({$form['id']},{$vo['id']})">我要支持</div>
+			
+					</eq>
+
+
+					<?php
+					}else{
+					?>
+
+					 <div class="box3-r" onclick="loaddzp()">我要支持</div>
+					
+					<?php
+					}
+					?>
+
+
+
+        <div class="clear"></div>
+        
+        <p>地址：{$form.address}</p> 
+		<p>注：每人每天最多可投1票。</p>
+    </div>
+    <div class="clear"></div>
+    
+    <div class="box box4">
+        
+
+{$vo['info']}  
+
+<div style="text-align:center;">
+                    <a href="" style="color: #5e5e5e;font-size: 1.2em;"><?php echo C('copyright'); ?></a>
+                </div>
+    </div>
+    <div style="height:20px;"></div>
+    <div class="fix"><a href="__URL__/signup/id/{$vo['id']}
+                            <?php 
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html">我要报名</a></div>
+
+<section>
+
+<style>
+.pop{position: absolute;left: 0;top:0;font-size: 14px;
+    font-family: arial,\5b8b\4f53,Microsoft YaHei;
+}}
+.mengceng{position: fixed;left: 0;top:0;background-color: #000; opacity: 0.5; width: 100%;height: 100%;}
+.pop_up{display:block;width:90%;margin:auto;position: fixed;left: 0;right:0;top:0;box-sizing: border-box;top:30%;padding: 15px 10px;background-color: #E34A1A;border-radius: 5px;text-align: center;color: #fff;font-size: 16px;}
+.pop_up .tit_p{font-size: 20px;line-height: 30px;margin-bottom: 5px;}
+.pop_up .tit_txt{line-height: 24px;margin-bottom: 10px;}
+.pop_up .gz_btn{padding: 0 20px;background-color: #fff;border-radius: 5px;color: #E34A1A;line-height: 38px;font-size: 20px;}
+</style>
+<div class="pop" id="guanzhu" style="display:none">
+<div class="mengceng"></div>
+<div class="pop_up" style="top:15%">
+<span class="closed close_pop_up">&nbsp;</span>
+
+
+ <p class="tit_p">如何参与活动</p>
+<p class="tit_txt">长按下方图片，点击识别二维码<br><img src="{$vo['wx_picurl']}" style="width:160px; margin:auto;"><br>进入公众号后，回复【{$vo['keyword']}】进入活动页面进行投票。</p>
+<a href="{$vo['wx_url']}" class="gz_btn">详细了解参与方法</a>
+
+
+</div>
+</div>
+<div class="pop" id="voted" style="display:none;">
+<div class="mengceng"></div>
+</div>
+
+
+<div class="pop" id="voting" style="display:none;">
+<div class="mengceng"></div>
+<div class="pop_up">
+<span class="closed close_pop_up">&nbsp;</span>
+<p class="tit_p" id="voting_title"></p>
+<p class="tit_txt" id="voting_content"></p>
+</div>
+</div>
+
+<div class="share_overmask" style="display: none;">
+<div class="share_arrow"></div>
+<div class="share_words"></div>
+</div>
+</section>
+
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/yxMobileSlider.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(".slider").yxMobileSlider({during:5000,height:300});
+
+function loaddzp(){
+  $("#guanzhu").show();  
+}
+
+$(function() {
+        $("#paihang").click(function(){
+                    $(this).colorbox({iframe:true, width:"90%", height:"90%"});
+                });
+
+
+        });
+
+function showVerify(vid,id){
+     $.colorbox({top:"10px",innerWidth:220,innerHeight:220,iframe:true, href:"/Home/index.php?m=Public&a=lanren_verify&mid=<?php echo $member['m_id'];?>&vid="+vid+"&id="+id});
+}
+
+
+</script>
+
+
+</body>
+</html>

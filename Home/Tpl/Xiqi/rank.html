@@ -1,0 +1,276 @@
+
+
+<!--微信分享-->
+<?php
+
+if($member['m_appid'] && $member['m_appsecret']){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$vo['title']}',
+desc: '<?php echo str_replace(array("\r\n","\'"),array("",""),strip_tags($vo['wx_info']));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/index",array("id"=>$vo['id']))}',
+imgUrl: '{$vo['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) {
+//alert(res.errMsg);
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<title>{$vo['title']}</title>	
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=yes">
+<meta name="format-detection" content="email=no">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery-2.1.3.min.js" type="text/javascript"></script>
+
+<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/css/mobile/common.css" rel="stylesheet" type="text/css"/>
+
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/yxMobileSlider.js" type="text/javascript"></script>
+<script type="text/javascript">
+$( document ).ready(function() {
+    $(".slider").yxMobileSlider({during:5000,height:300});
+});
+</script>
+
+</head>
+<style>
+.slider{display:none;}
+.focus span{width:5px;height:5px;margin-left:5px;border-radius:50%;background:#CDCDCD;font-size:0}
+.focus span.current{background:red;}
+a{text-decoration:none;}
+#max-boxs{position: absolute;top:0;left:0;right:0;bottom:50px;background:#FEE3E4;overflow: auto;}
+#max-floor{position: absolute;height:50px;line-height:10px;left:0;right:0;bottom:0;background:#FFF;font-size:0.9em;}
+#max-floor a{float:left;width:25%;text-align:center;color:#272727;}
+#max-floor a.fon{color:#DF1A23;}
+#max-floor a img{width:36px;}
+</style>
+<body>
+	<div id="max-boxs">
+		<style>
+.f_l{float:left;}
+.f_r{float:right;}
+.f_m{margin:0 auto;}
+.radius{ -moz-border-radius: 3px;      /* Gecko browsers */
+    -webkit-border-radius: 3px;   /* Webkit browsers */
+    border-radius:3px;            /* W3C syntax */
+}
+
+.shadow{
+-moz-box-shadow: 0.5px 3px 3px 1px #9AA9C5; /* 老的 Firefox */
+box-shadow: 0.5px 3px 3px 1px #9AA9C5;
+-webkit-box-shadow: 0.5px 3px 3px 1px #9AA9C5;
+}
+
+.vote_box{overflow:hidden;}
+.adv{width:100%;overflow:hidden;}
+.adv a,.adv a img{display:block;width:100%;}
+
+.dis_none{display:none;}
+
+.rank_box{overflow:hidden;padding:30px 0;background:#FEE3E4;}
+.rankb_li{width:90%;height:80px;margin:30px auto;position: relative;}
+.rb_l_img{position: absolute;width:120px;height:120px;top:-20px;left:0;}
+.rb_l_img img,.rb_r_img img{display:block;
+-moz-border-radius: 60px;      /* Gecko browsers */
+-webkit-border-radius: 60px;   /* Webkit browsers */
+border-radius:60px; 
+}
+
+.rank{width:36px;height:36px;background:#FFF;
+-moz-border-radius: 18px;      /* Gecko browsers */
+-webkit-border-radius: 18px;   /* Webkit browsers */
+border-radius:18px; 
+text-align:center;
+line-height:36px;
+font-family:"黑体";
+color:#DF1A23;
+font-size:2.0em;
+position: absolute;
+top:10px;
+}
+.rb_l_rank{
+    right:-5px;
+}
+.rb_r_rank{
+
+    left:-5px;
+}
+.king{
+position: absolute;
+width:38px;
+height:28px;
+top:-13px;
+right:-6px;
+background:url("images/mobile/vote/king.png") center center no-repeat;
+z-index:888;
+}
+.rb_r_img{position: absolute;width:120px;height:120px;top:-20px;right:0;}
+
+.rb_l_txt{margin-left: 105px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 1.0em;
+    color: #DF1A23;}
+.rb_r_txt{margin-right:130px;height:80px;line-height:80px;font-size:1.2em;color:#DF1A23;text-align:right;}
+.rb_l_txt span,.rb_r_txt span{font-size:0.7em;background:#DF1A23;color:#FFF;margin-left:10px;padding:5px 10px;}
+.shadow{width:100px;height:100px;}
+</style>
+<div class="vote_box">
+
+    <div class="slider">
+    <ul>
+    <volist name="ad" id="adlist">
+    <li><a href="{$adlist['url']}"><img src="{$adlist['picurl']}" /></a></li>
+    </volist>
+    </ul>
+    </div>  
+   
+  	
+    <div class="rank_box">
+<?php $i=1;$tmp=99999;?>
+	  <volist id="vo1" name="list">
+
+
+                <div class="rankb_li">
+            <div class="<?php if($i%2==0){echo 'rb_r_img';}else{echo 'rb_l_img';} ?>"><a href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                            <?php
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html"><img class="shadow" src="{$vo1.picurl}"/></a><div class="<?php if($i%2==0){echo 'rb_r_rank';}else{echo 'rb_l_rank';} ?>  rank"><?php echo $i;?></div></div>
+            <div class="rb_l_txt">{$vo1['username']}<font style="font-size:0.6em;margin-left:5px;">{$vo1['num']}号</font><span class="radius">{$vo1['ticket']}票</span></div>
+        </div>
+
+
+ <?php 
+		if($tmp == $vo1['ticket']){
+			continue;
+		}
+		$tmp = $vo1['ticket'];
+		//$i++;
+		?>
+		</volist>
+
+    </div>
+</div>
+
+<script>
+//function setLRImageHeight(){
+//	var width = $(".shadow").width();
+//	$(".shadow").height(width);
+//}
+//$(function(){
+//	setLRImageHeight();
+//	
+//});
+</script>	</div>
+    <div id="max-floor">
+        <eq name="vo.dao_11" value=""> <a href="__URL__/signup/subscribe/{$subscribe}/id/{$vo['id']}
+                            <?php 
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html"></eq>
+                            <neq name="vo.dao_11" value=""><a href="{$vo['dao_11']}"></neq>
+
+       
+        <img src="<eq name="vo.ico_1" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/explain_on_1.png</eq><neq name="vo.ico_1" value="">{$vo['ico_1']}</neq>" /><br/>
+        <eq name="vo.dao_1" value="">报名</eq><neq name="vo.dao_1" value="">{$vo['dao_1']}</neq>
+        </a>
+       <eq name="vo.dao_22" value=""><a href="tel:{$vo['tel']}"></eq> <neq name="vo.dao_22" value=""><a href="{$vo['dao_22']}"></neq>    
+        <img src="<eq name="vo.ico_2" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/enroll_on_1.png</eq><neq name="vo.ico_2" value="">{$vo['ico_2']}</neq>" /><br/>
+        <eq name="vo.dao_2" value="">咨询</eq><neq name="vo.dao_2" value="">{$vo['dao_2']}</neq></a>
+        <eq name="vo.dao_33" value="">
+<a id="paihang" href="__URL__/rank/subscribe/{$subscribe}/id/{$vo['id']}">
+</eq>
+<neq name="vo.dao_33" value=""><a  href="{$vo['dao_33']}"></neq>
+        <img src="<eq name="vo.ico_3" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/rank_on_1.png</eq><neq name="vo.ico_3" value="">{$vo['ico_3']}</neq>" /><br/>
+        <eq name="vo.dao_3" value="">排行</eq><neq name="vo.dao_3" value="">{$vo['dao_3']}</neq></a>
+      <eq name="vo.dao_44" value="">   <a onclick="_system._guide(true)"> </eq>   <neq name="vo.dao_44" value=""><a  href="{$vo['dao_44']}"></neq>
+        <img src="<eq name="vo.ico_4" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/hongse/images/mobile/vote/iconfont-fenxiang1.png</eq><neq name="vo.ico_4" value="">{$vo['ico_4']}</neq>" /><br/>
+        <eq name="vo.dao_4" value="">点击拉票</eq><neq name="vo.dao_4" value="">{$vo['dao_4']}</neq></a>
+    </div>
+</body>
+</html>
+

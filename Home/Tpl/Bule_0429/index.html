@@ -1,0 +1,684 @@
+<!--微信分享-->
+<?php
+
+if($member['m_appid'] && $member['m_appsecret']){
+
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+  wx.config({
+    debug: false,
+    appId: '<?php echo $signPackage["appId"];?>',
+    timestamp: <?php echo $signPackage["timestamp"];?>,
+    nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+    signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+      ]
+  });
+
+</script>
+
+
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$vo['title']}',
+desc: '<?php echo str_replace(array("\r\n","\'"),array("",""),strip_tags($vo['wx_info']));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/index",array("id"=>$vo['id']))}',
+imgUrl: '{$vo['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) { 
+//alert(res.errMsg); 
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+o_url = window.location.href;
+n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+ChangeUrl(document.title, n_url);
+<?php } ?>
+
+}
+
+);
+</script>
+
+<?php
+}
+?>
+<!--END 微信分享-->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta charset="utf-8">
+    <title>{$vo['title']}</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/qiutian/style.css">
+	        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery-2.1.3.min.js" type="text/javascript"></script>
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/app.js" type="text/javascript"></script>
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/jquery.masonry.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/c2/colorbox.css">
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/static/jquery.colorbox.js" type="text/javascript"></script>
+</head>
+<body>
+<?php 
+        if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+        ?>
+        <script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}
+        </script>
+        <?php } ?>
+
+ <neq name="vo.music" value="">
+       <input style="display:none" type="text" id="audiofile" size="80" value="{$vo['music']}">
+          <div class="music" id="music" ontouchstart="musicControls();">
+                 <audio id="audio" loop="loop" style="display:none;width:0;height:0;"  oncanplay="canplay();"></audio>
+                 </div>
+                 <script>
+                    var audio = document.getElementById("audio");
+                    var music = document.getElementById("music");
+                    music.played = 0;
+                    function musicControls(){
+                            audio.src = document.getElementById('audiofile').value;
+                            if(music.played == 0){
+                                   audio.play();
+                                   music.className = music.className.replace(" musicstop","");
+                                   music.className = music.className + " musicplay";
+                                   music.played = undefined;
+
+                            }else{
+                                 audio.pause();
+                                 music.className = music.className.replace(" musicplay","");
+                                 music.className = music.className + " musicstop";
+                                 music.played = 0;
+
+                            }
+
+                    }
+function canplay(){
+     music.className = music.className + " musicplay";
+
+}
+<eq name="vo.isPlay" value="1">
+    $( document ).ready(function() {
+    musicControls();
+    });
+</eq>
+</script>
+
+<literal>
+<style>
+.music {
+        background: url("<?php echo C('site_url'); ?>/Home/Tpl/Index/c2/music.png") no-repeat scroll 0 0 transparent;
+           background-size:34px;
+              top: 20px;
+                 height: 34px;
+                    position: fixed;
+                       right: 20px;
+                          width: 34px;
+                             z-index: 999;
+                                
+}
+  .musicplay{-webkit-animation:musicplay 1.2s linear 0s infinite;animation:musicplay 1.2s linear infinite;}
+    .musicstop{-webkit-animation:musicstop 1.2s linear 0s infinite;animation:musicstop 1.2s linear infinite;}
+    @keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @-webkit-keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+    @-webkit-keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+      </style>
+        </literal>
+
+        </neq>
+
+
+             <neq name="ad" value="">
+                <div class="slider">
+                <ul>
+                <volist name="ad" id="adlist">
+                <li><a href="{$adlist['url']}"><img  src="{$adlist['picurl']}" /></a></li>
+                </volist>
+                </ul>
+                </div>
+                </neq>
+
+
+
+<article id="index">
+    <section class="content" id="get_info" data-rid="503" data-sort="" data-kw="" data-page="">
+        <div class="num-box">
+            <ul>
+                <li>
+                    <span>已报名</span>
+                    <b>{$vo['person']}</b>
+                </li>
+                <li>
+                    <span>投票人次</span>
+                    <b>{$vo['tickets']}</b>
+                </li>
+                <li>
+                    <span>围观次数</span>
+                    <b>{$vo['count']}</b>
+                </li>
+            </ul>
+        </div>
+      <form action="{:U("Index/content")}" id="search_form" method="get">
+		<input type="hidden" name="id" value="{$vo.id}" />
+		<input type="hidden" name="subscribe" value="{$subscribe}" />
+
+
+    <div class="search_con">
+        <input type="search" id="searchText" value="" name="keyword" autocomplete="off" placeholder="输入选手姓名或编号">
+        <input type="submit" name="seachid" id="searchBtn" value="搜索">
+    </div>
+</form>        <div class="order">
+            <a href="{:U("Index/index",array("id"=>$vo['id'],"_order"=>"addtime"))}" class="active">最新参赛</a>
+            <!--<a href="/appvote?m=loseweight&s=2&site=2" >周排名</a>-->
+            <a href="{:U("Index/index",array("id"=>$vo['id'],"_order"=>"ticket"))}" >总排名</a>
+        </div>
+                <div class="contentList">
+                    <ul class="list list-boxL">
+
+
+
+
+                        <volist id="vo1" name="list" mod="2">
+                        <eq name="mod" value="0">
+                        <li>
+                        <div class="item">
+                            <div class="item-header">
+                                <div>
+                                    <p>{$vo1['username']}</p>
+                                    <p>{$vo1['num']}号</p>
+                                </div>
+                            </div>
+                            <a href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                                <?php 
+
+                                if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                                }
+
+                                ?>.html" class="img">
+                                <img src="{$vo1['picurl']}">
+                            </a>
+                            <div class="info">
+                                <div>
+                                    <p> {$vo1['ticket']}票</p>
+                                    <p>围观:{$vo1['view']}</p> 
+                                </div>
+
+
+                                <?php 
+                                if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+                                ?>
+                                <eq name="vo.isVerify" value="0">
+                                <a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"  class="votebutton">投票</a>
+                                </eq>
+                                <eq name="vo.isVerify" value="1">
+                                <a href="javascript:void(0);"  onclick="showVerify({$vo1['id']},{$vo['id']})" class="votebutton">投票</a>
+                                </eq>
+                                <?php
+                                }else{
+                                ?>
+                                <a href="javascript:void(0);" class="votebutton" onclick="loaddzp()">投票</a>
+                                <?php
+                                }
+                                ?>
+
+
+                            </div>
+                        </div>
+                        </li>
+                        </eq>
+                        </volist>
+
+                    </ul>
+                    <ul class="list list-boxR">
+
+
+
+
+                        <volist id="vo1" name="list" mod="2">
+                        <eq name="mod" value="1">
+                        <li>
+                        <div class="item">
+                            <div class="item-header">
+                                <div>
+                                    <p>{$vo1['username']}</p>
+                                    <p>{$vo1['num']}号</p>
+                                </div>
+                            </div>
+                            <a href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                                <?php 
+
+                                if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                                }
+
+                                ?>.html" class="img">
+                                <img src="{$vo1['picurl']}">
+                            </a>
+                            <div class="info">
+                                <div>
+                                    <p> {$vo1['ticket']}票</p>
+                                    <p>围观:{$vo1['view']}</p> 
+                                </div>
+
+
+                                <?php 
+                                if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+                                ?>
+                                <eq name="vo.isVerify" value="0">
+                                <a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"  class="votebutton">投票</a>
+                                </eq>
+                                <eq name="vo.isVerify" value="1">
+                                <a href="javascript:void(0);"  onclick="showVerify({$vo1['id']},{$vo['id']})" class="votebutton">投票</a>
+                                </eq>
+                                <?php
+                                }else{
+                                ?>
+                                <a href="javascript:void(0);" class="votebutton" onclick="loaddzp()">投票</a>
+                                <?php
+                                }
+                                ?>
+
+
+                            </div>
+                        </div>
+                        </li>
+                        </eq>
+                        </volist>
+
+                </ul>
+            
+            
+            </div>
+        <div class="pagination pagination-centered"> {$page} </div>    </section>
+    
+        <div id="repeat">
+        <article class="award repeat">
+            <div class="title">
+                <div class="title-line">
+                    <div><h4>活动规则</h4></div>
+                </div>
+            </div>
+            <div class="award-det">
+                 {$vo['info']}  
+<BR>
+				 <div style="text-align:center;">
+                    <?php
+                    if($member['m_copyright']){
+                    ?>
+                        <a href="#" style="color: #5e5e5e;font-size: 14px;">{$member.m_copyright}</a>
+                    <?php
+                    }else{
+                    ?>  
+                        <a href="http://toupiao.lanrenmb.com/m/" style="color: #ff7b35;font-size: 14px;"><?php echo C('copyright'); ?></a>
+                    <?php } ?>
+                </div>
+            </div>
+        </article>
+  </div>
+</article>
+
+<div class="rule-buttonbox">
+<eq name="vo.dao_22" value="">
+    <a class="rule-button" href="tel:{$vo['tel']}"></eq> <neq name="vo.dao_22" value=""><a class="rule-button" href="{$vo['dao_22']}"></neq>
+	
+	<eq name="vo.dao_2" value="">在线<BR>客服</eq><neq name="vo.dao_2" value="">{$vo['dao_2']}</neq>
+	
+	</a>
+</div>
+
+<section class="rule repeat" >
+    <div class="title">
+        <div class="title-line">
+            <div><h4>活动规则</h4></div>
+        </div>
+    </div>
+    <div class="rule-det">
+       {$vo['info']}  
+
+	   
+
+
+
+
+    </div>
+    
+ 
+</section>
+
+
+<section>
+
+<style>
+
+.pop{position: absolute;left: 0;top:0;}
+.mengceng{position: fixed;left: 0;top:0;background-color: #000; opacity: 0.5; width: 100%;height: 100%;}
+.pop_up{display:block;width:90%;margin:auto;position: fixed;left: 0;right:0;top:0;box-sizing: border-box;top:30%;padding: 15px 10px;background-color: #f95d0a;border-radius: 5px;text-align: center;color: #fff;font-size: 16px;}
+.pop_up .tit_p{font-size: 20px;line-height: 30px;margin-bottom: 5px;}
+.pop_up .tit_txt{line-height: 24px;margin-bottom: 10px;}
+.pop_up .gz_btn{padding: 0 20px;background-color: #fff;border-radius: 5px;color: #f95d0a;line-height: 38px;font-size: 20px;}
+
+</style>
+<div class="pop" id="guanzhu" style="display:none">
+<div class="mengceng"></div>
+
+<div class="pop_up">
+		
+                        <p class="tit_p">如何参与活动</p>
+            <p class="tit_txt">长按下方图片，点击识别二维码<br><img src="{$vo['wx_picurl']}" style="width:160px; margin:auto;"><br>进入公众号后，回复【{$vo['keyword']}】进入活动页面进行投票。</p>
+            <a href="{$vo['wx_url']}" class="gz_btn">详细了解参与方法</a>
+                    </div>
+    </div>
+
+
+
+<div class="pop" id="voted" style="display:none;">
+<div class="mengceng"></div>
+</div>
+
+
+<div class="pop" id="voting" style="display:none;">
+<div class="mengceng"></div>
+<div class="pop_up">
+<span class="closed close_pop_up">&nbsp;</span>
+<p class="tit_p" id="voting_title"></p>
+<p class="tit_txt" id="voting_content"></p>
+</div>
+</div>
+
+<div class="share_overmask" style="display: none;">
+<div class="share_arrow"></div>
+<div class="share_words"></div>
+</div>
+</section>
+
+
+
+
+
+<section id="buttonArea">
+    <div class="blankdiv"></div>
+        <nav class="bottomBar">
+        <div>
+<eq name="vo.dao_33" value=""><a id="paihang" href="__URL__/rank/id/{$vo['id']}"></eq> <i class="icon"></i> 
+
+
+<eq name="vo.dao_3" value="">排行榜</eq><neq name="vo.dao_3" value="">{$vo['dao_3']}</neq>
+
+</a>
+           
+			
+			
+			<eq name="vo.dao_44" value="">   <a onclick="_system._guide(true)"> </eq>   <neq name="vo.dao_44" value=""><a  href="{$vo['dao_44']}"></neq>               <i class="icon"></i><eq name="vo.dao_4" value="">点击拉票</eq><neq name="vo.dao_4" value="">{$vo['dao_4']}</neq></a>
+
+
+
+
+
+
+<eq name="vo.dao_11" value=""> <a class="myjoin" href="__URL__/signup/subscribe/{$subscribe}/id/{$vo['id']}
+                            <?php 
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html" class="middle"></eq>
+                            <neq name="vo.dao_11" value=""><a class="myjoin" href="{$vo['dao_11']}" class="middle"></neq>
+
+                     <span><eq name="vo.dao_1" value="">我要参加</eq><neq name="vo.dao_1" value="">{$vo['dao_1']}</neq></span></a>
+
+
+
+        </div>
+    </nav>
+    </section>
+
+
+
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/images/yxMobileSlider.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(".slider").yxMobileSlider({during:5000,height:640});
+
+function loaddzp(){
+  $("#guanzhu").show();  
+}
+
+$(function() {
+$("#paihang").click(function(){
+        $(this).colorbox({top:"15px",iframe:true,width:"90%", height:"90%"});
+
+        });
+});
+
+var container = $('#pageCon ul');
+container.imagesLoaded(function(){
+        container.masonry({
+                                itemSelector: '.picCon'
+                                            
+                });
+                
+        });
+
+function showVerify(vid,id){
+     $.colorbox({top:"10px",innerWidth:220,innerHeight:220,iframe:true, href:"/Home/index.php?m=Public&a=lanren_verify&mid=<?php echo $member['m_id'];?>&vid="+vid+"&id="+id});
+}
+
+
+</script>
+
+
+
+
+
+
+
+                
+<style type="text/css">
+
+#cover{display:none;position:absolute;left:0;top:0;z-index:18888;background-color:#000000;opacity:0.7;}
+
+#guide{display:none;position:absolute;right:18px;top:5px;z-index:19999;}
+
+#guide img{width:260px;height:180px;}
+
+</style>
+<div id="cover"></div>
+
+<div id="guide"><img src="__PUBLIC__/images/guide1.png"></div>              
+<script type="text/javascript">
+
+    var _system={
+
+        $$:function(id){return document.getElementById(id);},
+
+   _client:function(){
+
+      return {w:document.documentElement.scrollWidth,h:document.documentElement.scrollHeight,bw:document.documentElement.clientWidth,bh:document.documentElement.clientHeight};
+
+   },
+
+   _scroll:function(){
+
+      return {x:document.documentElement.scrollLeft?document.documentElement.scrollLeft:document.body.scrollLeft,y:document.documentElement.scrollTop?document.documentElement.scrollTop:document.body.scrollTop};
+
+   },
+
+   _cover:function(show){
+
+      if(show){
+
+     this.$$("cover").style.display="block";
+
+     this.$$("cover").style.width=(this._client().bw>this._client().w?this._client().bw:this._client().w)+"px";
+
+
+     this.$$("cover").style.height=(this._client().bh>this._client().h?this._client().bh:this._client().h)+"px";
+
+
+  }else{
+
+
+     this.$$("cover").style.display="none";
+
+
+  }
+
+
+   },
+
+
+   _guide:function(click){
+
+
+      this._cover(true);
+
+
+      this.$$("guide").style.display="block";
+
+
+      this.$$("guide").style.top=(_system._scroll().y+5)+"px";
+
+
+      window.onresize=function(){_system._cover(true);_system.$$("guide").style.top=(_system._scroll().y+5)+"px";};
+
+
+  if(click){_system.$$("cover").onclick=function(){
+
+
+         _system._cover();
+
+
+         _system.$$("guide").style.display="none";
+
+
+ _system.$$("cover").onclick=null;
+
+
+ window.onresize=null;
+
+
+  };}
+
+
+   },
+
+
+   _zero:function(n){
+
+
+      return n<0?0:n;
+
+
+   }
+
+
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+

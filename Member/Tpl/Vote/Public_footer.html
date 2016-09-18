@@ -1,0 +1,97 @@
+
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 2.3.0
+        </div>
+        <strong>Copyright &copy; 2014-2020 <a href="http://www.lanrenmb.com"><?php echo C('copyright');?></a>.</strong> All rights reserved.
+      </footer>
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <!-- Home tab content -->
+          <div class="tab-pane" id="control-sidebar-home-tab">
+            
+         
+          </div><!-- /.tab-pane -->
+    
+        </div>
+      </aside><!-- /.control-sidebar -->
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+
+
+
+
+
+    <!-- Bootstrap 3.3.5 -->
+    <script src="__PUBLIC__/bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="__PUBLIC__/plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__PUBLIC__/dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__PUBLIC__/dist/js/demo.js"></script>
+
+
+<!--dialog-->
+<div id="lr_confirm" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body" id="lr_config_msg">
+         Are you sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="lr_del">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function lr_confirm(msg,url){
+ $("#lr_config_msg").html(msg);
+ $('#lr_confirm').modal({backdrop: 'static', keyboard: false })
+        .one('click', '#lr_del', function (e) {
+            location.href = url;
+        });
+}
+</script>
+<!--/.dialog-->
+
+
+
+<script src="__PUBLIC__/misc/jquery.validate.js" type="text/javascript"></script>
+<script src="__PUBLIC__/misc/regional.zh.js" type="text/javascript"></script>
+<style type="text/css">
+span.error {   overflow:hidden; width:165px; height:21px; padding:0 3px; line-height:21px; background:#F00; color:#FFF; top:5px; left:318px;}
+label.alt {display:block; overflow:hidden; position:absolute;line-height:20px}
+.textInput, input.focus, input.required, input.error, input.readonly, input.disabled,
+</style>
+
+<script type="text/javascript">
+$.validator.setDefaults({errorElement:"span"});
+$(document).ready(function()
+{
+  $('#sub').click (function () {
+    var $form=$("#form1");
+    if(!$form.valid()){
+    return false;}
+    $("form").submit();
+  });
+}); 
+</script>
+
+
+
+
+
+
+
+
+

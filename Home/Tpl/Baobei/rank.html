@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>{$vo['title']}  - 排行榜</title>
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+        <meta name="HandheldFriendly" content="true" />
+        <meta name="MobileOptimized" content="width" />
+        <meta id="viewport" content="width=device-width, user-scalable=no,initial-scale=1" name="viewport" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="telephone=no" name="format-detection" />
+        <link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/css/index.css" type="text/css" rel="stylesheet"/>
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/js/jquery.min.js"></script>
+    </head>
+    <body>
+	 <literal>
+    	<style>
+            .loading{ position:fixed;top:0;left:0;background-color:#7f46ff;width:100%; height:100%; z-index:999999999}
+            .load_box{position:absolute; top:50%; left:0; width:100%}
+            .loading .spinner{margin:0 auto;width:64px;height:64px;position:relative;}
+            .loading .color{background:#fff;}
+            .loading .cube1,.loading .cube2{width:30px;height:30px;position:absolute;top:0;left:0;-webkit-animation:cubemove 1.8s infinite ease-in-out;animation:cubemove 1.8s infinite ease-in-out;}
+            .loading .cube2{-webkit-animation-delay:-0.9s;animation-delay:-0.9s;}
+            .loading .load_text{margin-top:25px}
+            @-webkit-keyframes cubemove{25%{-webkit-transform:translateX(42px) rotate(-90deg) scale(0.5)}50%{-webkit-transform:translateX(42px) translateY(42px) rotate(-180deg)}75%{-webkit-transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5)}100%{-webkit-transform:rotate(-360deg)}}
+            @keyframes cubemove{25%{transform:translateX(42px) rotate(-90deg) scale(0.5);-webkit-transform:translateX(42px) rotate(-90deg) scale(0.5);}50%{transform:translateX(42px) translateY(42px) rotate(-179deg);-webkit-transform:translateX(42px) translateY(42px) rotate(-179deg);}50.1%{transform:translateX(42px) translateY(42px) rotate(-180deg);-webkit-transform:translateX(42px) translateY(42px) rotate(-180deg);}75%{transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);-webkit-transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);}100%{transform:rotate(-360deg);-webkit-transform:rotate(-360deg);}}
+        </style>
+       </literal>  
+        
+        <div class="page">
+        	
+		<volist name="ad" id="adlist">
+ 
+        	<img src="{$adlist['picurl']}" class="img100"/>
+            
+  </volist>
+
+
+
+            <div class="searchArea" style="margin-top:0">
+
+<form action="{:U("Index/content")}" id="search_form" method="get">
+ <input type="hidden" name="id" value="{$vo.id}" />
+<input type="hidden" name="subscribe" value="{$subscribe}" />
+
+
+                <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/searchInput.png" class="img100 searchBut"/>
+ 
+
+                <input style="height:26px;line-height:26px;width:80%;" type="search" class="seacontent" id="searchText" value="" name="keyword" placeholder="请输入姓名/编号"/>
+
+
+                 <input type="submit" name="seachid" id="searchBtn" value="" class="searchBut_a" style="position:absolute; right:0; top:0; bottom:0;  width:18%;left:80%">
+ </form>
+
+
+            </div>
+			
+            <div class="clr tj text-center">
+				<br/>            </div>
+            
+            <div class="bmCont">
+            	<ul class="clr lsUl">
+                    <li class="text-center clr">
+                    	<ul class="insideUL">
+                        	<li><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/1.png"/></li>
+                            <li><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/2.png"/></li>
+                            <li><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/3.png"/></li>
+                            <li><img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/baobei/images/4.png"/></li>
+                        </ul>
+                    </li>
+					
+										
+
+
+
+
+ <?php $i=1;$tmp=99999;?>
+	  <volist id="vo1" name="list">
+
+
+                    <li class="text-center clr">
+                    	<ul class="insideUL" style="font-size:90%;">
+                        	<li>{$vo1['num']}</li>
+                            <li>{$vo1['username']}</li>
+                            <li>{$vo1['ticket']}</li>
+                            <li><?php echo $i;?></li>
+                        </ul>
+                    </li>
+					
+
+
+ <?php 
+		if($tmp == $vo1['ticket']){
+			continue;
+		}
+		$tmp = $vo1['ticket'];
+		//$i++;
+		?>
+		</volist>
+
+
+					                </table>
+            </div>
+            
+        </div><br>
+     <div style="text-align:center;">
+                    <a href="http://tp.lanrenmb.com" style="color: #5e5e5e;font-size: 14px;"><?php echo C('copyright'); ?></a>
+                </div>
+    </body>
+</html>

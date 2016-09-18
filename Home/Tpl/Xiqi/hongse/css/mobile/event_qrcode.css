@@ -1,0 +1,17 @@
+.notice{display:none;background:#000;position: fixed;top:0;bottom:0;opacity:0.7;color:#fff;z-index:4;padding:0 2%;  text-indent: 25px;max-width: 100%;overflow: hidden;}
+.qrcode_img{display: block;width: 100%;height: 50%;}
+.qrcode_img img{width:40%; max-width: 150px;height:auto;margin:0 auto;}
+.notices{background:#000;position: fixed;top:0;opacity:0.7;color:#fff;z-index:4;padding:0 2%;bottom:0;left:0;right:0;}
+.share{display:block;}
+.yixia{font-size:0.9em;}
+.draw_box_bottom{width:90%;display:block;margin:0 auto;position:relative;top:-90px;}
+.p_conent{position: absolute;top: 0;left: 0;bottom: 0;right: 0;display: block;z-index: 5;}
+.draw_foot{  width: 80%;margin: 1% 10% 1% 10%;text-align: center;height: auto;}
+.draw_foot .p{height:20px;line-height:20px;width:100%;color:#FFF;font-size:0.8em;}
+.draw_foot .start{background-color:#ffd438;width:90%;margin:0 auto;height:30px;line-height:30px;color:#c26424;;  border-radius: 5px;}
+.info_content{width:70%;padding:5px 5%;position: relative;;margin-top:15%;left:10%;background:#FFF;border-radius: 5px;min-height:230px;max-height:70%;z-index:5;}
+.close{width:14px;height:14px;position:absolute;top:12px;right:12px;background:url(../../images/mobile/draw/close.png);background-size:100% 100%;background-repeat:no-repeat;}
+.prizes_icon{width:80px;height:80px;position:absolute;top:-30px;right:40%;background:url(../../images/mobile/draw/p_max.png);background-size:100% 100%;background-repeat:no-repeat;}
+.draw_foot{margin-top:2%;}
+.win_content {width: 100%;height: 60%;position: fixed;top: 20%;left: 0;z-index: 5;text-align: center;}
+.win_name {color: #FFF;margin: 5%;}

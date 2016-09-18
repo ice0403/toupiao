@@ -1,0 +1,704 @@
+<!--微信分享-->
+<?php
+if($member['m_appid'] && $member['m_appsecret']){
+require_once "../Public/weixin/jssdk.php";
+$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+$signPackage = $jssdk->GetSignPackage();
+?>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+wx.config({
+debug: false,
+appId: '<?php echo $signPackage["appId"];?>',
+timestamp: <?php echo $signPackage["timestamp"];?>,
+nonceStr: '<?php echo $signPackage["nonceStr"];?>',
+signature: '<?php echo $signPackage["signature"];?>',
+jsApiList: [
+'checkJsApi',
+'onMenuShareTimeline',
+'onMenuShareAppMessage',
+'onMenuShareQQ',
+'onMenuShareWeibo',
+'hideMenuItems',
+'showMenuItems',
+'hideAllNonBaseMenuItem',
+'showAllNonBaseMenuItem',
+'translateVoice',
+'startRecord',
+'stopRecord',
+'onRecordEnd',
+'playVoice',
+'pauseVoice',
+'stopVoice',
+'uploadVoice',
+'downloadVoice',
+'chooseImage',
+'previewImage',
+'uploadImage',
+'downloadImage',
+'getNetworkType',
+'openLocation',
+'getLocation',
+'hideOptionMenu',
+'showOptionMenu',
+'closeWindow',
+'scanQRCode',
+'chooseWXPay',
+'openProductSpecificView',
+'addCard',
+'chooseCard',
+'openCard'
+]
+});
+</script>
+<script type="text/javascript">
+wx.ready(function () {
+var shareData = {
+title: '{$vo['title']}',
+desc: '<?php echo str_replace(array("\r\n","\'"),array("",""),strip_tags($vo['wx_info']));?>',
+link: '<?php echo C('site_url'); ?>{:U("Index/index",array("id"=>$vo['id']))}',
+imgUrl: '{$vo['picurl']}'
+};
+wx.onMenuShareAppMessage(shareData);
+wx.onMenuShareTimeline(shareData);
+wx.onMenuShareQQ(shareData);
+wx.onMenuShareWeibo(shareData);
+});
+wx.error(function (res) {
+//alert(res.errMsg);
+<?php
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token   ?>
+o_url = window.location.href;
+n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+ChangeUrl(document.title, n_url);
+<?php } ?>
+}
+);
+</script>
+<?php
+}
+?>
+<!--END 微信分享-->
+<?php
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+?>
+<script type="text/javascript">
+function ChangeUrl(page, url) {
+if (typeof (history.pushState) != "undefined") {
+var obj = { Page: page, Url: url  };
+history.pushState(obj, obj.Page, obj.Url);
+} else {
+alert("Browser does not support HTML5.");
+}
+}
+</script>
+<?php } ?>
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no，minimal-ui">
+
+	<link href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/css/style.css" rel="stylesheet">
+
+	<!--通用js-->
+		<link rel="stylesheet" type="text/css" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/css/style.css"/>
+        <script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/jquery-1.4.2.min.js"></script>
+        <link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/c2/colorbox.css">
+        <script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/static/jquery.colorbox.js" type="text/javascript"></script>
+        <!--END通用js-->
+
+    <title>{$vo['title']}</title>
+</head>
+<body>
+
+
+<!--music-->
+    <neq name="vo.music" value="">
+       <input style="display:none" type="text" id="audiofile" size="80" value="{$vo['music']}">
+          <div class="music" id="music" ontouchstart="musicControls();">
+                 <audio id="audio" loop="loop" style="display:none;width:0;height:0;"  oncanplay="canplay();"></audio>
+                 </div>
+                 <script>
+                    var audio = document.getElementById("audio");
+                    var music = document.getElementById("music");
+                    music.played = 0;
+                    function musicControls(){
+                            audio.src = document.getElementById('audiofile').value;
+                            if(music.played == 0){
+                                   audio.play();
+                                   music.className = music.className.replace(" musicstop","");
+                                   music.className = music.className + " musicplay";
+                                   music.played = undefined;
+
+                            }else{
+                                 audio.pause();
+                                 music.className = music.className.replace(" musicplay","");
+                                 music.className = music.className + " musicstop";
+                                 music.played = 0;
+
+                            }
+
+                    }
+function canplay(){
+     music.className = music.className + " musicplay";
+
+}
+<eq name="vo.isPlay" value="1">
+    $( document ).ready(function() {
+    musicControls();
+    });
+</eq>
+</script>
+
+<literal>
+<style>
+.music {
+        background: url("<?php echo C('site_url'); ?>/Home/Tpl/Index/c2/music.png") no-repeat scroll 0 0 transparent;
+           background-size:34px;
+              top: 20px;
+                 height: 34px;
+                    position: fixed;
+                       right: 20px;
+                          width: 34px;
+                             z-index: 999;
+                                
+}
+  .musicplay{-webkit-animation:musicplay 1.2s linear 0s infinite;animation:musicplay 1.2s linear infinite;}
+    .musicstop{-webkit-animation:musicstop 1.2s linear 0s infinite;animation:musicstop 1.2s linear infinite;}
+    @keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @-webkit-keyframes musicplay{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(-360deg);transform:rotateZ(-360deg);}
+               
+    }
+    @keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+    @-webkit-keyframes musicstop{
+           0%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+             100%{-webkit-transform:rotateZ(0deg);transform:rotateZ(0deg);}
+               
+    }
+      </style>
+        </literal>
+
+        </neq>
+
+<!--END music-->
+
+
+
+
+<!--广告-->
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.css">
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.min.js"></script>
+<div class="form-group">
+    <style>
+    .swiper-container{width:100%;color:#fff;text-align:center;}.pagination{position:absolute;z-index:20;right:10px;}.swiper-pagination-switch{display:inline-block;width:5px;height:5px;border-radius:5px;background:#222;margin-right:5px;opacity:0.8;border:1px solid #fff;cursor:pointer;}.swiper-visible-switch{background:#aaa;}.swiper-active-switch{background:#fff;}
+    .imgplay{width:100%}
+    </style>
+    <div id="content" style="max-width: 640px;margin: 0 auto;     padding-top: 0px;">
+        <!--headpic-->
+        <div class="swiper-container" style="display:block;">
+            <div class="swiper-wrapper">
+                <volist name="ad" id="adlist">
+                <div class="swiper-slide">
+                    <a href="{$adlist['url']}"><img class="imgplay" src="{$adlist['picurl']}" /></a></div>
+                    </volist>
+                    
+                    
+                </div>
+            </div>
+            <div class="pagination" style="margin-top:-10px;"></div>
+        </div>
+        
+        <!-- Initialize Swiper -->
+        <script>
+        var swiper = new Swiper('.swiper-container', {
+        pagination: '.pagination',
+        calculateHeight:true,
+        paginationClickable: true,
+        autoplay:2500
+        });
+        </script>
+    </div>
+<!--END 广告-->
+
+
+
+    <div class="index com-bg-yellow">
+        <div class="main">
+            <div class="com-adv">
+                <!--<img src="http://wx.tongxueshow.com/Public/Home/images/adv.jpg" alt="">-->
+            </div>
+            <div class="banner" >
+               
+
+ <div id="main" style="background: #f9f9b7;    ">
+      <div id="main_1" style="text-align: center;">
+        <div id="main_1_1">
+          参与选手
+        </div>
+        <div id="main_a">{$vo['person']}
+        </div>
+      </div>
+      <div id="main_1" style="text-align: center;">
+        <div id="main_1_1">
+          累计投票
+        </div>
+        <div id="main_b">{$vo['tickets']}
+       </div>
+     </div>
+     <div id="main_2" style="text-align: center;">
+      <div id="main_1_1">
+        访问量
+      </div>
+      <div id="main_c">{$vo['count']}</div>
+    </div>
+  </div>
+
+
+
+
+              
+                    <div class="com-search" style="  position:;  padding-bottom: 20px;">
+                        <div class="floor-img">
+                            <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/images/floor.png" alt="">
+							
+                        </div>
+
+
+
+
+
+
+                       <form id="form_search" name="form1" method="get" action="{:U("Index/content")}">
+					   <input type="hidden" name="id" value="{$vo.id}" />
+                        <input type="hidden" name="subscribe" value="{$subscribe}" />
+                            <label class="left">
+                                <div class="icon-search"></div>
+                                <input type="search" name="keyword" placeholder="请输入姓名或编号">
+                            </label>
+                            <div class="right">
+                                <input type="button" value="搜索" onclick="search()">
+                            </div>
+                        </form>
+                    </div>
+
+            </div>
+
+     
+
+            <div class="com-list-box">
+                <ul class="clearfix">
+
+<div id="content_li" style="position:absolute;">
+
+                        <volist id="vo1" name="list">
+                        <ol class="li" id="olli" >
+
+
+						
+
+
+                    <li class="item">
+							<a  href="__URL__/content/subscribe/{$subscribe}/id/{$vo['id']}/fid/{$vo1.id}
+                                    <?php
+                                    if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+                                    echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+                                    }
+                                ?>.html" >
+                                <img src="{$vo1.picurl}" style="width:100%;height:auto;">
+								<div class="ryynet_1">{$vo1.num}号</div>
+							</a>
+							<div class="item-wrap">
+								<a class="msg clearfix">
+									<div class="name">{$vo1.username}</div>
+									<div class="votes" id="43">{$vo1.ticket}票</div>
+								</a>
+
+ <?php
+                                    if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+                                    ?>
+                                    <eq name="vo.isVerify" value="0">
+                                    <a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"  ><div class="com-btn bgc-orange" '>投Ta一票</div></a>
+                                    </eq>
+                                    <eq name="vo.isVerify" value="1">
+                                    <a href="javascript:void(0);"  onclick="showVerify({$vo1['id']},{$vo['id']})" ><div class="com-btn bgc-orange"  >投Ta一票</div></a>
+                                    </eq>
+                                    <?php
+                                    }else{
+                                    ?>
+                                    <div class="com-btn bgc-orange"  onclick="loaddzp()">投Ta一票</div>
+                                    <?php
+                                    }
+                                    ?>
+
+							
+
+
+							</div>
+						</li>
+						
+
+</ol>
+</volist>
+
+
+                  <div class="current" style="display:none;">
+                        <?php 
+                        if( $currentPage >= $totalPages    ){
+                        ?>
+                        0
+                        <?php
+                        }else{
+                        ?>
+                        {$currentPage}
+                        <?php
+                        }
+                        ?>
+                    </div>
+       </div>
+
+
+                       
+						
+						
+
+
+
+
+ </ul>
+            </div>
+
+        </div>
+        
+<eq name="list" value="">
+  <ol class="li" style="position: absolute;width:98%;text-align:center;left:3px;"><div id="content_tab" style="color:#000;" class="no_record">暂无记录</div><br/><br/><br/></ol>
+</eq>
+
+<ol class="loading_more li" id="olli" style="position: absolute;width:98%;display:none;text-align:center;left:0;"><span style="color:#D3D3D3;padding:0;">加载中……</span><br/><br/><br/></ol>
+<ol class="loading_over li masonry-brick" style="position: absolute;width:98%;display:none;text-align:center;left:0;"><span style="color:#D3D3D3;padding:0;">没有更多选项</span><br/><br/><br/></ol>
+
+
+<script type="text/javascript"> 
+//验证码
+function showVerify(vid,id){
+     $.colorbox({top:"10px",innerWidth:220,innerHeight:220,iframe:true, href:"/Home/index.php?m=Public&a=lanren_verify&mid=<?php echo $member['m_id'];?>&vid="+vid+"&id="+id});
+}
+//END
+
+</script>
+
+
+
+
+<!--分页-->
+<script type="text/javascript" src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/jquery.masonry.min.js"></script>
+  <script type="text/javascript">   
+    var flag = true;
+    $(function(){   
+        var $container = $('#content_li');    
+        $container.masonry({
+            singleMode: true,
+            animate: true,
+            itemSelector: '.li'
+        }); 
+        //滚动条滚动到离底部距离50的时候触发
+        $(window).scroll(function(){    
+            var $container = $('#content_li');    
+            $container.masonry({
+                singleMode: true,
+                animate: true,
+                itemSelector: '.li'
+            }); 
+            var he=document.body.scrollWidth;
+            var hee=he*0.018;
+            $(".li").css("margin-top",hee);
+            $(".loading_more").show();
+            $(".loading_over").hide();
+            // 当滚动到最底部以上100像素时， 加载新内容
+            if ($(document).height() - $(this).scrollTop() - $(this).height()<20){          
+                if (flag){
+                    var $boxes = $(getList());  
+
+                    //$container.prepend($boxes);
+                    //$container.masonry('reload');
+                    $container.append($boxes).masonry('appended',$boxes);
+                    $(".loading_more").hide();
+                }else{
+                    $(".loading_more").hide();
+                    if($(".no_record").length == 0){
+                        $(".loading_over").show();
+                    }
+                }
+            }
+        });
+    }); 
+    //获取列表
+function getList() {
+    current = parseInt($(".current").last().text())+1;
+    if(current == 1 ){
+        flag =  false;
+        $(".loading_more").hide();
+        if($(".no_record").length == 0){
+        $(".loading_over").show();
+        }
+        return;
+    }
+    var str='';
+    $.ajax({
+url: "__URL__/pageData/subscribe/{$subscribe}/id/{$vo['id']}/<?php echo C('VAR_PAGE');?>/"+current,
+dataType: "html",  async: false,
+success:function( html  ) {
+        str = html;
+        }});
+//alert(str);
+    return str;
+
+}
+</script>
+<!--END-->
+
+
+
+
+
+
+	<div class="com-footer">
+    <div class="fixed-wrap">
+        <a class="footer-item" style="background-image: url(<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/china/images/icon_footer_home_gray.png);"  href="{:U("Index/index",array("id"=>$form['vid']))}">投票首页</a>
+
+
+
+
+
+
+        <a class="footer-item" style="background-image: url(<eq name="vo.ico_3" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/daohang_03.png</eq><neq name="vo.ico_3" value="">{$vo['ico_3']}</neq>);"   <eq name="vo.dao_33" value="">id="paihang" href="__URL__/rank/id/{$vo['id']}"</eq>
+<neq name="vo.dao_33" value="">href="{$vo['dao_33']}"</neq>><eq name="vo.dao_3" value="">排行榜</eq><neq name="vo.dao_3" value="">{$vo['dao_3']}</neq></a>
+
+
+
+
+
+
+        <a class="footer-item"  style="background-image: url(<eq name="vo.ico_1" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/baoming.png</eq><neq name="vo.ico_1" value="">{$vo['ico_1']}</neq>);"  <eq name="vo.dao_11" value="">href="__URL__/signup/subscribe/{$subscribe}/id/{$vo['id']}
+                            <?php 
+
+                            if(Cookie::get('token_'.$_GET['id']) && Cookie::get('wecha_id_'.$_GET['id'])){
+
+                                echo '/token/'.Cookie::get('token_'.$_GET['id']).'/wecha_id/'.Cookie::get('wecha_id_'.$_GET['id']);
+
+                            }
+
+                            ?>.html"</eq>
+                            <neq name="vo.dao_11" value="">href="{$vo['dao_11']}"</neq>><eq name="vo.dao_1" value="">我要报名</eq><neq name="vo.dao_1" value="">{$vo['dao_1']}</neq></a>
+
+
+
+
+
+        <a class="footer-item"  <eq name="vo.dao_22" value="">href="tel:{$vo['tel']}"</eq> <neq name="vo.dao_22" value="">href="{$vo['dao_22']}"</neq>  style="background-image: url(<eq name="vo.ico_2" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/daohang_01.png</eq><neq name="vo.ico_2" value="">{$vo['ico_2']}</neq>);"   href="/index.php/Home/Game/rule.html"><eq name="vo.dao_2" value="">在线咨询</eq><neq name="vo.dao_2" value="">{$vo['dao_2']}</neq></a>
+        
+		<a class="footer-f4item"  style="background-image: url(<eq name="vo.ico_4" value=""><?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/daohang_04.png</eq><neq name="vo.ico_4" value="">{$vo['ico_4']}</neq>);"    <eq name="vo.dao_44" value="">onclick="share()"</eq> <neq name="vo.dao_44" value=""><a  href="{$vo['dao_44']}"></neq> ><eq name="vo.dao_4" value="">点击拉票</eq><neq name="vo.dao_4" value="">{$vo['dao_4']}</neq></a>
+    </div>
+</div>
+
+</div>
+
+
+
+
+
+
+<!--share-->
+<div id="bg" class="bg" style="display:none;"></div>
+<div class="share">
+  <img src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/img/fx1.png" style="width: 100%;">
+</div>
+<style type="text/css">
+.share {display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.7);z-index: 9696969;}
+</style>
+<script type="text/javascript">
+  function share(){
+  $(".share").show();
+}
+$(function(){
+  $(".share").click(function() {
+    $(this).hide() ;
+  }) ;
+});
+</script>
+<!--./share-->
+
+<!--弹出关注层-->
+                    <style> 
+#plug {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999999;
+        }
+
+                    .dzpwrap {
+                    background: none repeat scroll 0 0 #F8F8F8;
+                    border-radius: 1px 1px 1px 1px;
+                    position:absolute;
+                    width: 280px;
+                    }
+                    .dzpwrap .dzptit {
+                    background-image: url("");
+                    background-position: 14px 14px;
+                    background-repeat: no-repeat;
+                    background-size: 24px auto;
+                    font-size: 1.1em;
+                    line-height: 40px;
+                    text-align:center;
+                    padding: 7px 0 0 0px;
+                    }
+                    
+                   .dzpwrapcont.dzpwrapcontent {
+                    background-color: <if condition="$vo['bgcolor'] neq '' ">{$vo.bgcolor}</if> <if condition="$vo['bgcolor'] eq '' ">#FF9900</if>;
+                    }
+
+                    .dzpwrapcont.dzpwrapcontent img {
+                     max-width:250px;
+                    }
+                    
+                    .dzpwrapcont {
+                    padding: 0 14px 16px;
+                    }
+                    .btndzp {
+                    border-radius: 5px 5px 5px 5px;
+                    display: inline-block;
+                    text-decoration: none;
+                    vertical-align: middle;
+                    
+                    }
+                    .dzpwrapcont .btndzp {
+                    -moz-border-bottom-colors: none;
+                    -moz-border-image: none;
+                    -moz-border-left-colors: none;
+                    -moz-border-right-colors: none;
+                    -moz-border-top-colors: none;
+                    color: #5D5D5D;
+                    display: block;
+                    font-size: 1.6em;
+                    line-height: 36px;
+                    text-align: center;
+                    }
+                    .dzpwrapcont .btnRed {
+                        background:none repeat scroll 0 0 #e8e363;
+                    color: #5c5c5c;
+                    letter-spacing:2px;
+                    font-weight:bold;
+                    margin: 16px 0 0;
+                    }
+                    </style>
+
+<script>
+function loaddzp(){
+$('#plug').show();
+var div =$('.dzpwrap');
+div.css('zIndex',99999999);
+div.css('display','block');
+    div.css('left',parseInt(($(window).width()-div.width())/2));
+    var top = parseInt($(window).scrollTop()+($(window).height()-div.height())/2-45);
+    div.css('top',top);
+
+}
+
+function noplug(){
+      if($(".dzpwrap").css('display')=='block')$(".dzpwrap").css('display','none');
+      $("#plug").hide();
+}
+
+</script>
+
+<div class="dzpwrap" style="display:none">
+    <article >
+        <header class="dzptit">添加我们后,回复【{$vo['keyword']}】参与活动</header> 
+        <section class="dzpwrapcont dzpwrapcontent">
+            <p style="text-align:center;">
+			<BR>
+                 <img src="{$vo.wx_picurl}" style="margin:0 auto;" />
+            </p>           
+            <a href="{$vo['wx_url']}" class="btndzp btnRed">如何添加我们 ?</a> 
+            <a id="dzpclose" class="btndzp btnRed" onclick="noplug();">取消,继续浏览</a>
+        </section>
+    </article>
+</div>
+<div style="display: none;" id="plug"></div>
+<!--./弹出关注层-->
+
+
+<?php 
+if($_GET['wecha_id'] && $_GET['token']){ //url del wecha_id token
+?>
+<script type="text/javascript">
+function ChangeUrl(page, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Page: page, Url: url  };
+        history.pushState(obj, obj.Page, obj.Url);
+
+    } else {
+        alert("Browser does not support HTML5.");
+
+    }
+
+}
+$( document  ).ready(function() {
+        o_url = window.location.href;
+        n_url = o_url.replace("\&wecha\_id\=<?php echo $_GET['wecha_id'];?>","");
+        //console.log(n_url);
+        n_url = n_url.replace("\&token\=<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/token\/<?php echo $_GET['token'];?>",""); 
+n_url = n_url.replace("\/wecha_id\/<?php echo $_GET['wecha_id'];?>","");
+        ChangeUrl(document.title, n_url);
+
+        });
+</script>
+<?php } ?>
+
+
+<script src="<?php echo C('site_url'); ?>/Home/Tpl/{$template.folder}/voteimg/js/swipe.js"></script> 
+<script type="text/javascript"> 
+
+
+function showVerify(vid,id){
+     $.colorbox({top:"10px",innerWidth:220,innerHeight:220,iframe:true, href:"/Home/index.php?m=Public&a=lanren_verify&mid=<?php echo $member['m_id'];?>&vid="+vid+"&id="+id});
+}
+
+
+
+$(function(){
+          $("#paihang").click(function(){
+            $(this).colorbox({top:"20px",iframe:true, width:"90%", height:"90%"});
+          });
+});
+
+//搜索
+function search(){
+	$("#form_search").submit();
+}
+  
+  </script>
+
+
+
+</body>
+</html>
+
+
