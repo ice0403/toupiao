@@ -148,7 +148,7 @@ function ChangeUrl(page, url) {
 		body{background:<if condition="$vo['bgcolor'] eq '' ">#fde0a8<else /><?php echo $vo['bgcolor'];?></if>;font-size: 62.5%;}
 		*/
 		body{background:#e7e7e7;font-size: 62.5%;}
-		ul{background:#000000;height:40px;}
+		
 		ul#count li{float:left;text-align:center;list-style:none;border-bottom:0px #dadada solid;padding-bottom:2px;}
 		p{padding-top:6px;color:#f2cd62}
 		ul#count p{font-size:1.4em;}/*基本信息字体大小*/
@@ -551,7 +551,7 @@ music.className = music.className + " musicplay";
 
 
 	<!--voteinfo-->
-	<ul id="count" style="margin:0;"><li style="width:33%;"><p>参与选手</p><p style="padding:0;color:#ffffff;"><span>{$vo['person']}</span></p></li><li style="width:34%;"><p>累计投票</p><p style="padding:0"><span id="acount">{$vo['tickets']}</span></p></li><li style="width:33%" ><p>访问量</p><p style="padding:0"><span>{$vo['count']}</span></p></li></ul>
+	<ul id="count" style="margin:0;background:#000000;height:40px;"><li style="width:33%;"><p>参与选手</p><p style="padding:0;color:#ffffff;"><span>{$vo['person']}</span></p></li><li style="width:34%;"><p>累计投票</p><p style="padding:0"><span id="acount">{$vo['tickets']}</span></p></li><li style="width:33%" ><p>访问量</p><p style="padding:0"><span>{$vo['count']}</span></p></li></ul>
 	
 	<div style="clear: both"></div>
 	<!--linebig
@@ -617,7 +617,6 @@ music.className = music.className + " musicplay";
 	padding: 0 15px;
 	width: 100%;
 	overflow: hidden;
-	background-color:#e7e7e7;
 }
 .groups-nav li{
 	position: relative;
@@ -864,7 +863,7 @@ foreach($group as $g){
 
 		<div style="height:10px;width:100%;"></div>
 		<!--pic vote start-->
-		<div id="thumbs" class="masonry" style="margin: 0px auto; padding-left:10px;background:#e7e7e7">
+		<div id="thumbs" class="masonry" style="margin: 0px auto; padding-left:10px;">
 			
 
 
