@@ -1380,17 +1380,26 @@ div.css('display','block');
 								<ul id="menu_list0" class="menu_font" style=" display:none">
   								</ul>
 							</li> 
-							<li> <eq name="vo.dao_44" value="">   <a onclick="_system._guide(true)"> </eq>   <neq name="vo.dao_44" value=""><a  href="{$vo['dao_44']}"></neq>            <div style="position:relative"><img src="<eq name="vo.ico_4" value=""><?php echo C('site_url'); ?>/Home/Tpl/Index/static/dzp.png</eq><neq name="vo.ico_4" value="">{$vo['ico_4']}</neq>"></div><label style="font-size: 1.1em;letter-spacing: .07em;color:#f2cd62;"><eq name="vo.dao_4" value="">拉票</eq>
-							
-							<neq name="vo.dao_4" value="">{$vo['dao_4']}</neq>
-							
-							</label></a>        	
-
-						</li>   
-						
-						
-						
-						
+							<li>
+							  <eq name="vo.dao_44" value="">
+							    <a onclick="_system._guide(true)">
+							  </eq>
+							  <neq name="vo.dao_44" value="">
+							    <a href="{$vo['dao_44']}">
+							  </neq>
+							  <div style="position:relative">
+							  	<img src="<?php echo C('site_url'); ?>/Home/Tpl/Index_0713/static/dzp.png">
+							  </div>
+							  <label style="font-size: 1.1em;letter-spacing: .07em;color:#f2cd62;">
+							    <eq name="vo.dao_4" value="">
+							      拉票
+							    </eq>
+							    <neq name="vo.dao_4" value="">
+							      {$vo['dao_4']}
+							    </neq>
+							  </label>
+							  </a>
+							</li>
 						</ul>
 					</nav>
 				</div>
