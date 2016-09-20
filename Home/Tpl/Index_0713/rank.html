@@ -44,9 +44,9 @@ if($_GET['gid']){
     </span> 
     <h5 style="color:#a10333;font-size:12px;" ><a href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a></h5>
 <?php }else{  ?>
-    <span style="color:#f2cd62;font-size:20px;width:100%;text-align:center;margin-top:40px;" >
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:40px;border:1px solid red;" >
     {$vo['title']}
-    </span> 
+    </div> 
     <span style="padding:0 10px;" >总排行榜/当前总票数:{$vo['tickets']}</span>
     <h5 style="color:#a10333;font-size:12px;" > 分组排行榜：
     <?php
