@@ -28,17 +28,23 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
 <?php
 if($_GET['gid']){
 ?>
-    <h5 style="padding:0 10px;" >{$vo['title']}  - 
-                           <?php
-                            foreach($group as $g){
-                            if($g['id'] == $_GET['gid']){
-                            ?>
-                            {:$g['title']}
-                            <?php }} ?>
-排行榜/当前总票数:{$vo['tickets']}</h5>
+    <span style="color:#f2cd62;margin: 0 auto; font-size:20px;margin-top:40px;width:100%;" >
+    {$vo['title']}
+    </span> 
+    <span style="color:#f2cd62;margin: 0 auto; font-size:20px;margin-top:40px;width:100%;" >
+        <?php
+        foreach($group as $g){
+        if($g['id'] == $_GET['gid']){
+        ?>
+        {:$g['title']}排行榜
+        <?php }} ?>
+    </span> 
+    <span style="color:#f2cd62;margin: 0 auto; font-size:20px;margin-top:40px;width:100%;" >
+    当前总票数:{$vo['tickets']}
+    </span> 
     <h5 style="color:#a10333;font-size:12px;" ><a href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a></h5>
 <?php }else{  ?>
-    <h5 style="padding:0 10px;" >{$vo['title']}  - 总排行榜/当前总票数:{$vo['tickets']}</h5>
+    <span style="padding:0 10px;" >{$vo['title']}  - 总排行榜/当前总票数:{$vo['tickets']}</span>
     <h5 style="color:#a10333;font-size:12px;" > 分组排行榜：
     <?php
     foreach($group as $g){
