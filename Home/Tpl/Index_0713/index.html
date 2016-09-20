@@ -868,11 +868,11 @@ foreach($group as $g){
 			
 
 
-  <volist id="vo1" name="list">
-				<div class="imgbox masonry-brick" itemscope="" itemtype="http://schema.org/ImageObject" style="margin-bottom: 5px; float:left;width:45%;margin-left:10px;">
+  <volist id="vo1" name="list" style="border:1px solid blue;">
+				<div class="imgbox masonry-brick" itemscope="" itemtype="http://schema.org/ImageObject" style="margin-bottom: 5px; float:left;width:45%;margin-left:10px;border:1px solid red;">
 					
 					<ul style="display:none;border:1px solid red;">
-						<div id="inline_content{$vo1['id']}" style="padding:3px; background:#fff;text-align: center">
+						<div id="inline_content{$vo1['id']}" style="padding:3px; background:#fff;text-align: center;border:1px solid yellow;">
 							<div style="width:100%;position:relative;">
 							<neq name="vo1.picurl" vlaue="">
 							<img id="bigimg{$vo1['id']}" style="width:70%;height:auto" dsrc="{$vo1['picurl']}" src="{$vo1['picurl']}">	<p>
