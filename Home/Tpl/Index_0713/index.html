@@ -824,7 +824,7 @@ footer p{
 $group = M("Group")->where("vid=".$_GET['id'])->select();
 foreach($group as $g){
 ?>
-<li id="group{:$i}" <?php if($_GET['gid']==$g['id']){ ?>  class="active" <?php } ?>><a  style="color:#FFF; text-decoration:none;"  href="{:U("Index/index",array("id"=>$_GET['id'],"gid"=>$g['id']))}"    >{:$g['title']}</a></li>
+<li id="group{:$i}" <?php if($_GET['gid']==$g['id']){ ?>  class="active" <?php } ?>><a  style="color:#000000; text-decoration:none;"  href="{:U("Index/index",array("id"=>$_GET['id'],"gid"=>$g['id']))}"    >{:$g['title']}</a></li>
 <?php } ?>
 
 
