@@ -50,14 +50,24 @@ if($_GET['gid']){
     <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;">
        总排行榜
     </div> 
-    <div style="color:#FFF;font-size:14px;font-weight:bold;text-align:center;width:100%;">
-       (当前总票数:<span stle="color:#f2cd62;">{$vo['tickets']}</span>)
+    <div style="font-size:14px;font-weight:bold;text-align:center;width:100%;">
+       <span style="color:#FFF;">(当前总票数:<span stle="color:#f2cd62;">{$vo['tickets']}</span>)</span>
     </div>
-    <span style="padding:0 10px;" >/</span>
-    <h5 style="color:#a10333;font-size:12px;" > 分组排行榜：
+    <h5 style="color:#a10333;font-size:12px;" > <span style="color:#FFF;">分组排行榜：</span>
+    <ul class="groups-nav">
+        <?php
+        $group = M("Group")->where("vid=".$_GET['id'])->select();
+        foreach($group as $g){
+        ?>
+        <li id="group{:$i}" <?php if($_GET['gid']==$g['id']){ ?>  class="active" <?php } ?>>
+            <a  style="color:#000000; font-weight: bold;text-decoration:none;"  href="{:U("Index/index",array("id"=>$_GET['id'],"gid"=>$g['id']))}"    >{:$g['title']}</a>
+        </li>
+        <?php } ?>
+    </ul>
     <?php
     foreach($group as $g){
     ?>
+
    <a href="{:U("Index/rank",array("id"=>$_GET['id'],"gid"=>$g['id']))}" style="margin:0 5px;">{:$g['title']}</a>  
     <?php } ?>
     
