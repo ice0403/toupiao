@@ -126,10 +126,10 @@ if($_GET['gid']){
 	<table class="table table-bordered">
 			<thead>
 				<tr>
-				    <th style="border-bottom:1px solid #f2cd62;text-align: center;">排行</th>
-					<th style="border-bottom:1px solid #f2cd62;text-align: center;">名称</th>
-					<th style="border-bottom:1px solid #f2cd62;text-align: center;">票数</th>
-					<th style="border-bottom:1px solid #f2cd62;text-align: center;">分组</th>
+				    <th style="text-align: center;">排行</th>
+					<th style="text-align: center;">名称</th>
+					<th style="text-align: center;">票数</th>
+					<th style="text-align: center;">分组</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -138,10 +138,10 @@ if($_GET['gid']){
 	  <volist id="vo1" name="list">
 								 
 			      <tr>
-				        <td><?php echo $i;?></td>
+				        <td style="text-align: center"><?php echo $i;?></td>
 						<td style="text-align: center"><span style="font-size:.8em;line-height:1em">{$vo1['num']}号 {$vo1['username']}</span></td>
-						<td >{$vo1['ticket']}</td>
-                        <td>
+						<td style="text-align: center">{$vo1['ticket']}</td>
+                        <td style="text-align: center">
                             <?php
                             foreach($group as $g){
                             if($g['id'] == $vo1['gid']){
