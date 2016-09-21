@@ -64,6 +64,13 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
         left: 50%;
         margin-left: -8px;
     }
+    .table th{
+        border:1px solid #f2cd62;
+    }
+    .table td{
+        border:1px solid #f2cd62;
+    }
+    
 </style>
 </head>
 <body style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
@@ -107,13 +114,6 @@ if($_GET['gid']){
         </li>
         <?php } ?>
     </ul>
-    <?php
-    foreach($group as $g){
-    ?>
-
-   <a href="{:U("Index/rank",array("id"=>$_GET['id'],"gid"=>$g['id']))}" style="margin:0 5px;">{:$g['title']}</a>  
-    <?php } ?>
-    
     </h5>
 <?php } ?>
 
