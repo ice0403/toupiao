@@ -64,15 +64,15 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
         left: 50%;
         margin-left: -8px;
     }
-    .table{
-        border:1px solid #f2cd62;
-    }
+    .table{border:solid #f2cd62; border-width:1px 0px 0px 1px;}
     .table th{
         color:#f2cd62;
     }
     .table td{
+        border:solid #f2cd62; border-width:0px 1px 1px 0px;
         color:#FFF;
     }
+    
     
 </style>
 </head>
