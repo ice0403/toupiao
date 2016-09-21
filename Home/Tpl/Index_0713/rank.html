@@ -65,12 +65,17 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
         margin-left: -8px;
     }
     .table{
-        border:1px solid #f2cd62;
+        border-top:1px solid #f2cd62;
+        border-left:1px solid #f2cd62;
     }
     .table th{
+        border-right:1px solid #f2cd62;
+        border-bottom:1px solid #f2cd62;
         color:#f2cd62;
     }
     .table td{
+        border-right:1px solid #f2cd62;
+        border-bottom:1px solid #f2cd62;
         color:#FFF;
     }
     
@@ -92,6 +97,7 @@ if($_GET['gid']){
         {:$g['title']}排行榜
         <?php }} ?>
     </span> 
+    <br>
     <span style="color:#f2cd62;margin: 0 auto; font-size:20px;margin-top:40px;width:100%;" >
     当前总票数:{$vo['tickets']}
     </span> 
@@ -113,7 +119,7 @@ if($_GET['gid']){
         foreach($group as $g){
         ?>
         <li id="group{:$i}" <?php if($_GET['gid']==$g['id']){ ?>  class="active" <?php } ?>>
-            <a  style="color:#000000; font-weight: bold;text-decoration:none;"  href="{:U("Index/index",array("id"=>$_GET['id'],"gid"=>$g['id']))}"    >{:$g['title']}</a>
+            <a  style="color:#000000; font-weight: bold;text-decoration:none;"  href="{:U("Index/rank",array("id"=>$_GET['id'],"gid"=>$g['id']))}"    >{:$g['title']}</a>
         </li>
         <?php } ?>
     </ul>
