@@ -82,10 +82,10 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
 <?php
 if($_GET['gid']){
 ?>
-    <span style="color:#f2cd62;margin: 0 auto; font-size:20px;margin-top:40px;width:100%;" >
-    {$vo['title']}
-    </span> 
-    <span style="color:#f2cd62;margin: 0 auto; font-size:20px;margin-top:40px;width:100%;" >
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;">
+        {$vo['title']}
+    </div> 
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;">
         <?php
         foreach($group as $g){
         if($g['id'] == $_GET['gid']){
@@ -94,10 +94,10 @@ if($_GET['gid']){
         <?php }} ?>
     </span> 
     <br>
-    <span style="color:#f2cd62;margin: 0 auto; font-size:20px;margin-top:40px;width:100%;" >
+    <div style="font-size:14px;font-weight:bold;text-align:center;width:100%;">
     当前总票数:{$vo['tickets']}
     </span> 
-    <h5 style="color:#a10333;font-size:12px;" ><a href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a></h5>
+    <h5 style="color:#a10333;font-size:12px;" ><a style="color:#FFF;" href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a></h5>
 <?php }else{  ?>
     <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;">
         {$vo['title']}
