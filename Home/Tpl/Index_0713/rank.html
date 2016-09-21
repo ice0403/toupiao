@@ -83,10 +83,10 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
 <?php
 if($_GET['gid']){
 ?>
-    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;">
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;margin-bottom:10px;">
         {$vo['title']}
     </div> 
-    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;">
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-bottom:10px;">
         <?php
         foreach($group as $g){
         if($g['id'] == $_GET['gid']){
@@ -98,18 +98,20 @@ if($_GET['gid']){
     <div style="font-size:14px;font-weight:bold;text-align:center;width:100%;">
     当前总票数:{$vo['tickets']}
     </span> 
-    <h5 style="color:#a10333;font-size:12px;" ><a style="color:#FFF;" href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a></h5>
+    <a style="color:#FFF;font-size:14px;" href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a>
 <?php }else{  ?>
-    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;">
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;margin-bottom:10px;">
         {$vo['title']}
     </div> 
-    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;">
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-bottom:10px;">
        总排行榜
     </div> 
-    <div style="font-size:14px;font-weight:bold;text-align:center;width:100%;">
+    <div style="font-size:14px;font-weight:bold;text-align:center;width:100%;margin-bottom:10px;">
        <span style="color:#FFF;">(当前总票数:<span stle="color:#f2cd62;">{$vo['tickets']}</span>)</span>
     </div>
-    <h5 style="color:#a10333;font-size:12px;" > <span style="color:#FFF;">分组排行榜：</span>
+    <h5 style="color:#a10333;font-size:14px;" > 
+        <span style="color:#FFF;">分组排行榜：</span>
+    </h5>
     <ul class="groups-nav">
         <?php
         $group = M("Group")->where("vid=".$_GET['id'])->select();
@@ -120,7 +122,7 @@ if($_GET['gid']){
         </li>
         <?php } ?>
     </ul>
-    </h5>
+    
 <?php } ?>
 
 
