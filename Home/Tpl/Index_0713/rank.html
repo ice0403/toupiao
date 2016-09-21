@@ -21,7 +21,50 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
 
 
 <title>数据排行</title>
+<style type="text/css">
+    .groups-nav{
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    .groups-nav li{
+        position: relative;
+        width: 30%;
+        padding: 3% 0;
+        top: 0;
+        font-size: 18px;
+        text-align: center;
+        background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/dise.png) no-repeat;
+        opacity: 0.7;
+        -webkit-transition: all 0.1s ease 0;   
+        float: left;
+        margin: 5px 1%;
+    }
+    .groups-nav span{
+        font-size: 14px;
+    }
+    .groups-nav li:first-child{
+        float: left;
+    }
 
+    .groups-nav .active{
+        color: #Fff;
+        opacity: 1;
+    }
+    .groups-nav .active:after{
+        content: '\0020';
+        position: absolute;
+        width: 0;
+        border-style: solid;
+        border-color: transparent;
+        border-bottom-color: #fff;
+        border-width: 0 8px 6px 8px;
+        bottom: 0;
+        left: 50%;
+        margin-left: -8px;
+    }
+</style>
 </head>
 <body style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
 
