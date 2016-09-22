@@ -9,10 +9,12 @@
 class IndexAction extends Action {
 
     function _initialize() {
+    	/*
         $agent = $_SERVER['HTTP_USER_AGENT'];
         if(!strpos($agent,"icroMessenger")) {
             echo '此功能只能在微信浏览器中使用';exit;
         }
+        */
 
         //流量保护
         // if($_GET['id'] && $_GET['vid']){
@@ -1189,6 +1191,18 @@ public function insertform(){
 		if(!$this->_param("username")){
 			$this->error('报名失败！用户名不能为空！');
 		}
+		
+		if(!$this->_param("tel")){
+			$this->error('报名失败！电话不能为空！');
+		}
+
+		if(!$this->_param("studio")){
+			$this->error('报名失败！机构名称不能为空！');
+		}
+
+		if(!$this->_param("role")){
+			$this->error('报名失败！职务名称不能为空！');
+		}
 
         $tmp = $model->where("tel='".$this->_param("tel")."' and vid='".$this->_param("vid")."'")->find();
 		if($tmp){
@@ -1198,13 +1212,20 @@ public function insertform(){
 			}
 			$this->error('报名失败！该电话已存在！');
 		}
+		if(empty($_POST['avatar'])){
+			if($this->_param("is_ajax")){
+				echo '{"message":"报名失败！必须上传一张头像！","code":"0"}';
+				exit;
+			}
+	        $this->error('报名失败！必须上传一张头像！');
+	    }
 
 	    if(empty($_POST['picurl'])){
 			if($this->_param("is_ajax")){
-				echo '{"message":"报名失败！必须上传一张照片！","code":"0"}';
+				echo '{"message":"报名失败！必须上传一张作品！","code":"0"}';
 				exit;
 			}
-	        $this->error('报名失败！必须上传一张照片！');
+	        $this->error('报名失败！必须上传一张作品！');
 	    }
 
 		if(!$model->create()) {
