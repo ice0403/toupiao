@@ -893,8 +893,8 @@ foreach($group as $g){
 
 							</div>
 							
-							<div style="font-size: 1.4em;padding:14px 2px 10px 2px;text-align: left;" class="ldesc"><span style="width:24px;height:18px;text-indent:-99999px;background-size:18px auto;display:inline-block;">"</span>{$vo1['info']}<span style="width:24px;height:20px;text-indent:-99999px;background-size:18px auto;display:inline-block;">"</span></div><div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;" class="ldesc"> {$vo1['num']}号 {$vo1['username']}<span style="width:2px;height:10px;text-indent:-99999px;display:inline-block;"></span><span class="count" meid="{$vo1['username']}">{$vo1['ticket']}</span>
-							<span class="p" style="font-size:1.1em;padding-left:2px;">票</span></div>			<div style="position: relative;padding-bottom:2px">
+							<div style="font-size: 1.4em;padding:14px 2px 10px 2px;text-align: center;" class="ldesc"><span style="width:24px;height:18px;text-indent:-99999px;background-size:18px auto;display:inline-block;">"</span><span style="color:#FFF;">{$vo1['info']}</span><span style="width:24px;height:20px;text-indent:-99999px;background-size:18px auto;display:inline-block;">"</span></div><div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;" class="ldesc"> <span style="color:#f2cd62;">{$vo1['num']}号 {$vo1['username']}</span><span style="width:2px;height:10px;text-indent:-99999px;display:inline-block;"></span><span class="count" meid="{$vo1['username']}">{$vo1['ticket']}</span>
+							<span class="p" style="font-size:1.1em;padding-left:2px;color:#FFF;">票</span></div>			<div style="position: relative;padding-bottom:2px">
 							
 							<div id="bigbt44314" style="margin:0 auto;width:100%;padding-top:10px">
 						    
@@ -903,11 +903,11 @@ foreach($group as $g){
 					?>
 
 						<eq name="vo.isVerify" value="0">
-						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn" type="button">投票</button></a>
+						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn" type="button">投TA一票</button></a>
 						</eq>
 
 						<eq name="vo.isVerify" value="1">
-						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn" type="button">投票</button>
+						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn" type="button">投TA一票</button>
 						</eq>
 
 					<?php
@@ -923,7 +923,7 @@ foreach($group as $g){
 							</div>
 		
 							<div style="margin: 0 auto;padding-top:10px;width:100%">
-							<button onclick="shareurl();" class="btn" type="button" style="width:100px">为他拉票</button></div><div style="clear:both"></div>
+							<button onclick="shareurl();" class="btn" type="button" style="width:100px">为TA拉票</button></div><div style="clear:both"></div>
 						</div>
 					</div>
 					
