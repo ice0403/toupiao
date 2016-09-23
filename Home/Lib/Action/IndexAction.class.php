@@ -1212,6 +1212,7 @@ public function insertform(){
 			}
 			$this->error('报名失败！该电话已存在！');
 		}
+		/*
 		if(empty($_POST['avatar'])){
 			if($this->_param("is_ajax")){
 				echo '{"message":"报名失败！必须上传一张头像！","code":"0"}';
@@ -1219,7 +1220,7 @@ public function insertform(){
 			}
 	        $this->error('报名失败！必须上传一张头像！');
 	    }
-
+		*/
 	    if(empty($_POST['picurl'])){
 			if($this->_param("is_ajax")){
 				echo '{"message":"报名失败！必须上传一张作品！","code":"0"}';
