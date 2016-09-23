@@ -108,7 +108,7 @@ img {-ms-interpolation-mode: bicubic; }
 .upload_area .upload_btn input {opacity: 0;position: absolute;left: 0;top: 0;z-index: 10;overflow: hidden;height: 60px;width: 60px; }
 
 .apply .btn_box{padding: 0 10px;display: block;}
-.apply .btn_box .button{height: 50px;line-height: 50px;cursor: pointer;color: #fff;font-size: 20px;text-align: center;border-radius: 5px;width:100%;background-color: #f2cd62;border:none;border-bottom: 3px solid #d45158;display: block;margin: 0 auto;}
+.apply .btn_box .button{height: 50px;line-height: 50px;cursor: pointer;color: #fff;font-size: 20px;text-align: center;border-radius: 5px;width:100%;background-color: #f67685;border:none;border-bottom: 3px solid #d45158;display: block;margin: 0 auto;}
 
 .detial_box{width: calc(100% - 30px);background-color: #76daba;padding: 30px 15px;color: #fff;position: relative;}
 .detial_box p{line-height: 24px;font-size: 16px;}
@@ -254,7 +254,7 @@ img {-ms-interpolation-mode: bicubic; }
 .pagination ul li.active a{color: #fff;}
 
 .rules {background: #e5f1e5; color: #fff; padding-top: 20px; line-height:150%;}
-.rules .text .prize{width: 150px;display: block; height: 30px; line-height: 30px; border-radius: 0 15px 15px 0; background: #f2cd62; font-size: 15px; text-align: center;}
+.rules .text .prize{width: 150px;display: block; height: 30px; line-height: 30px; border-radius: 0 15px 15px 0; background: #76d4ba; font-size: 15px; text-align: center;}
 .rules .text .ways{width: 150px;display: block; height: 30px; line-height: 30px; border-radius: 0 15px 15px 0; background: #76d4ba; font-size: 15px; text-align: center;}
 .rules .text p{color: #147e61; font-size: 14px;  }
 .rules .text .neirong{color: #147e61; font-size: 14px; }
