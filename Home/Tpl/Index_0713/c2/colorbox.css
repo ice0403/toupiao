@@ -32,7 +32,7 @@
     #cboxMiddleRight{width:21px;display:none}
     #cboxTopCenter{height:21px; display:none}
     #cboxBottomCenter{height:21px; display:none}
-    #cboxContent{background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png); overflow:hidden;padding:5px;border-radius: 6px;}
+    #cboxContent{background:#fff; overflow:hidden;padding:5px;border-radius: 6px;}
         .cboxIframe{background:#fff;}
         #cboxError{padding:50px; border:1px solid #ccc;}
         #cboxLoadedContent{margin-bottom:0px;}
