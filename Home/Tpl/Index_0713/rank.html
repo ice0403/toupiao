@@ -27,6 +27,7 @@ $group = M("Group")->where("vid=".$_GET['id'])->select();
         position: relative;
         width: 100%;
         overflow: hidden;
+        margin:0;
     }
     .groups-nav li{
         position: relative;
@@ -128,7 +129,7 @@ if($_GET['gid']){
 
 
 	
-	<table class="table table-bordered">
+	<table class="table table-bordered" style="width:96%;margin-left:2%;margin-top:10px;">
 			<thead>
 				<tr>
 				    <th style="text-align: center;">排行</th>
