@@ -112,6 +112,9 @@ wx.error(function (res) {
 .focus span.current{background:red;}
 .upImgClass{display: block;}
 .upImgClass1{display: none;}
+.yanse{
+    color:#f2cd62;
+}
 </style>
 </head>
 <body>
@@ -213,13 +216,13 @@ wx.error(function (res) {
 ?>
 </header> 
 <div class="apply" style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
-<p><strong>报名处</strong></p>
+<p><strong class="yanse">报名处</strong></p>
 <div class="blank10"></div>
 <form id="imageform" method="post" enctype="multipart/form-data" action="__URL__/insertForm">
 
 <dl class="clearfix">
 
-<dt>
+<dt class="yanse">
 * 姓名:
 </dt>
 <dd>
@@ -227,7 +230,7 @@ wx.error(function (res) {
 </dl>
 
 <dl class="clearfix">
-<dt>* 电话:</dt>
+<dt class="yanse">* 电话:</dt>
 <dd>  
 <input name="tel" type="number" value="" class="input_txt" placeholder="请输入您的真实手机号">
 </dd>
@@ -235,7 +238,7 @@ wx.error(function (res) {
 
 <dl class="clearfix">
 
-<dt>
+<dt class="yanse">
 * 机构:
 </dt>
 <dd>
@@ -244,7 +247,7 @@ wx.error(function (res) {
 
 <dl class="clearfix">
 
-<dt>
+<dt class="yanse">
 * 职务:
 </dt>
 <dd>
@@ -252,7 +255,7 @@ wx.error(function (res) {
 </dl>
 <!--
 <dl class="upload clearfix">
-<dt>上传头像</dt>
+<dt class="yanse">上传头像</dt>
 <dd class="upload_area clearfix">
 <ul id="imglist" class="post_imglist">
 </ul>
@@ -271,7 +274,7 @@ height: 30px;" onclick="upyunWapAvatarUpload('avatar','','',{$member.m_id})">
     </dl>
 -->
 <dl class="clearfix">
-<dt>* 科目:</dt>
+<dt class="yanse">* 科目:</dt>
 <dd>  
 
 <select name="gid">
@@ -293,7 +296,7 @@ height: 30px;" onclick="upyunWapAvatarUpload('avatar','','',{$member.m_id})">
 if($member['m_username'] == 'hnwt'){
 ?>
 <dl class="clearfix">
-<dt>栋号/房号</dt>
+<dt class="yanse">栋号/房号</dt>
 <dd>  
 
 <input name="company" type="text" value="" class="input_txt" placeholder="请输入所在小区栋号/房号">
@@ -303,7 +306,7 @@ if($member['m_username'] == 'hnwt'){
 <?php } ?>
 
 <dl class="upload clearfix">
-<dt>上传作品</dt>
+<dt class="yanse">上传作品</dt>
 <dd class="upload_area clearfix">
 <ul id="imglist" class="post_imglist">
 </ul>
@@ -323,7 +326,7 @@ overflow: hidden;
 position: relative;
 width: 30px;
 height: 30px;" onclick="upyunWapPicUpload('picurl','','',{$member.m_id})">
-(每人每科目只限上传一张作品)
+(每科每次只限上传一张作品)
 	</dd>
 	</dl>
 
@@ -338,7 +341,7 @@ if($member['m_username'] == '576613'){
 <?php
 }else{
 ?>
-个人简介:		
+<span class="yanse">个人简介:</span>		
 <?php
 }	
 ?>
@@ -373,8 +376,9 @@ if($member['m_username'] == '576613'){
 <?php
 if($member['m_username'] == '284682742'){
 ?>
+<span style="color:#FFF;">
 如在线报名失败，请发送邮箱：284682742@qq.com,并附上作品名称、参赛人员姓名、手机号码。					
-						
+</span>					
 <?php
 }else{
 ?>
