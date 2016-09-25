@@ -1203,7 +1203,11 @@ public function insertform(){
 		if(!$this->_param("role")){
 			$this->error('报名失败！职务名称不能为空！');
 		}
-
+		if(!preg_match("/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/",$this->_param("tel"))){    
+		   echo '{"message":"报名失败！手机号格式有误!","code":"0"}';
+		   exit;  
+		}
+		
         $tmp = $model->where("tel='".$this->_param("tel")."' and vid='".$this->_param("vid")."'")->find();
 		if($tmp){
 			if($this->_param("is_ajax")){
