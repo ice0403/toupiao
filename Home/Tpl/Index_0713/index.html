@@ -879,7 +879,7 @@ foreach($group as $g){
 							<neq name="vo1.picurl1" vlaue="">
 							<img  style="width:70%;height:auto" dsrc="{$vo1['picurl1']}" src="{$vo1['picurl1']}">	<p>
 							</neq>
-						
+							<!--
 							<neq name="vo1.picurl2" vlaue="">
 							<img  style="width:70%;height:auto" dsrc="{$vo1['picurl2']}" src="{$vo1['picurl2']}">	<p>
 							</neq>
@@ -891,11 +891,40 @@ foreach($group as $g){
 							<neq name="vo1.picurl4" vlaue="">
 							<img  style="width:70%;height:auto" dsrc="{$vo1['picurl4']}" src="{$vo1['picurl4']}">
 							</neq>
-
+							-->
 							</div>
-							
-							<div style="font-size: 1.4em;padding:14px 2px 10px 2px;text-align: center;" class="ldesc"><span style="width:24px;height:18px;text-indent:-99999px;background-size:18px auto;display:inline-block;">"</span><span style="color:#FFF;">{$vo1['info']}</span><span style="width:24px;height:20px;text-indent:-99999px;background-size:18px auto;display:inline-block;">"</span></div><div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;" class="ldesc"> <span style="color:#f2cd62;">{$vo1['num']}号 {$vo1['username']}</span><span style="width:2px;height:10px;text-indent:-99999px;display:inline-block;"></span><span class="count" meid="{$vo1['username']}">{$vo1['ticket']}</span>
-							<span class="p" style="font-size:1.1em;padding-left:2px;color:#FFF;">票</span></div>			<div style="position: relative;padding-bottom:2px">
+							<div style="font-size: 1.4em;padding:14px 2px 10px 2px;text-align: center;" class="ldesc">
+							  <span style="color:#f2cd62;">
+							    {$vo1['num']}号 {$vo1['username']}
+							  </span>
+							  <span style="width:2px;height:10px;text-indent:-99999px;display:inline-block;">
+							  </span>
+							  <span style="color:#f2cd62;">
+							    {$vo1['studio']}
+							  </span>
+							  <span style="width:2px;height:10px;text-indent:-99999px;display:inline-block;">
+							  </span>
+							  <span style="width:24px;height:18px;text-indent:-99999px;background-size:18px auto;display:inline-block;">
+							    "
+							  </span>
+							  <span style="color:#FFF;">
+							    {$vo1['info']}
+							  </span>
+							  <span style="width:24px;height:20px;text-indent:-99999px;background-size:18px auto;display:inline-block;">
+							    "
+							  </span>
+							</div>
+							<div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;"
+							class="ldesc">
+							  <span class="count" meid="{$vo1['username']}">
+							    {$vo1['ticket']}
+							  </span>
+							  <span class="p" style="font-size:1.1em;padding-left:2px;color:#FFF;">
+							    票
+							  </span>
+							</div>
+
+							<div style="position: relative;padding-bottom:2px">
 							
 							<div id="bigbt44314" style="margin:0 auto;width:100%;padding-top:10px">
 						    
