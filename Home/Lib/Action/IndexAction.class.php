@@ -1206,7 +1206,7 @@ public function insertform(){
 		if(!preg_match("/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/",$this->_param("tel"))){    
 		   $this->error('报名失败！手机号格式有误！');
 		}
-		
+		/*
         $tmp = $model->where("tel='".$this->_param("tel")."' and vid='".$this->_param("vid")."'")->find();
 		if($tmp){
 			if($this->_param("is_ajax")){
@@ -1215,6 +1215,7 @@ public function insertform(){
 			}
 			$this->error('报名失败！该电话已存在！');
 		}
+		*/
 		/*
 		if(empty($_POST['avatar'])){
 			if($this->_param("is_ajax")){
