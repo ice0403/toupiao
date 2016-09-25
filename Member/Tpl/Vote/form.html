@@ -243,9 +243,7 @@
                   </div>
               <div class="modal-body" style="text-align:center;">
 
-                <p style="text-align:left;">
-                   <b>姓名：</b>{$vo['username']}
-                </p>
+
                 <p style="text-align:left;">
                    <b>投票号：</b>{$vo['num']}
                 </p>
@@ -255,9 +253,14 @@
                 <p style="text-align:left;">
                    <b>票数：</b>{$vo['ticket']}
                 </p>
-                
+                <p style="text-align:left;">
+                   <b>姓名：</b>{$vo['username']}
+                </p>
+                <p style="text-align:left;">
+                   <b>电话：</b>{$vo['tel']}
+                </p>
                   <p style="text-align:left;">
-                   <b style="float:left">照片：</b>
+                   <b style="float:left">作品：</b>
       
        
        <neq name="vo.picurl" vlaue="">
@@ -275,7 +278,7 @@
         <div style="clear:both;"></div>
        </neq>
 
-
+       <!--
        <neq name="vo.picurl1" vlaue="">
        <div style="float:left;margin-left:42px;margin-top:8px;">
        <a href="{$vo.picurl1}" target="_blank"><img src="{$vo['picurl1']}" width="100" height="130"></a>
@@ -338,8 +341,9 @@
        </neq>
 
        (点击查看大图)
+       -->
                 </p>
-
+      <!--
                 <p style="text-align:left;">
                     <b>姓别：</b>
                     <eq name="vo.sex" value="0">
@@ -352,7 +356,7 @@
                     <span class="badge bg-red">女</span>
                     </eq>  
                 </p>
-
+      -->
               <p style="text-align:left;">
                   <b>状态：</b>
                   <eq name="vo.status" value="0">
@@ -362,7 +366,7 @@
                   <span class="badge bg-light-blue">已审</span>
                   </eq>            
               </p>
-
+      <!--
                 <neq name="vo.age" value="">
                 <p style="text-align:left;">
                    <b>年龄：</b>{$vo['age']}
@@ -374,23 +378,21 @@
                    <b>地址：</b>{$vo['address']}
                 </p>
                 </neq>
-
+      -->
                 <p style="text-align:left;">
-                   <b>手机：</b>{$vo['tel']}
+                   <b>个人介绍：</b>{$vo['info']}  
                 </p>
                 <p style="text-align:left;">
                    <b>报名时间：</b> {$vo['addtime']|date="Y-m-d H:i:s",###}
                 </p>
-
+<!--
                 <neq name="vo.company" value="">
                 <p style="text-align:left;">
                    <b>公司名称：</b> {$vo.company}
                 </p>
                 </neq>
 
-                <p style="text-align:left;">
-                   <b>介绍：</b>{$vo['info']}  
-                </p>
+                
 
 
                 <neq name="vo.recording" value="">
@@ -404,7 +406,7 @@
                    <b>视频文件：</b> {$vo.video}
                 </p>
                 </neq>
-
+-->
                 </div>
                      <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
