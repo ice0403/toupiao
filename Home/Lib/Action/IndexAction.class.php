@@ -1386,13 +1386,9 @@ public function insertformcopy(){
 
 		$tmp = $model->where("tel='".$this->_param("tel")."' and vid='".$this->_param("vid")."'")->find();
 		if($tmp){
-			if($this->_param("is_ajax")){
-				echo '{"message":"提交失败！该电话已存在!","code":"0"}';
-				exit;
-			}
 			$this->error('提交失败！该电话已存在！');
 		}
-		
+
 		//验证码
 		$sms = M("Sms")->where("vid=".$this->_param("vid")." and code='".$this->_param("code")."' and status=1 and mobile='".$this->_param("tel")."'")->order("addtime desc")->count();
 		if($sms<1){
