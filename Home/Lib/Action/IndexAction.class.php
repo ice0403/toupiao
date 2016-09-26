@@ -1611,9 +1611,10 @@ public function payVote(){
 		if(!empty($send['ticket_code']) && $send['ticket_code_status'] == 1){
 			$content = '恭喜您已获得金笔奖入场票【1张】，购票码为：【'.$send['ticket_code'].'】。请您保存好此短信，当日持短信进入会场。';
 			$this->sms_sending_copy($send['tel'],$content);
+			$update_form = M("Form");
 			$data['id'] = $send['id'];
 			$data['ticket_code_status'] = 2;
-			$send->save($data);
+			$update_form->save($data);
 		}	
         $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
         exit;
