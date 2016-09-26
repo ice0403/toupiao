@@ -1389,7 +1389,7 @@ public function insertformcopy(){
 		    $this->error('手机验证码不正确');
 		}
 		//END 验证码
-		$this->_param("ticket_code") = $this->getRandomString(6);
+		$model->ticket_code = $this->getRandomString(6);
 		if(!$model->create()) {
 			if($this->_param("is_ajax")){
 				echo '{"message":"'.$model->geterror().'","code":"0"}';
@@ -1464,7 +1464,7 @@ public function insertformcopy(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
-					$this->sms_sending_copy($this->_param("tel"),'恭喜您参与金笔奖购票活动，您的购票码为：'.$this->_param("ticket_code").'。请您保存好该短信，持短信入场。')
+					$this->sms_sending_copy($this->_param("tel"),'恭喜您参与金笔奖购票活动，您的购票码为：'.$model->ticket_code.'。请您保存好该短信，持短信入场。')
 					$this->success('提交成功！',$jumpUrl);
 
 				}else{
