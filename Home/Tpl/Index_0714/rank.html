@@ -1,0 +1,180 @@
+<?php
+$group = M("Group")->where("vid=".$_GET['id'])->select();
+?>
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+        <!-- Mobile Devices Support @begin -->
+            
+            <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+            <meta content="no-cache" http-equiv="pragma">
+            <meta content="0" http-equiv="expires">
+            <meta content="telephone=no, address=no" name="format-detection">
+            <meta content="width=device-width, initial-scale=1.0" name="viewport">
+            <meta name="apple-mobile-web-app-capable" content="yes"> <!-- apple devices fullscreen -->
+            <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/bootstrap.min.css">
+
+	<link rel="stylesheet" href="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.css">
+	<script src="<?php echo C('site_url'); ?>/Home/Tpl/Index/static/idangerous.swiper.min.js"></script>
+
+
+<title>数据排行</title>
+<style type="text/css">
+    .groups-nav{
+        list-style:none;
+        box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        margin:0;
+    }
+    .groups-nav li{
+        position: relative;
+        width: 23%;
+        padding: 3% 0;
+        top: 0;
+        font-size: 18px;
+        text-align: center;
+        background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/dise.png) no-repeat;
+        opacity: 1;
+        -webkit-transition: all 0.1s ease 0;   
+        float: left;
+        margin: 5px 1%;
+    }
+    .groups-nav span{
+        font-size: 14px;
+    }
+    .groups-nav li:first-child{
+        float: left;
+    }
+
+    .groups-nav .active{
+        color: #Fff;
+        opacity: 1;
+    }
+    .groups-nav .active:after{
+        content: '\0020';
+        position: absolute;
+        width: 0;
+        border-style: solid;
+        border-color: transparent;
+        border-bottom-color: #fff;
+        border-width: 0 8px 6px 8px;
+        bottom: 0;
+        left: 50%;
+        margin-left: -8px;
+    }
+    .table{border:solid #f2cd62; border-width:1px 0px 0px 1px;}
+    .table th{
+        border:solid #f2cd62; border-width:0px 1px 1px 0px;
+        color:#f2cd62;
+    }
+    .table td{
+        border:solid #f2cd62; border-width:0px 1px 1px 0px;
+        color:#FFF;
+        font-weight: bold;
+    }
+    
+    
+</style>
+</head>
+<body style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
+
+<?php
+if($_GET['gid']){
+?>
+<div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;margin-bottom:10px;">
+        {$vo['title']}
+    </div> 
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-bottom:10px;">
+       <?php
+        foreach($group as $g){
+        if($g['id'] == $_GET['gid']){
+        ?>
+        {:$g['title']}排行榜
+        <?php }} ?>
+    </div> 
+    <div style="font-size:14px;font-weight:bold;text-align:center;width:100%;margin-bottom:10px;">
+       <span style="color:#FFF;">(当前总票数:<span stle="color:#f2cd62;">{$vo['tickets']}</span>)</span>
+    </div>
+    <h5 style="color:#a10333;font-size:14px;margin-left: 2%;" > 
+        <span style="color:#FFF;"><a href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a></span>
+    </h5>
+<?php }else{  ?>
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;margin-bottom:10px;">
+        {$vo['title']}
+    </div> 
+    <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-bottom:10px;">
+       总排行榜
+    </div> 
+    <div style="font-size:14px;font-weight:bold;text-align:center;width:100%;margin-bottom:10px;">
+       <span style="color:#FFF;">(当前总票数:<span stle="color:#f2cd62;">{$vo['tickets']}</span>)</span>
+    </div>
+    <h5 style="color:#a10333;font-size:14px;margin-left:1%;" > 
+        <span style="color:#FFF;">分组排行榜：</span>
+    </h5>
+    <ul class="groups-nav">
+        <?php
+        $group = M("Group")->where("vid=".$_GET['id'])->select();
+        foreach($group as $g){
+        ?>
+        <li id="group{:$i}" <?php if($_GET['gid']==$g['id']){ ?>  class="active" <?php } ?>>
+            <a  style="color:#000000; font-weight: bold;text-decoration:none;"  href="{:U("Index/rank",array("id"=>$_GET['id'],"gid"=>$g['id']))}"    >{:$g['title']}</a>
+        </li>
+        <?php } ?>
+    </ul>
+    
+<?php } ?>
+
+
+	
+	<table class="table table-bordered" style="width:96%;margin-left:2%;margin-top:10px;">
+			<thead>
+				<tr>
+				    <th style="text-align: center;">排行</th>
+					<th style="text-align: center;">名称</th>
+					<th style="text-align: center;">票数</th>
+					<th style="text-align: center;">分组</th>
+				</tr>
+			</thead>
+			<tbody>
+	
+	  <?php $i=1;$tmp=99999;?>
+	  <volist id="vo1" name="list">
+								 
+			      <tr>
+				        <td style="text-align: center"><?php echo $i;?></td>
+						<td style="text-align: center"><span style="font-size:.8em;line-height:1em">{$vo1['num']}号 {$vo1['username']}</span></td>
+						<td style="text-align: center">{$vo1['ticket']}</td>
+                        <td style="text-align: center">
+                            <?php
+                            foreach($group as $g){
+                            if($g['id'] == $vo1['gid']){
+                            ?>
+                            {:$g['title']}
+                            <?php }} ?>
+                        </td>
+
+				  </tr>
+        <?php 
+		if($tmp == $vo1['ticket']){
+			continue;
+		}
+		$tmp = $vo1['ticket'];
+		//$i++;
+		?>
+		</volist>
+
+						</tbody>
+		</table>
+	
+
+<div style="display:none;">
+	<script src="http://s95.cnzz.com/stat.php?id=1256277963&web_id=1256277963" language="JavaScript"></script>
+</div>	
+
+
+
+<br/></body></html>
