@@ -271,26 +271,83 @@ wx.error(function (res) {
     <dd>
     <input type="text" name="code" value="" class="input_txt"  placeholder="验证码" style="width:40%;">
     &nbsp;&nbsp;
-    <span id="mob_b"><button onclick="getcode();" type="button" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid"><span class="yanse">点击获取验证码</span></button>
+    <!--
+    <span id="mob_b"><button onclick="sendMessage();" type="button" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid"><span class="yanse">点击获取验证码</span></button>
     </span>
     <span id="mob_r" style="display:none;">
     <button type="button" id="Time" class="timef" disabled="disabled" onclick="getcode();" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid"><span class="yanse">秒后可以
 点击重发</span></button>
     </span>
+    -->
+    <div class="col-xs-5" style="margin-top:25px;">
+      <a href="javascript:void(0);" class="btn btn-default btn-lg js-sms-send" onClick="sendMessage()">
+        <span id="js-time-left">
+        </span>
+        <span id="js-fetch-btn-text">
+          获取短信验证码
+        </span>
+      </a>
+    </div>
     </dd>
     </dl>
-
+<script type="text/javascript">
+    var InterValObj; //timer变量，控制时间
+    var count = 120; //间隔函数，1秒执行
+    var curCount; //当前剩余秒数
+    var code = ''; //验证码
+    var codeLength = 6;//验证码长度
+    function sendMessage() {
+      curCount = count;
+      var phone_number = $("#c_tel").val(); //获取手机号
+      //判断手机是否符合规范
+      if (phone_number.match(/^1[3|4|5|7|8]\d{9}/)) { 
+        var send = {};
+        send.tel = c_tel;
+        send.vid = <?php echo $vo['id'] ?>;
+        send.mid = <?php echo $member['m_id'] ?>;
+         $.post('/Home/index.php?g=Home&m=Public&a=sendCode',send,function(data) {
+            alert(data.message);
+            if(data.error == 1) {
+                clearInterval(inter); //由于是异步的
+                $("#mob_r").hide();
+                $("#mob_b").show();
+                return;
+            }
+        });
+        //设置button效果，开始计时
+        $('.js-sms-send').addClass('disabled');
+        $('#js-fetch-btn-text').html( + curCount + '秒再获取');
+        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+      }else{
+        alert('手机号码不正确!');
+        return;
+      }
+    }
+    //timer处理函数
+    function SetRemainTime() {
+      if (curCount == 0) {                
+        window.clearInterval(InterValObj);//停止计时器
+        $('.js-sms-send').removeClass('disabled');//启用按钮
+        $('#js-fetch-btn-text').html("重新发送");
+        code = ''; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效    
+      }
+      else {
+        curCount--;
+        $('#js-fetch-btn-text').html( + curCount + '秒再获取');
+      }
+    }
+</script>
 <script type="text/javascript">
 
 function getcode(){
-
+/*
     var patrn=/^[0-9]{11}$/;
     var c_tel = $("#c_tel").val();
     if (!patrn.exec(c_tel)){
         alert('手机号码不正确!');
         return;
     }
-
+*/
   var send = {};
   send.tel = c_tel;
   send.vid = <?php echo $vo['id'] ?>;
