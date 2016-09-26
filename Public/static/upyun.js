@@ -5,19 +5,12 @@ function upyunPicUpload(domid,width,height){
 	art.dialog.data('lastpic', $('#'+domid).val());
 	art.dialog.open('?g=Member&m=Upyun&a=upload&width='+width,{lock:true,title:'上传图片',width:600,height:400,yesText:'关闭',background: '#000',opacity: 0.45});
 }
-function upyunWapAvatarUpload(domid,width,height,token){
-	art.dialog.data('width', width);
-	art.dialog.data('height', height);
-	art.dialog.data('domid', domid);
-	art.dialog.data('lastpic', $('#'+domid).val());
-	art.dialog.open('?g=Member&m=Upyun&a=upload&from=Wap&token='+token+'&width='+width,{lock:true,title:'上传头像',width:260,height:150,top:100,yesText:'关闭',background: '#000',opacity: 0.65});
-}
 function upyunWapPicUpload(domid,width,height,token){
 	art.dialog.data('width', width);
 	art.dialog.data('height', height);
 	art.dialog.data('domid', domid);
 	art.dialog.data('lastpic', $('#'+domid).val());
-	art.dialog.open('?g=Member&m=Upyun&a=upload&from=Wap&token='+token+'&width='+width,{lock:true,title:'上传作品',width:260,height:150,top:100,yesText:'关闭',background: '#000',opacity: 0.65});
+	art.dialog.open('?g=Member&m=Upyun&a=upload&from=Wap&token='+token+'&width='+width,{lock:true,title:'上传图片',width:260,height:150,top:100,yesText:'关闭',background: '#000',opacity: 0.65});
 }
 function viewImg(domid){
 	if($('#'+domid).val()){
