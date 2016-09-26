@@ -1497,7 +1497,7 @@ public function insertformcopy(){
     }
 	//短信发送
 	//返回1为发送成功！
-	function sms_sending_copy($id,$mobile,$content){
+	function sms_sending_copy($mobile,$content){
 	    $content=preg_replace("/\s/","",$content);
 	    $content = iconv("UTF-8","gb2312",$content);
 	    $url = "http://sms.webchinese.cn/web_api/?Uid=metisteam@meishuquan.net&Key=1228f27af1f6dc4d0d25&smsMob=".$mobile."&smsText=".$content; //这里我这是测试例子，你们应该换成你们的，
@@ -1515,10 +1515,6 @@ public function insertformcopy(){
 	        $file_contents = curl_exec($ch);
 	        curl_close($ch);
 	    }
-	    $gengxin = M("Form");
-		$data['ticket_code_status'] = 2;
-		$condition['id'] = $id;
-		$gengxin->where($condition)->save($data);
 	    //echo $url;
 	    //echo $file_contents;
 	    return $file_contents;
@@ -1614,7 +1610,12 @@ public function payVote(){
 		$send = M("Form")->where('id='.$_GET['vid'])->field('id,tel,ticket_code,ticket_code_status')->find();
 		if(!empty($send['ticket_code']) && $send['ticket_code_status'] == 1){
 			$content = '恭喜您已获得金笔奖入场票【1张】，购票码为：【'.$send['ticket_code'].'】。请您保存好此短信，当日持短信进入会场。';
-			$this->sms_sending_copy($_GET['vid'],$send['tel'],$content);
+			$this->sms_sending_copy($send['tel'],$content);
+
+			$gengxin = M("Form");
+			$data['ticket_code_status'] = 2;
+			$condition['id'] = $_GET['vid'];
+			$gengxin->where($condition)->save($data);
 		}	
         $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
         exit;
