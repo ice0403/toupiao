@@ -266,7 +266,73 @@ wx.error(function (res) {
 <input name="tel" type="number" value="" class="input_txt" placeholder="请输入您的真实手机号">
 </dd>
 </dl>
+<dl class="clearfix">
+    <dt>验证码:</dt>
+    <dd>
+    <input type="text" name="code" value="" class="input_txt" style="width:40%;">
+    <span id="mob_b"><button onclick="getcode();" type="button" style="height:30px;width:110px;BORDER-RIGHT:   #7b9ebd   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #7b9ebd   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #7b9ebd   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #7b9ebd   1px   solid">点击获取验证码</button>
+    </span>
+    <span id="mob_r" style="display:none;">
+    <button type="button" id="Time" class="timef" disabled="disabled" onclick="getcode();" style="height:30px;width:110px;BORDER-RIGHT:   #7b9ebd   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #7b9ebd   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #7b9ebd   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #7b9ebd   1px   solid">秒后可以
+点击重发</button>
+    </span>
+    </dd>
+    </dl>
 
+<script type="text/javascript">
+
+function getcode(){
+
+    var patrn=/^[0-9]{11}$/;
+    var c_tel = $("#c_tel").val();
+    if (!patrn.exec(c_tel)){
+        alert('手机号码不正确!');
+        return;
+    }
+
+  var pid = $("#s_pid").val();
+  if(pid == ""){
+      alert('项目名称不能为空!');
+      return;
+  }
+
+  var send = {};
+  send.tel = c_tel;
+  send.vid = <?php echo $vo['id'] ?>;
+  send.mid = <?php echo $member['m_id'] ?>;
+
+    $.post('/Home/index.php?g=Home&m=Public&a=sendCode',send,function(data) {
+    alert(data.message);
+        if(data.error == 1) {
+       clearInterval(inter); //由于是异步的
+       $("#mob_r").hide();
+       $("#mob_b").show();
+           return;
+        }
+      }
+    );
+
+    $("#mob_r").show();
+    $("#mob_b").hide();
+    inter = setInterval("showTine()",1000);
+}
+
+var start = 180;
+var step = -1;
+var cf = false;
+var inter;
+function showTine(){
+    cf = true;
+    document.getElementById("Time").innerHTML = start+"秒,重发验证码";
+    start += step;
+    if(start < 0){
+        clearInterval(inter);
+        cf = false;
+        $("#Time").text("重发验证码");
+        $("#Time").removeAttr("disabled");
+    }
+}
+</script>
 <dl class="clearfix">
 
 <dt class="yanse">
