@@ -1610,10 +1610,7 @@ public function payVote(){
         echo "5555555";
         echo "<br>";
 		echo "<pre>";
-			print_r($_POST);
-		echo "</pre>";
-		echo "<pre>";
-			print_r($model);
+			print_r($_GET);
 		echo "</pre>";
 		exit;
 		sms_sending_copy($model->tel,'恭喜您参与金笔奖购票活动，您的购票码为：'.$model->ticket_code.'。请您保存好该短信，持短信入场。');
