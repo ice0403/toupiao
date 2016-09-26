@@ -1452,8 +1452,7 @@ public function insertformcopy(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
-					$this->success('提交成功！',$jumpUrl);
-					//导入类库
+										//导入类库
     				Vendor('aliyun.top.TopClient');
     				Vendor('aliyun.top.request.AlibabaAliqinFcSmsNumSendRequest');
     				$c = new TopClient();
@@ -1467,6 +1466,8 @@ public function insertformcopy(){
 			        $req->setRecNum('18611157217');
 			        $req->setSmsTemplateCode("SMS_6765804");
 			        $c->execute($req);
+					$this->success('提交成功！',$jumpUrl);
+
 				}else{
 					$this->success('提交成功,等待审核！！');
 				}
