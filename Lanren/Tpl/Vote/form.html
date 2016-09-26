@@ -210,9 +210,7 @@
                                           <h4 class="modal-title">详细查看</h4>
                                       </div>
                                   <div class="modal-body" style="text-align:center;">
-                                          <p style="text-align:left;">
-                                              <b>姓名：</b>{$vo['username']}
-                                          </p>
+                                          
                                           <p style="text-align:left;">
                                               <b>投票号：</b>{$vo['num']}
                                           </p>
@@ -223,21 +221,25 @@
                                               <b>票数：</b>{$vo['ticket']}
                                           </p>
                                           <p style="text-align:left;">
-                                              <b>照片：</b> <a href="{$vo.picurl}" target="_blank"><img src="{$vo['picurl']}" width="100" height="130"></a>  (点击查看大图)
+                                              <b>姓名：</b>{$vo['username']}
+                                          </p>
+                                          <p style="text-align:left;">
+                                             <b>电话：</b>{$vo['tel']}
+                                          </p>
+                                          <p style="text-align:left;">
+                                             <b>机构：</b>{$vo['studio']}
+                                          </p>
+                                          <p style="text-align:left;">
+                                              <b>头像：</b> <a href="{$vo.picurl}" target="_blank"><img src="{$vo['picurl']}" width="100" height="130"></a> 
+                                          </p>
+                                          <p style="text-align:left;">
+                                             <b>职务：</b>{$vo['role']}
+                                          </p>
+                                          <p style="text-align:left;">
+                                              <b>作品：</b> <a href="{$vo.avatar}" target="_blank"><img src="{$vo['avatar']}" width="100" height="130"></a>
                                           </p>
 
-                                          <p style="text-align:left;">
-                                              <b>姓别：</b>
-                                              <eq name="vo.sex" value="0">
-                                              <span class="badge bg-yellow">保密</span>
-                                              </eq>
-                                              <eq name="vo.sex" value="1">
-                                              <span class="badge bg-light-blue">男</span>
-                                              </eq>            
-                                              <eq name="vo.sex" value="2">
-                                              <span class="badge bg-red">女</span>
-                                              </eq>  
-                                          </p>
+                                          
 
                                           <p style="text-align:left;">
                                               <b>状态：</b>
@@ -248,19 +250,16 @@
                                               <span class="badge bg-light-blue">已审</span>
                                               </eq>            
                                           </p>
-
                                           <p style="text-align:left;">
-                                              <b>地址：</b>{$vo['address']}
+                                              <b>个人介绍：</b>{$vo['info']}  
                                           </p>
                                           <p style="text-align:left;">
-                                              <b>手机：</b>{$vo['tel']}
+                                             <b>购票码：</b> {$vo['ticket_code']}
                                           </p>
                                           <p style="text-align:left;">
                                               <b>报名时间：</b> {$vo['addtime']|date="Y-m-d H:i:s",###}
                                           </p>
-                                          <p style="text-align:left;">
-                                              <b>介绍：</b>{$vo['info']}  
-                                          </p>
+                                          
                                       </div>
                                       <div class="modal-footer">
                                           <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
