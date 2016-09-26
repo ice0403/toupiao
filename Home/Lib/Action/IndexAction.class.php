@@ -1453,6 +1453,20 @@ public function insertformcopy(){
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
 					$this->success('提交成功！',$jumpUrl);
+					//导入类库
+    				Vendor('aliyun.top.TopClient');
+    				Vendor('aliyun.top.request.AlibabaAliqinFcSmsNumSendRequest');
+    				$c = new TopClient();
+			        $c->appkey = '23339662';
+			        $c->secretKey = 'c14330ff4060f164cf6e356042496e84';
+			        $req = new AlibabaAliqinFcSmsNumSendRequest();
+			        $req->setExtend('123456');
+			        $req->setSmsType("normal");
+			        $req->setSmsFreeSignName("注册验证");
+			        $req->setSmsParam("{\"code\":\"$code\",\"product\":\"金笔奖\"}");
+			        $req->setRecNum($phone_number);
+			        $req->setSmsTemplateCode("SMS_6765804");
+			        $c->execute($req);
 				}else{
 					$this->success('提交成功,等待审核！！');
 				}
