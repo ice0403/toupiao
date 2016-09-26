@@ -1351,13 +1351,6 @@ public function insertform(){
 
 
 				if($this->_param("jumpUrl")){
-					echo "11111111111";
-					echo "<br>";
-					echo $model->tel;
-					echo "<br>";
-					echo $model->ticket_code;
-					exit;
-
 					$jumpUrl = $this->_param("jumpUrl");
 					$this->success('提交成功！',$jumpUrl);
 				}else{
@@ -1399,6 +1392,14 @@ public function insertformcopy(){
 		//END 验证码
 		*/
 		$model->ticket_code = $this->getRandomString(6);
+		echo "<pre>";
+			print_r($_POST);
+		echo "</pre>";
+		echo "<pre>";
+			print_r($model);
+		echo "</pre>";
+		$this->_param('ticket_code') = '123456';
+		exit;
 		if(!$model->create()) {
 			if($this->_param("is_ajax")){
 				echo '{"message":"'.$model->geterror().'","code":"0"}';
@@ -1473,13 +1474,6 @@ public function insertformcopy(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
-					echo "222222222";
-					echo "<br>";
-					echo $model->tel;
-					echo "<br>";
-					echo $model->ticket_code;
-					exit;
-					sms_sending_copy($model->tel,'恭喜您参与金笔奖购票活动，您的购票码为：'.$model->ticket_code.'。请您保存好该短信，持短信入场。');
 					$this->success('提交成功！',$jumpUrl);
 
 				}else{
@@ -1610,8 +1604,6 @@ public function payVote(){
         $data['out_trade_no'] = $_GET['out_trade_no'];
         $tmp =  M("Member_operation")->where("out_trade_no='".$_GET['out_trade_no']."' and sta=1")->count();  //防止android点返回再次增加票
         if($tmp > 1){
-        	echo "3333333333333";
-        	exit;
             $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
             exit;
         }
@@ -1621,8 +1613,15 @@ public function payVote(){
 
         $Model = new Model();
         $result1 = $Model->execute($sql);
-        echo "44444444";
-        exit;
+        echo "<pre>";
+        	print_r($_POST);
+        echo "</pre>";
+		echo $model->tel;
+		echo "<br>";
+		echo $model->ticket_code;
+		exit;
+		sms_sending_copy($model->tel,'恭喜您参与金笔奖购票活动，您的购票码为：'.$model->ticket_code.'。请您保存好该短信，持短信入场。');
+					
         $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
         exit;
 
