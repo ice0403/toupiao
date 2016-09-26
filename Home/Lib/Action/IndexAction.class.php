@@ -1383,14 +1383,14 @@ public function insertformcopy(){
 		if(!preg_match("/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/",$this->_param("tel"))){    
 		   $this->error('提交失败！手机号格式有误！');
 		}
-		/*
+		
 		//验证码
 		$sms = M("Sms")->where("vid=".$this->_param("vid")." and code='".$this->_param("code")."' and status=1 and mobile='".$this->_param("tel")."'")->order("addtime desc")->count();
 		if($sms<1){
 		    $this->error('手机验证码不正确');
 		}
 		//END 验证码
-		*/
+		
 		$_POST['ticket_code'] = $this->getRandomString(6);
 		$model->ticket_code = $_POST['ticket_code'];
 
@@ -1608,14 +1608,7 @@ public function payVote(){
         $Model = new Model();
         $result1 = $Model->execute($sql);
 		$send = M("Form")->where('id='.$_GET['vid'])->field('tel,ticket_code')->find();
-		echo "<pre>";
-			print_r($send);
-		echo "</pre>";
 		$content = '恭喜您参与金笔奖购票活动，您的购票码为：'.$send['ticket_code'].'。请您保存好该短信，持短信入场。';
-		echo $content;
-		echo "<br>";
-		echo $send['tel'];
-		exit;
 		$this->sms_sending_copy($send['tel'],$content);
 					
         $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));

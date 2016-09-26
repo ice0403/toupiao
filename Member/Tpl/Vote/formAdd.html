@@ -142,6 +142,14 @@
               <input type="text" name="role"  class="form-control "  value="{$vo.role}">
           </div>
           <div class="form-group">
+                      <label>头像</label>
+                      <div class="input-group">
+                        <input type="text" id="avatar" name="avatar" class="form-control" value="{$vo.avatar}">
+                        <span class="input-group-addon"><a href="javascript:void();" onclick="upyunWapPicUpload('avatar')"><i class="fa fa-fw fa-upload"></i>点击上传</a></span>
+            <span class="input-group-addon"><a href="javascript:void();" onclick="viewImg('avatar')"><i class="fa fa-fw fa-share"></i>预览</a></span>
+                      </div>
+                    </div>  
+          <div class="form-group">
                    
             <label>科目：</label>
 
@@ -189,6 +197,7 @@
 
 
 -->
+
 					<div class="form-group">
                       <label>报名作品</label>
                       <div class="input-group">

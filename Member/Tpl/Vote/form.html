@@ -263,6 +263,13 @@
                    <b>机构：</b>{$vo['studio']}
                 </p>
                 <p style="text-align:left;">
+                   <b style="float:left">头像：</b>
+                   <neq name="vo.avatar" vlaue="">
+                   <div style="float:left">
+                   <a href="{$vo.avatar}" target="_blank"><img src="{$vo['avatar']}" width="100" height="130"></a>
+                   </div>
+                </p>
+                <p style="text-align:left;">
                    <b>职务：</b>{$vo['role']}
                 </p>
                   <p style="text-align:left;">
@@ -387,6 +394,9 @@
       -->
                 <p style="text-align:left;">
                    <b>个人介绍：</b>{$vo['info']}  
+                </p>
+                <p style="text-align:left;">
+                   <b>购票码：</b> {$vo['ticket_code']}
                 </p>
                 <p style="text-align:left;">
                    <b>报名时间：</b> {$vo['addtime']|date="Y-m-d H:i:s",###}
