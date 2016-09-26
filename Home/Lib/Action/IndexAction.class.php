@@ -1215,7 +1215,7 @@ public function insertform(){
 			$this->error('提交失败！该电话已存在！');
 		}
 		*/
-		/*
+		
 		if(empty($_POST['avatar'])){
 			if($this->_param("is_ajax")){
 				echo '{"message":"提交失败！必须上传一张头像！","code":"0"}';
@@ -1223,7 +1223,7 @@ public function insertform(){
 			}
 	        $this->error('提交失败！必须上传一张头像！');
 	    }
-		*/
+	
 	    if(empty($_POST['picurl'])){
 			if($this->_param("is_ajax")){
 				echo '{"message":"提交失败！必须上传一张作品！","code":"0"}';
@@ -1389,6 +1389,7 @@ public function insertformcopy(){
 		    $this->error('手机验证码不正确');
 		}
 		//END 验证码
+		$this->_param("ticket_code") = $this->getRandomString(6);
 		if(!$model->create()) {
 			if($this->_param("is_ajax")){
 				echo '{"message":"'.$model->geterror().'","code":"0"}';
@@ -1463,6 +1464,7 @@ public function insertformcopy(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
+					$this->sms_sending_copy($this->_param("tel"),'恭喜您参与金笔奖购票活动，您的购票码为：'.$this->_param("ticket_code").'。请您保存好该短信，持短信入场。')
 					$this->success('提交成功！',$jumpUrl);
 
 				}else{
@@ -1478,7 +1480,42 @@ public function insertformcopy(){
 			}
 	    }
 }
-
+	public function getRandomString($len, $chars=null){
+        if (is_null($chars)){
+            //$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            //生成小写和数字 去除相似
+            $chars = "abcdefghjkmnopqrstuvwxyz023456789";
+        }
+        mt_srand(10000000*(double)microtime());
+        for ($i = 0, $str = '', $lc = strlen($chars)-1; $i < $len; $i++){
+            $str .= $chars[mt_rand(0, $lc)];  
+        }
+        return $str;
+    }
+	//短信发送
+	//返回1为发送成功！
+	function sms_sending_copy($mobile,$content){
+	    $content=preg_replace("/\s/","",$content);
+	    $content = iconv("UTF-8","gb2312",$content);
+	    $url = "http://sms.webchinese.cn/web_api/?Uid=metisteam@meishuquan.net&Key=1228f27af1f6dc4d0d25&smsMob=".$mobile."&smsText=".$content; //这里我这是测试例子，你们应该换成你们的，
+	    if(function_exists('file_get_contents'))
+	    {
+	        $file_contents = file_get_contents($url);
+	    }
+	    else
+	    {
+	        $ch = curl_init();
+	        $timeout = 5;
+	        curl_setopt ($ch, CURLOPT_URL, $url);
+	        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+	        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	        $file_contents = curl_exec($ch);
+	        curl_close($ch);
+	    }
+	    //echo $url;
+	    //echo $file_contents;
+	    return $file_contents;
+	}
 
 
 

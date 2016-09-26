@@ -48,7 +48,7 @@ var domid=art.dialog.data('domid');
 // 返回数据到主页面
 function returnHomepage(url){
 	var origin = artDialog.open.origin;
-	var h_num = origin.document.getElementById("h_num").innerText;
+	var h_num = origin.document.getElementById(domid+"_num").innerText;
 	if(h_num != "0"){
 		var dom = origin.document.getElementById(domid+h_num);
 	}else{
@@ -58,8 +58,8 @@ function returnHomepage(url){
 	if(origin.document.getElementById(domsrcid)){
 	origin.document.getElementById(domsrcid).src=url;
 	}
-	if(origin.document.getElementById('imglist')){
-		origin.document.getElementById('imglist').innerHTML=origin.document.getElementById('imglist').innerHTML+'<li><img src="'+url+'" width="60" height="60"></li>';		
+	if(origin.document.getElementById('imglist_'+domid)){
+		origin.document.getElementById('imglist_'+domid).innerHTML=origin.document.getElementById('imglist_'+domid).innerHTML+'<li><img src="'+url+'" width="60" height="60"></li>';		
 	}
 
 	if(domid == "video"){
@@ -67,7 +67,7 @@ function returnHomepage(url){
 		dom.value=url;
 	}else{
 		dom.value=url;
-		origin.document.getElementById("h_num").innerText=parseInt(h_num)+1;		
+		origin.document.getElementById(domid+"_num").innerText=parseInt(h_num)+1;		
 	}
 
 
