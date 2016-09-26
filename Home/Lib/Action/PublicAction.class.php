@@ -688,7 +688,7 @@ class PublicAction extends Action {
 	function sms_sending($mid,$mobile,$content){
 	    $content=preg_replace("/\s/","",$content);
 	    $content = iconv("UTF-8","gb2312",$content);
-	    $url = 'http://sms.webchinese.cn/web_api/?Uid=wanqili&Key=511cdc13bb2a43b24e7d&smsMob={phone}&smsText={content}'; //这里我这是测试例子，你们应该换成你们的，
+	    $url = "http://sms.webchinese.cn/web_api/?Uid=wanqili&Key=511cdc13bb2a43b24e7d&smsMob=".$mobile."&smsText=".$content; //这里我这是测试例子，你们应该换成你们的，
 	    if(function_exists('file_get_contents'))
 	    {
 	        $file_contents = file_get_contents($url);
