@@ -1394,13 +1394,6 @@ public function insertformcopy(){
 		$_POST['ticket_code'] = $this->getRandomString(6);
 		$model->ticket_code = $_POST['ticket_code'];
 
-		echo "<pre>";
-			print_r($_POST);
-		echo "</pre>";
-		echo "<pre>";
-			print_r($model);
-		echo "</pre>";
-		exit;
 		if(!$model->create()) {
 			if($this->_param("is_ajax")){
 				echo '{"message":"'.$model->geterror().'","code":"0"}';
@@ -1614,12 +1607,14 @@ public function payVote(){
 
         $Model = new Model();
         $result1 = $Model->execute($sql);
-        echo "<pre>";
-        	print_r($_POST);
-        echo "</pre>";
-		echo $model->tel;
-		echo "<br>";
-		echo $model->ticket_code;
+        echo "5555555";
+        echo "<br>";
+		echo "<pre>";
+			print_r($_POST);
+		echo "</pre>";
+		echo "<pre>";
+			print_r($model);
+		echo "</pre>";
 		exit;
 		sms_sending_copy($model->tel,'恭喜您参与金笔奖购票活动，您的购票码为：'.$model->ticket_code.'。请您保存好该短信，持短信入场。');
 					
