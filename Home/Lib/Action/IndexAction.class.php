@@ -1464,7 +1464,7 @@ public function insertformcopy(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
-					sms_sending_copy($model->tel,'恭喜您参与金笔奖购票活动，您的购票码为：'.$model->ticket_code.'。请您保存好该短信，持短信入场。')
+					sms_sending_copy($model->tel,'恭喜您参与金笔奖购票活动，您的购票码为：'.$model->ticket_code.'。请您保存好该短信，持短信入场。');
 					$this->success('提交成功！',$jumpUrl);
 
 				}else{
