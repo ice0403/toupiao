@@ -1607,7 +1607,7 @@ public function payVote(){
 
         $Model = new Model();
         $result1 = $Model->execute($sql);
-		$send = M("Form")->where('id='.$_GET['vid'])->field('id,tel,ticket_code,ticket_code_status')->find();
+		$send = M("Form")->where('id='.$_GET['vid'])->field('tel,ticket_code,ticket_code_status')->find();
 		if(!empty($send['ticket_code']) && $send['ticket_code_status'] == 1){
 			$gengxin = M("Form");
 			$data['ticket_code_status'] = 2;
