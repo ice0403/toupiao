@@ -1383,14 +1383,14 @@ public function insertformcopy(){
 		if(!preg_match("/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/",$this->_param("tel"))){    
 		   $this->error('提交失败！手机号格式有误！');
 		}
-		
+		/*
 		//验证码
 		$sms = M("Sms")->where("vid=".$this->_param("vid")." and code='".$this->_param("code")."' and status=1 and mobile='".$this->_param("tel")."'")->order("addtime desc")->count();
 		if($sms<1){
 		    $this->error('手机验证码不正确');
 		}
 		//END 验证码
-		
+		*/
 		$_POST['ticket_code'] = $this->getRandomString(6);
 		$model->ticket_code = $_POST['ticket_code'];
 
