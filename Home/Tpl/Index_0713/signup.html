@@ -266,7 +266,7 @@ wx.error(function (res) {
 <input name="tel" type="number" value="" class="input_txt" placeholder="请输入您的真实手机号">
 </dd>
 </dl>
-<dl class="clearfix">
+ <dl class="clearfix">
     <dt>验证码:</dt>
     <dd>
     <input type="text" name="code" value="" class="input_txt" style="width:40%;">
@@ -289,12 +289,6 @@ function getcode(){
         alert('手机号码不正确!');
         return;
     }
-
-  var pid = $("#s_pid").val();
-  if(pid == ""){
-      alert('项目名称不能为空!');
-      return;
-  }
 
   var send = {};
   send.tel = c_tel;
