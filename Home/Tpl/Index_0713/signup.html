@@ -274,7 +274,7 @@ wx.error(function (res) {
     <span id="mob_b"><button onclick="getcode();" type="button" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid"><span class="yanse">点击获取验证码</span></button>
     </span>
     <span id="mob_r" style="display:none;">
-    <button type="button" id="Time" class="timef yanse" disabled="disabled" onclick="getcode();" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid">秒后可以
+    <button type="button" id="Time" class="timef" disabled="disabled" onclick="getcode();" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid">秒后可以
 点击重发</button>
     </span>
     </dd>
@@ -318,12 +318,12 @@ var cf = false;
 var inter;
 function showTine(){
     cf = true;
-    document.getElementById("Time").innerHTML = start+"秒,重发验证码";
+    document.getElementById("Time").innerHTML = "<span class='yanse'>"+start+"秒,重发验证码</span>";
     start += step;
     if(start < 0){
         clearInterval(inter);
         cf = false;
-        $("#Time").text("重发验证码");
+        $("#Time").text("<span class='yanse'>重发验证码</span>");
         $("#Time").removeAttr("disabled");
     }
 }
