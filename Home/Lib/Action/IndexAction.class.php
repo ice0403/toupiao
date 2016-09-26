@@ -1609,12 +1609,8 @@ public function payVote(){
         $result1 = $Model->execute($sql);
 		$send = M("Form")->where('id='.$_GET['vid'])->field('tel,ticket_code')->find();
 		
-		$content = '恭喜您参与金笔奖购票活动，您的购票码为：'.$send->ticket_code.'。请您保存好该短信，持短信入场。';
-		echo $send->tel;
-		echo "<br>";
-		echo $content;
-		exit;
-		$this->sms_sending_copy($send->tel,$content);
+		$content = '恭喜您参与金笔奖购票活动，您的购票码为：'.$send['ticket_code'].'。请您保存好该短信，持短信入场。';
+		$this->sms_sending_copy($send['tel'],$content);
 					
         $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
         exit;
