@@ -1398,7 +1398,6 @@ public function insertformcopy(){
 		echo "<pre>";
 			print_r($model);
 		echo "</pre>";
-		$this->_param('ticket_code') = '123456';
 		exit;
 		if(!$model->create()) {
 			if($this->_param("is_ajax")){
