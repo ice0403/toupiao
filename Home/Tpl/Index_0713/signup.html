@@ -279,15 +279,13 @@ wx.error(function (res) {
 点击重发</span></button>
     </span>
     -->
-    <div class="col-xs-5" style="margin-top:25px;">
-      <a href="javascript:void(0);" class="btn btn-default btn-lg js-sms-send" onClick="sendMessage()">
+    <button onclick="sendMessage();" type="button" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid">
         <span id="js-time-left">
         </span>
         <span id="js-fetch-btn-text">
           获取短信验证码
         </span>
-      </a>
-    </div>
+    </button>
     </dd>
     </dl>
 <script type="text/javascript">
@@ -337,54 +335,7 @@ wx.error(function (res) {
       }
     }
 </script>
-<script type="text/javascript">
 
-function getcode(){
-/*
-    var patrn=/^[0-9]{11}$/;
-    var c_tel = $("#c_tel").val();
-    if (!patrn.exec(c_tel)){
-        alert('手机号码不正确!');
-        return;
-    }
-*/
-  var send = {};
-  send.tel = c_tel;
-  send.vid = <?php echo $vo['id'] ?>;
-  send.mid = <?php echo $member['m_id'] ?>;
-
-    $.post('/Home/index.php?g=Home&m=Public&a=sendCode',send,function(data) {
-    alert(data.message);
-        if(data.error == 1) {
-       clearInterval(inter); //由于是异步的
-       $("#mob_r").hide();
-       $("#mob_b").show();
-           return;
-        }
-      }
-    );
-
-    $("#mob_r").show();
-    $("#mob_b").hide();
-    inter = setInterval("showTine()",1000);
-}
-
-var start = 120;
-var step = -1;
-var cf = false;
-var inter;
-function showTine(){
-    cf = true;
-    document.getElementById("Time").innerHTML = "<span class='yanse'>"+start+"秒,重发验证码</span>";
-    start += step;
-    if(start < 0){
-        clearInterval(inter);
-        cf = false;
-        document.getElementById("Time").innerHTML = "<span class='yanse'>重发验证码</span>";
-        $("#Time").removeAttr("disabled");
-    }
-}
-</script>
 <dl class="clearfix">
 
 <dt class="yanse">
