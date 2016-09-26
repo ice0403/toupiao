@@ -1362,7 +1362,110 @@ public function insertform(){
 
 }
 
+public function insertformcopy(){
 
+        C('TOKEN_ON',false);
+		$model = M("Form");
+		if(!$this->_param("username")){
+			$this->error('购票失败！用户名不能为空！');
+		}
+		
+		if(!$this->_param("tel")){
+			$this->error('购票失败！电话不能为空！');
+		}
+
+		if(!preg_match("/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/",$this->_param("tel"))){    
+		   $this->error('购票失败！手机号格式有误！');
+		}
+
+		if(!$model->create()) {
+			if($this->_param("is_ajax")){
+				echo '{"message":"'.$model->geterror().'","code":"0"}';
+				exit;
+			}
+			$this->error($model->geterror());
+		}else{
+			$num = M("Form")->where("vid=".$this->_param("vid"))->max('num');
+			if(!empty($num)){
+				$num = intval($num) + 1;
+				$model->num = $num;
+			}else{
+				$model->num = 1;
+			}
+
+			$vote = M("Vote")->where("id=".$this->_param("vid"))->field("mid,ischeck,isPay,price")->find();
+			$model->status = empty($vote['ischeck'])?1:0;
+
+            $model->info = str_replace(array("\r\n", "\r", "\n"), '',$this->_param("info"));
+			$model->addtime = time();
+
+			if($result	 =	 $model->add()) {
+				$member = M("Member")->where('m_id='.$vote['mid'])->field('m_isconnent,m_appid,m_appsecret,m_wxname')->find();
+
+				//保存多媒体文件
+				if(!empty($_POST['record_id'])){
+					$media = $_POST['record_id'];
+					if(!strstr($media, 'serverId')){
+						if($member['m_appid'] && $member['m_appsecret']){
+						  //由于录音连接上传三次后 token 总是失效
+						  unlink('access_token-'.$member['m_appid'].".json");
+						  unlink('jsapi_ticket-'.$member['m_appid'].".json");
+
+							require_once "../Public/weixin/jssdk.php";
+							$jssdk = new JSSDK($member['m_appid'], $member['m_appsecret']);
+							$signPackage = $jssdk->GetSignPackage();
+							$res = json_decode(file_get_contents("access_token-".$member['m_appid'].".json"),true);
+
+							if(!isset($res['errcode'])){
+								$access_token = $res['access_token'];
+								file_put_contents($media.".amr", fopen("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=".$access_token."&media_id=".$media, 'r'));
+                                if(file_exists($media.".amr")){
+                                    define('FFMPEG_LIBRARY', '/usr/local/bin/ffmpeg ');
+                                    $exec_string = FFMPEG_LIBRARY.' -i '.$media.'.amr '.$media.'.mp3';
+                                    system($exec_string);
+
+                                    //update recording
+                                    if(file_exists($media.".mp3")){
+            							$us['recording'] = C("site_url").'/Home/'.$media.".mp3";
+										M("Form")->where("id=".$result)->data($us)->save();
+                                    }
+                                 }
+                              }
+
+
+						}
+					}
+				}
+				//END
+
+
+				if($this->_param("is_ajax")){
+					echo '{"message":"添加成功!","code":"1","media":"http://file.api.weixin.qq.com/cgi-bin/media/get?access_token='.$access_token.'&media_id='.$media.'"}';
+					exit;
+				}
+
+                if($vote['isPay']){
+                    header("Location: /Home/index.php?m=Index&a=pay&id=".$this->_param("vid")."&mid=".$vote['mid']."&fid=".$result."&price=".$vote['price']."&type=1&num=1");
+                exit;
+                }
+
+
+				if($this->_param("jumpUrl")){
+					$jumpUrl = $this->_param("jumpUrl");
+					$this->success('购票成功！',$jumpUrl);
+				}else{
+					$this->success('购票成功,等待审核！！');
+				}
+			}else{
+
+				if($this->_param("is_ajax")){
+					echo '{"message":"购票失败!","code":"0"}';
+					exit;
+				}
+				$this->error('购票失败！');
+			}
+	    }
+}
 
 
 
