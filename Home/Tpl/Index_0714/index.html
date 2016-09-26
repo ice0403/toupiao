@@ -247,7 +247,8 @@ wx.error(function (res) {
 </header> 
 
 <div class="apply" style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
-<p style="padding-top:30px;"><strong class="yanse">报名处</strong></p>
+<p style="padding-top:30px;"><strong class="yanse">金笔奖 颁奖典礼</strong></p>
+<p style="padding-top:10px;"><strong class="yanse">购票入口</strong></p>
 <div class="blank10"></div>
 <form id="imageform" method="post" enctype="multipart/form-data" action="__URL__/insertForm">
 
@@ -270,7 +271,7 @@ wx.error(function (res) {
 <dl class="clearfix">
 
 <dt class="yanse">
-* 机构:
+ 机构:
 </dt>
 <dd>
 <input type="text" class="input_txt" name="studio" value="" placeholder="请输入机构名称">      
@@ -279,156 +280,12 @@ wx.error(function (res) {
 <dl class="clearfix">
 
 <dt class="yanse">
-* 职务:
+ 职务:
 </dt>
 <dd>
 <input type="text" class="input_txt" name="role" value="" placeholder="请输入职务名称">      
 </dl>
-<!--
-<dl class="upload clearfix">
-<dt class="yanse">上传头像</dt>
-<dd class="upload_area clearfix">
-<ul id="imglist" class="post_imglist">
-</ul>
-<div style="display:none;" id="h_num">0</div>
 
-<input type="hidden" id="avatar" name="avatar" value="" >
-
-<input type="button" name="button" value="" style="background: url(/Public/images/upload_btn.png) center no-repeat;
-background-size: 30px auto;
-float: left;
-overflow: hidden;
-position: relative;
-width: 30px;
-height: 30px;" onclick="upyunWapAvatarUpload('avatar','','',{$member.m_id})">
-    </dd>
-    </dl>
--->
-<dl class="clearfix">
-<dt class="yanse">* 科目:</dt>
-<dd>  
-
-<select name="gid">
-    <?php
-        $group = M("Group")->where("vid=".$_GET['id'])->select();
-        foreach($group as $g){
-    ?>
-    <option value="{:$g['id']}">{:$g['title']}</option>
-    <?php } ?>
-</select>
-
-</dd>
-</dl>
-
-
-
-
-<?php
-if($member['m_username'] == 'hnwt'){
-?>
-<dl class="clearfix">
-<dt class="yanse">栋号/房号</dt>
-<dd>  
-
-<input name="company" type="text" value="" class="input_txt" placeholder="请输入所在小区栋号/房号">
-
-</dd>
-</dl>
-<?php } ?>
-
-<dl class="upload clearfix">
-<dt class="yanse">* 上传作品</dt>
-<dd class="upload_area clearfix">
-<ul id="imglist" class="post_imglist">
-</ul>
-<div style="display:none;" id="h_num">0</div>
-
-<input type="hidden" id="picurl" name="picurl" value="" >
-<!--
-<input type="hidden" id="picurl1" name="picurl1" value="" >
-<input type="hidden" id="picurl2" name="picurl2" value="" >
-<input type="hidden" id="picurl3" name="picurl3" value="" >
-<input type="hidden" id="picurl4" name="picurl4" value="" >
--->
-<input type="button" name="button" value="" style="background: url(/Public/images/upload_btn.png) center no-repeat;
-background-size: 40px auto;
-float: left;
-overflow: hidden;
-position: relative;
-width: 40px;
-height: 40px;" onclick="upyunWapPicUpload('picurl','','',{$member.m_id})">
-<span class="yanse">
-(每次只限上传一张作品)
-</span>
-	</dd>
-	</dl>
-
-<dl class="clearfix">
-<dt>
-
-
-<?php
-if($member['m_username'] == '576613'){
-?>
-产品介绍:				
-<?php
-}else{
-?>
-<span class="yanse">个人简介:</span>		
-<?php
-}	
-?>
-
-
-
-</dt>
-<dd>
-
-<?php
-if($member['m_username'] == '576613'){
-?>
-<textarea class="textarea" placeholder="请输入产品介绍！" name="info" id="info"></textarea>				
-<?php
-}else{
-?>
-<textarea class="textarea" placeholder="请输入个人宣言！" name="info" id="info"></textarea>
-<?php
-}	
-?>
-
-
-
-
-</dd>
-</dl>
-<div style="color: #720000;font-size: 16px;padding: 0 15px 15px 15px; line-height:24px; font-weight:bolder;">
-
-
-
-
-<?php
-if($member['m_username'] == '284682742'){
-?>
-<span style="color:#FFF;">
-如在线报名失败，请发送邮箱：284682742@qq.com,并附上作品名称、参赛人员姓名、手机号码。					
-</span>					
-<?php
-}else{
-?>
-<span style="color:#FFF;">
-若在线报名失败，可以点击咨询按钮联系我们！						
-</span> 
-<?php
-}	
-?>
-
-
-
-
-
-
-
-</div>
 <div class="btn_box">
 
                 <input type="hidden" name="token" value="<?php echo $_GET['token'];?>">
@@ -438,7 +295,7 @@ if($member['m_username'] == '284682742'){
                 <input type="hidden" name="mid" value="{$vo.mid}">
 
 
-<input type="submit" name="submit" class="button" value="确认报名">
+<input type="submit" name="submit" class="button" value="确认购票">
 
 
 </div>
@@ -446,6 +303,35 @@ if($member['m_username'] == '284682742'){
 </form>
 </div>
 
+<div style="color: #720000;font-size: 16px;padding: 0 15px 15px 15px; line-height:24px; font-weight:bolder;">
+
+
+
+
+<?php
+if($member['m_username'] == '284682742'){
+?>
+<span style="color:#FFF;">
+如在线报名失败，请发送邮箱：284682742@qq.com,并附上作品名称、参赛人员姓名、手机号码。                 
+</span>                 
+<?php
+}else{
+?>
+<span style="color:#FFF;">
+若在线购票失败，请联系美术圈客服。
+您购买的为颁奖门票，因其受时间、容量等限制，不接受任何形式的退票和退款。                       
+</span> 
+<?php
+}   
+?>
+
+
+
+
+
+
+
+</div>
 <section class="rules">
 <div class="text"> <div class="prize">活动细则</div>
 <div class="neirong">
