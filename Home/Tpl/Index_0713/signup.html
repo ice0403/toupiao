@@ -323,7 +323,7 @@ function showTine(){
     if(start < 0){
         clearInterval(inter);
         cf = false;
-        $("#Time").text("<span class='yanse'>重发验证码</span>");
+        document.getElementById("Time").innerHTML = "<span class='yanse'>重发验证码</span>";
         $("#Time").removeAttr("disabled");
     }
 }
