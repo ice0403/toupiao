@@ -1607,15 +1607,10 @@ public function payVote(){
 
         $Model = new Model();
         $result1 = $Model->execute($sql);
-		$send = M("Form")->where('id='.$_GET['vid'])->field('id,tel,ticket_code,ticket_code_status')->find();
-		if(!empty($send['ticket_code']) && $send['ticket_code_status'] == 1){
+		$send = M("Form")->where('id='.$_GET['vid'])->field('tel,ticket_code')->find();
+		if(!empty($send['ticket_code'])){
 			$content = '恭喜您已获得金笔奖入场票【1张】，购票码为：【'.$send['ticket_code'].'】。请您保存好此短信，当日持短信进入会场。';
 			$this->sms_sending_copy($send['tel'],$content);
-
-			$gengxin = M("Form");
-			$data['ticket_code_status'] = 2;
-			$condition['id'] = $_GET['vid'];
-			$gengxin->where($condition)->save($data);
 		}	
         $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
         exit;
