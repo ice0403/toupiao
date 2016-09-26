@@ -1189,41 +1189,41 @@ public function insertform(){
         C('TOKEN_ON',false);
 		$model = M("Form");
 		if(!$this->_param("username")){
-			$this->error('报名失败！用户名不能为空！');
+			$this->error('提交失败！用户名不能为空！');
 		}
 		
 		if(!$this->_param("tel")){
-			$this->error('报名失败！电话不能为空！');
+			$this->error('提交失败！电话不能为空！');
 		}
 
 		if(!preg_match("/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/",$this->_param("tel"))){    
-		   $this->error('报名失败！手机号格式有误！');
+		   $this->error('提交失败！手机号格式有误！');
 		}
 		/*
         $tmp = $model->where("tel='".$this->_param("tel")."' and vid='".$this->_param("vid")."'")->find();
 		if($tmp){
 			if($this->_param("is_ajax")){
-				echo '{"message":"报名失败！该电话已存在!","code":"0"}';
+				echo '{"message":"提交失败！该电话已存在!","code":"0"}';
 				exit;
 			}
-			$this->error('报名失败！该电话已存在！');
+			$this->error('提交失败！该电话已存在！');
 		}
 		*/
 		/*
 		if(empty($_POST['avatar'])){
 			if($this->_param("is_ajax")){
-				echo '{"message":"报名失败！必须上传一张头像！","code":"0"}';
+				echo '{"message":"提交失败！必须上传一张头像！","code":"0"}';
 				exit;
 			}
-	        $this->error('报名失败！必须上传一张头像！');
+	        $this->error('提交失败！必须上传一张头像！');
 	    }
 		*/
 	    if(empty($_POST['picurl'])){
 			if($this->_param("is_ajax")){
-				echo '{"message":"报名失败！必须上传一张作品！","code":"0"}';
+				echo '{"message":"提交失败！必须上传一张作品！","code":"0"}';
 				exit;
 			}
-	        $this->error('报名失败！必须上传一张作品！');
+	        $this->error('提交失败！必须上传一张作品！');
 	    }
 
 		if(!$model->create()) {
@@ -1346,17 +1346,17 @@ public function insertform(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
-					$this->success('报名成功！',$jumpUrl);
+					$this->success('提交成功！',$jumpUrl);
 				}else{
-					$this->success('报名成功,等待审核！！');
+					$this->success('提交成功,等待审核！！');
 				}
 			}else{
 
 				if($this->_param("is_ajax")){
-					echo '{"message":"报名失败!","code":"0"}';
+					echo '{"message":"提交失败!","code":"0"}';
 					exit;
 				}
-				$this->error('报名失败！');
+				$this->error('提交失败！');
 			}
 	    }
 
@@ -1367,15 +1367,15 @@ public function insertformcopy(){
         C('TOKEN_ON',false);
 		$model = M("Form");
 		if(!$this->_param("username")){
-			$this->error('购票失败！用户名不能为空！');
+			$this->error('提交失败！用户名不能为空！');
 		}
 		
 		if(!$this->_param("tel")){
-			$this->error('购票失败！电话不能为空！');
+			$this->error('提交失败！电话不能为空！');
 		}
 
 		if(!preg_match("/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/",$this->_param("tel"))){    
-		   $this->error('购票失败！手机号格式有误！');
+		   $this->error('提交失败！手机号格式有误！');
 		}
 
 		if(!$model->create()) {
@@ -1452,17 +1452,17 @@ public function insertformcopy(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
-					$this->success('购票成功！',$jumpUrl);
+					$this->success('提交成功！',$jumpUrl);
 				}else{
-					$this->success('购票成功,等待审核！！');
+					$this->success('提交成功,等待审核！！');
 				}
 			}else{
 
 				if($this->_param("is_ajax")){
-					echo '{"message":"购票失败!","code":"0"}';
+					echo '{"message":"提交失败!","code":"0"}';
 					exit;
 				}
-				$this->error('购票失败！');
+				$this->error('提交失败！');
 			}
 	    }
 }
@@ -1546,7 +1546,7 @@ public function payVote(){
         $data['out_trade_no'] = $_GET['out_trade_no'];
         $tmp =  M("Member_operation")->where("out_trade_no='".$_GET['out_trade_no']."' and sta=1")->count();  //防止android点返回再次增加票
         if($tmp > 1){
-            $this->success('报名成功！',U("Index/index",array("id"=>$this->_param('id'))));
+            $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
             exit;
         }
 
@@ -1556,7 +1556,7 @@ public function payVote(){
         $Model = new Model();
         $result1 = $Model->execute($sql);
 
-        $this->success('报名成功！',U("Index/index",array("id"=>$this->_param('id'))));
+        $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
         exit;
 
 }
