@@ -622,6 +622,91 @@ class PublicAction extends Action {
 		$voList = $model->where("p_id=".$_GET['id'])->find();
 		echo json_encode($voList);
 	}
+	//返回6位随机码
+    private function productCode() {
+        /*$str_1 = range('a','z');
+        $str_2 = range('A', 'Z');*/
+        $str_3 = range(0,9);
+        //$strArr = array_merge($str_1,$str_2,$str_3);
+        //随机产生6位随机数
+        $strCode = '';
+        for($i=0;$i<=5;$i++) {
+            $strCode .= $str_3[mt_rand(0,9)];
+        }
+        return $strCode;
+    }
+
+
+
+
+
+ public function sendCode() {
+        $tel = $this->_param('tel');
+                $sms = M('Sms');
+
+        $authCode = $this->productCode();
+
+        $content = '您好，感谢您对本站的支持，您本次的随机验证码如下：';
+        $content .= $authCode . ',请即刻验证！';
+
+
+        $errorCode = $this->sms_sending($this->_param('mid'),$tel,$content);
+
+
+        if($errorCode > 0) {
+            $data['status'] = 1;
+            $error =0;
+            $msg = "手机验证码已发送至您手机，请注意查收!";
+        } else if ($errorCode == -4) {
+            $data['status'] = 0;
+            $error = 1;
+            $msg = "手机号码格式不正确！";
+        }
+
+        $data['vid'] = $this->_param('vid');
+        $data['mid'] = $this->_param('mid');
+        $data['code'] = $authCode;
+        $data['mobile'] = $this->_param('tel');
+        $data['addtime'] = time();
+        $data['result'] = $errorCode;
+         $sms->add($data);
+
+
+        $this->ajaxReturn(array(
+            'error'     => $error,
+            'message'   =>$msg,
+        ));
+    }
+
+
+
+
+
+
+	//短信发送
+	//返回1为发送成功！
+	function sms_sending($mid,$mobile,$content){
+	    $content=preg_replace("/\s/","",$content);
+	    $content = iconv("UTF-8","gb2312",$content);
+	    $url = http://sms.webchinese.cn/web_api/?Uid=wanqili&Key=511cdc13bb2a43b24e7d&smsMob={phone}&smsText={content}; //这里我这是测试例子，你们应该换成你们的，
+	    if(function_exists('file_get_contents'))
+	    {
+	        $file_contents = file_get_contents($url);
+	    }
+	    else
+	    {
+	        $ch = curl_init();
+	        $timeout = 5;
+	        curl_setopt ($ch, CURLOPT_URL, $url);
+	        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+	        curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	        $file_contents = curl_exec($ch);
+	        curl_close($ch);
+	    }
+	    //echo $url;
+	    //echo $file_contents;
+	    return $file_contents;
+	}
 }
 
 ?>
