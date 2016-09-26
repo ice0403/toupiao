@@ -1391,7 +1391,9 @@ public function insertformcopy(){
 		}
 		//END 验证码
 		*/
-		$model->ticket_code = $this->getRandomString(6);
+		$_POST['ticket_code'] = $this->getRandomString(6);
+		$model->ticket_code = $_POST['ticket_code'];
+
 		echo "<pre>";
 			print_r($_POST);
 		echo "</pre>";
