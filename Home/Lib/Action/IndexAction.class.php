@@ -1351,6 +1351,13 @@ public function insertform(){
 
 
 				if($this->_param("jumpUrl")){
+					echo "11111111111";
+					echo "<br>";
+					echo $model->tel;
+					echo "<br>";
+					echo $model->ticket_code;
+					exit;
+
 					$jumpUrl = $this->_param("jumpUrl");
 					$this->success('提交成功！',$jumpUrl);
 				}else{
@@ -1464,6 +1471,8 @@ public function insertformcopy(){
 
 				if($this->_param("jumpUrl")){
 					$jumpUrl = $this->_param("jumpUrl");
+					echo "222222222";
+					echo "<br>";
 					echo $model->tel;
 					echo "<br>";
 					echo $model->ticket_code;
@@ -1599,6 +1608,8 @@ public function payVote(){
         $data['out_trade_no'] = $_GET['out_trade_no'];
         $tmp =  M("Member_operation")->where("out_trade_no='".$_GET['out_trade_no']."' and sta=1")->count();  //防止android点返回再次增加票
         if($tmp > 1){
+        	echo "3333333333333";
+        	exit;
             $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
             exit;
         }
@@ -1608,7 +1619,8 @@ public function payVote(){
 
         $Model = new Model();
         $result1 = $Model->execute($sql);
-
+        echo "44444444";
+        exit;
         $this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
         exit;
 
