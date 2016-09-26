@@ -1464,7 +1464,7 @@ public function insertformcopy(){
 			        $req->setSmsType("normal");
 			        $req->setSmsFreeSignName("注册验证");
 			        $req->setSmsParam("{\"code\":\"$code\",\"product\":\"金笔奖\"}");
-			        $req->setRecNum($phone_number);
+			        $req->setRecNum('18611157217');
 			        $req->setSmsTemplateCode("SMS_6765804");
 			        $c->execute($req);
 				}else{
