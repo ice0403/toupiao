@@ -253,7 +253,7 @@ img {-ms-interpolation-mode: bicubic; }
 .pagination ul li.active{background-color: #76d4ba;}
 .pagination ul li.active a{color: #fff;}
 
-.rules {background: #e5f1e5; color: #fff; padding-top: 20px; line-height:150%;}
+.rules {color: #fff; padding-top: 20px; line-height:150%;}
 .rules .text .prize{width: 150px;display: block; height: 30px; line-height: 30px; border-radius: 0 15px 15px 0; background: #76d4ba; font-size: 15px; text-align: center;}
 .rules .text .ways{width: 150px;display: block; height: 30px; line-height: 30px; border-radius: 0 15px 15px 0; background: #76d4ba; font-size: 15px; text-align: center;}
 .rules .text p{color: #147e61; font-size: 14px;  }
