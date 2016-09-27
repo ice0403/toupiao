@@ -896,12 +896,46 @@ foreach($group as $g){
 							    {$vo1['info']}
 							  </span>
 							</div>
-
-							<div style="width:100%;position:relative;">
-							<neq name="vo1.picurl" vlaue="">
-							<img id="bigimg{$vo1['id']}" style="width:70%;height:auto;margin-top:10px;" dsrc="{$vo1['picurl']}" src="{$vo1['picurl']}">	<p>
-							</neq>
+							<style type="text/css">
+							.box15 {
+    width: 320px;
+    min-height: 310px;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 4px;
+    border-bottom-right-radius: 60px 5px;
+    margin: 40px auto;
+    padding: 10px;
+    background: -webkit-gradient(linear, 100% 100%, 50% 10%, from(rgb(255, 255, 255)), color-stop(0.1, rgb(255, 255, 255)), to(rgb(243, 243, 243)));
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204);
+    border-image: initial;
+}
+.box15 img {
+    width: 100%;
+    margin-top: 15px;
+}
+.box15_ribbon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 130px;
+    height: 40px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 12px;
+    transform: rotate(-30deg) skew(0deg, 0deg) translate(-30px, -20px);
+    background: -webkit-gradient(linear, 555% 20%, 0% 92%, from(rgba(0, 0, 0, 0.0980392)), color-stop(0.1, rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0)));
+    border-left: 1px dashed rgba(0, 0, 0, 0.0980392);
+    border-right: 1px dashed rgba(0, 0, 0, 0.0980392);
+}
+							</style>
+							<div class="box15">
+								<neq name="vo1.picurl" vlaue="">
+	         					 	<img id="bigimg{$vo1['id']}" dsrc="{$vo1['picurl']}" src="{$vo1['picurl']}">
+								    <br>
+								    <div class="box15_ribbon"></div>
+							    </neq>
 							</div>
+							
 
 							<div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;"
 							class="ldesc">
