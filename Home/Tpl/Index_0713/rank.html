@@ -100,7 +100,7 @@ if($_GET['gid']){
        <span style="color:#FFF;">(当前总票数:<span stle="color:#f2cd62;">{$vo['tickets']}</span>)</span>
     </div>
     <h5 style="color:#a10333;font-size:14px;margin-left: 2%;" > 
-        <span style="color:#FFF;"><a href="{:U("Index/rank",array("id"=>$_GET['id']))}">返回总榜</a></span>
+        <span><a href="{:U("Index/rank",array("id"=>$_GET['id']))}" style="color:#FFF;">返回总榜</a></span>
     </h5>
 <?php }else{  ?>
     <div style="color:#f2cd62;font-size:20px;font-weight:bold;text-align:center;width:100%;margin-top:30px;margin-bottom:10px;">
