@@ -1623,7 +1623,7 @@ public function payVote(){
 			$this->sms_sending_copy($send['tel'],$content);
 			$this->success('支付成功！购票码为：【'.$send['ticket_code'].'】，稍后会收到短信凭证，请耐心等待！',U("Index/index",array("id"=>$this->_param('id'))));
 		}else{
-			$this->success('提交成功,！',U("Index/index",array("id"=>$this->_param('id'))));
+			$this->success('提交成功！',U("Index/index",array("id"=>$this->_param('id'))));
 		}
 
         
