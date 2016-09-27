@@ -176,9 +176,9 @@ function ChangeUrl(page, url) {
 		-moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 10px; border: 0px solid #f0e1ca;
 		}
 		.btn_child {
-		background: none repeat scroll 0 0 #000000;
+		background: none repeat scroll 0 0 #f2cd62;
 		border: 0px solid #FA548C;
-		color: #f2cd62;
+		color: #000;
 		height: 26px;
 		width: 100px;
 		font-size: 1.5em;
@@ -906,7 +906,7 @@ foreach($group as $g){
 							    {$vo1['info']}
 							  </span>
 							</div>
-							
+
 							<div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;"
 							class="ldesc">
 							  <span class="count" meid="{$vo1['username']}">
@@ -926,11 +926,11 @@ foreach($group as $g){
 					?>
 
 						<eq name="vo.isVerify" value="0">
-						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn" type="button" style="background:#f2cd62;color:#000;">投TA一票</button></a>
+						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn_child" type="button">投TA一票</button></a>
 						</eq>
 
 						<eq name="vo.isVerify" value="1">
-						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn" type="button" style="background:#f2cd62;color:#000;">投TA一票</button>
+						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn_child" type="button">投TA一票</button>
 						</eq>
 
 					<?php
@@ -946,7 +946,7 @@ foreach($group as $g){
 							</div>
 		
 							<div style="margin: 0 auto;padding-top:10px;width:100%">
-							<button onclick="shareurl();" class="btn" type="button" style="width:100px">为TA拉票</button></div><div style="clear:both"></div>
+							<button onclick="shareurl();" class="btn_child" type="button" style="width:100px">为TA拉票</button></div><div style="clear:both"></div>
 						</div>
 							<style type="text/css">
 							.box15 {
