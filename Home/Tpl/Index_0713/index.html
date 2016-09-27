@@ -808,6 +808,9 @@ footer p{
 	opacity: 0.7;
 	display: none;
 }
+.jianjie p{
+	color: #FFF;
+}
 </style>
 
 
@@ -866,7 +869,7 @@ foreach($group as $g){
 			
 
 
-  <volist id="vo1" name="list">
+  		<volist id="vo1" name="list">
 				<div class="imgbox masonry-brick" itemscope="" itemtype="http://schema.org/ImageObject" style="float:left;width:48%;margin-left:5px;">
 					
 					<ul style="display:none;";>
@@ -876,26 +879,29 @@ foreach($group as $g){
 							<img id="bigimg{$vo1['id']}" style="width:100px;height:100px;border-radius:1px;margin-top:10px;" dsrc="{$vo1['avatar']}" src="{$vo1['avatar']}">	<p>
 							</neq>
 							</div>
-							<div style="font-size:3em;color:#f2cd62;padding:14px 2px 0px 2px;text-align: center;">
+							<div style="font-size:2em;color:#f2cd62;padding:14px 2px 0px 2px;text-align: center;">
 							  <span>
 							    {$vo1['num']}号 {$vo1['username']}
 							  </span>
 							</div>
-							<div style="font-size:3em;color:#f2cd62;padding:14px 2px 0px 2px;text-align: center;">
-							  <span>
+							<div style="font-size:2em;color:#f2cd62;padding:5px 2px 0px 2px;text-align: center;">
+							  <span class="jianjie">
 							    {$vo1['studio']}
 							  </span>
 							</div>
+							
+							<div style="width:57%;margin:0 auto;line-height:15px;" class="ldesc">
+							  <span>
+							    {$vo1['info']}
+							  </span>
+							</div>
+							
 							<div style="width:100%;position:relative;">
 							<neq name="vo1.picurl" vlaue="">
 							<img id="bigimg{$vo1['id']}" style="width:70%;height:auto;margin-top:10px;" dsrc="{$vo1['picurl']}" src="{$vo1['picurl']}">	<p>
 							</neq>
 							</div>
-							<div style="font-size: 1.4em;padding:14px 2px 20px 2px;text-align: center;" class="ldesc">
-							  <span>
-							    {$vo1['info']}
-							  </span>
-							</div>
+
 							<div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;"
 							class="ldesc">
 							  <span class="count" meid="{$vo1['username']}">
