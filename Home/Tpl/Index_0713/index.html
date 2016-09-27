@@ -166,9 +166,9 @@ function ChangeUrl(page, url) {
 		color:#ffffff;
 		}
 		.btn {
-		background: none repeat scroll 0 0 #f2cd62;
+		background: none repeat scroll 0 0 #000000;
 		border: 0px solid #FA548C;
-		color: #000000;
+		color: #f2cd62;
 		height: 26px;
 		width: 100px;
 		font-size: 1.5em;
@@ -962,11 +962,11 @@ foreach($group as $g){
 					?>
 
 						<eq name="vo.isVerify" value="0">
-						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn" type="button">投TA一票</button></a>
+						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn" type="button" style="background:#f2cd62;color:#000;">投TA一票</button></a>
 						</eq>
 
 						<eq name="vo.isVerify" value="1">
-						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn" type="button">投TA一票</button>
+						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn" type="button" style="background:#f2cd62;color:#000;">投TA一票</button>
 						</eq>
 
 					<?php
