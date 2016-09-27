@@ -281,9 +281,7 @@ wx.error(function (res) {
     </dl>
 
 <script type="text/javascript">
-
 function getcode(){
-
     var patrn=/^[0-9]{11}$/;
     var c_tel = $("#c_tel").val();
     if (!patrn.exec(c_tel)){
@@ -291,30 +289,36 @@ function getcode(){
         return;
     }
 
-  var send = {};
-  send.tel = c_tel;
-  send.vid = <?php echo $vo['id'] ?>;
-  send.mid = <?php echo $member['m_id'] ?>;
+    var send = {};
+    send.tel = c_tel;
+    send.vid = <?php echo $vo['id'] ?>;
+    send.mid = <?php echo $member['m_id'] ?>;
 
     $.post('/Home/index.php?g=Home&m=Public&a=sendCode',send,function(data) {
-    alert(data.message);
+        alert(data.message);
         if(data.error == 1) {
-       clearInterval(inter); //由于是异步的
-       $("#mob_r").hide();
-       $("#mob_b").show();
-           return;
+            clearInterval(inter); //由于是异步的
+            $("#mob_r").hide();
+            $("#mob_b").show();
+            return;
         }
       }
     );
+
+
+    start = 30;
+    step = -1;
+    cf = false;
+    $("#Time").prop("disabled",true);
 
     $("#mob_r").show();
     $("#mob_b").hide();
     inter = setInterval("showTine()",1000);
 }
 
-var start = 60;
-var step = -1;
-var cf = false;
+var start ;
+var step ;
+var cf ;
 var inter;
 function showTine(){
     cf = true;
