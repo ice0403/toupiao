@@ -154,7 +154,21 @@ wx.error(function (res) {
 			}
 		</style>
     </head>
+    
     <body>
+        <header>
+            <div class="form-group">
+                <!-- Initialize Swiper -->
+                <script>
+                    var swiper = new Swiper('.swiper-container', {
+                        pagination: '.pagination',
+                        calculateHeight: true,
+                        paginationClickable: true,
+                        autoplay: 2500
+                    });
+                </script>
+            </div>
+        </header>
         <div class="apply" style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
             <p style="padding-top:30px;">
                 <strong class="yanse">
