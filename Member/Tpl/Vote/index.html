@@ -79,7 +79,8 @@
             <div class="col-xs-12">
               <div class="box">
 
-                <!--
+                <?php
+                /*
                 <div class="box-header">
                     <div style="float:left;margin:0 8px;">
                         <a href="{:U("Vote/add",array("ss"=>1))}" class="btn btn-block btn-default btn-sm"><i class="fa fa-fw fa-plus"></i>添加</a>
@@ -93,7 +94,8 @@
 
                      
                 </div>
-                --><!-- /.box-header -->
+                */
+                ?><!-- /.box-header -->
                
 
                 <div class="box-body">
@@ -166,11 +168,14 @@
 
 
 
-                              <!--                                                        
+                              <?php
+                              /*
+                                                                       
                               <td>
                                   <a title="编辑" href="{:U("Vote/edit",array("id"=>$vo['id'],"ss"=>1))}"><i class="fa fa-fw fa-edit"></i></a> | <a href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("Vote/delete",array("id"=>$vo['id']))}');"><i class="fa fa-fw fa-remove"></i></a>
                               </td>
-                              -->
+                              */
+                              ?>
                           </tr>
                         </volist>                    
                     </tbody>
