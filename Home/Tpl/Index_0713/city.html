@@ -127,6 +127,48 @@ wx.error(function (res) {
 			    padding:0;
 			    background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);
 			}
+			.groups-nav{
+				box-sizing: border-box;
+				position: relative;
+				width: 100%;
+				overflow: hidden;
+			}
+			.groups-nav li{
+				position: relative;
+				width: 31.2%;
+				padding: 3% 0;
+				top: 0;
+				font-size: 18px;
+				text-align: center;
+				background: #f2cd62;
+				opacity: 1;
+				-webkit-transition: all 0.1s ease 0;   
+				float: left;
+			    margin: 5px 1%;
+			}
+			.groups-nav span{
+				font-size: 14px;
+			}
+			.groups-nav li:first-child{
+				float: left;
+			}
+
+			.groups-nav .active{
+				color: #Fff;
+				opacity: 1;
+			}
+			.groups-nav .active:after{
+				content: '\0020';
+				position: absolute;
+				width: 0;
+				border-style: solid;
+				border-color: transparent;
+				border-bottom-color: #fff;
+				border-width: 0 8px 6px 8px;
+				bottom: 0;
+				left: 50%;
+				margin-left: -8px;
+			}
 		</style>
     </head>
     
@@ -138,12 +180,44 @@ wx.error(function (res) {
                 </strong>
             </p>
             <p style="padding-top:10px;">
-                <strong class="yanse">
+                <h6 class="yanse">
                     （选错区域，报名无效，请谨慎选择）
-                </strong>
+                </h6>
             </p>
             <div class="blank10">
             </div>
+            <ul class="groups-nav">
+			    <li id="group1">
+			        <a style="color:#000000; font-weight: bold;text-decoration:none;" href="/Home/index.php/Index/index/id/1/gid/1.html">
+			            素描头像
+			        </a>
+			    </li>
+			    <li id="group1">
+			        <a style="color:#000000; font-weight: bold;text-decoration:none;" href="/Home/index.php/Index/index/id/1/gid/2.html">
+			            素描静物
+			        </a>
+			    </li>
+			    <li id="group1">
+			        <a style="color:#000000; font-weight: bold;text-decoration:none;" href="/Home/index.php/Index/index/id/1/gid/3.html">
+			            色彩静物
+			        </a>
+			    </li>
+			    <li id="group1">
+			        <a style="color:#000000; font-weight: bold;text-decoration:none;" href="/Home/index.php/Index/index/id/1/gid/4.html">
+			            人物速写
+			        </a>
+			    </li>
+			    <li id="group1">
+			        <a style="color:#000000; font-weight: bold;text-decoration:none;" href="/Home/index.php/Index/index/id/1/gid/5.html">
+			            设计素描
+			        </a>
+			    </li>
+			    <li id="group1">
+			        <a style="color:#000000; font-weight: bold;text-decoration:none;" href="/Home/index.php/Index/index/id/1/gid/6.html">
+			            设计色彩
+			        </a>
+			    </li>
+			</ul>
         </div>
     </body>
 
