@@ -113,7 +113,6 @@ wx.error(function (res) {
 			    color:#f2cd62;
 			}
 			.apply{
-			    height: 50px;
 			    line-height: 50px;
 			    cursor: pointer;
 			    color: #000;
@@ -125,51 +124,14 @@ wx.error(function (res) {
 			    border: none;
 			    display: block;
 			    margin: 0 auto;
-			}
-			.swiper-container{
-				width:100%;
-				color:#fff;
-				text-align:center;
-			}
-			.pagination{
-				position:absolute;
-				z-index:20;
-				right:10px;
-			}
-			.swiper-pagination-switch{
-				display:inline-block;width:5px;
-				height:5px;
-				border-radius:5px;
-				background:#222;
-				margin-right:5px;
-				opacity:0.8;
-				border:1px solid #fff;
-				cursor:pointer;
-			}
-			.swiper-visible-switch{
-				background:#aaa;
-			}
-			.swiper-active-switch{
-				background:#fff;
+			    padding:0;
+			    background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);
 			}
 		</style>
     </head>
     
     <body>
-        <header>
-            <div class="form-group">
-                <!-- Initialize Swiper -->
-                <script>
-                    var swiper = new Swiper('.swiper-container', {
-                        pagination: '.pagination',
-                        calculateHeight: true,
-                        paginationClickable: true,
-                        autoplay: 2500
-                    });
-                </script>
-            </div>
-        </header>
-        <div class="apply" style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
+        <div class="apply">
             <p style="padding-top:30px;">
                 <strong class="yanse">
                     请选择您的参赛区域
