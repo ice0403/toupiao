@@ -253,12 +253,19 @@
 
       </td>
       <td>{$vo['addtime']|date="Y-m-d H:i:s",###}</td>
+      <?php
+      /*
       <td>
-	   <a  href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("Vote/voteRecordDelete",array("id"=>$vo['id']))}');"><i class="fa fa-fw fa-remove"></i></a>
+      
+	   <a  href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("Vote/voteRecordDelete",array("id"=>$vo['id']))}');">
+     <i class="fa fa-fw fa-remove"></i></a>
+    
 
 
         
       </td>
+      */
+     ?>
     </tr>
   </volist>       
                     </tbody>

@@ -105,7 +105,7 @@
       <input type="checkbox" onclick="addids_all()" ></th>
                         <th>编号</th>
                         <th>验证码</th>
-						<th>操作</th>
+						<?php /*<th>操作</th>*/ ?>
                       </tr>
                     </thead>
                     <tbody>
@@ -119,10 +119,13 @@
           {$vo['id']}
       </td>
       <td>{$vo['title']}</td>
-
-								<td>
+                              <?php
+                              /* 
+								              <td>
                                 <a title="编辑" href="{:U("Vote/editVerify",array("id"=>$vo['id'],"ss"=>3))}"><i class="fa fa-fw fa-edit"></i></a> | <a href="javascript:void(0);" data-toggle="modal" data-target="#lc_confirm" onclick="lr_confirm('确定删除？','{:U("Vote/deleteVerify",array("id"=>$vo['id']))}');"><i class="fa fa-fw fa-remove"></i></a>
                               </td>
+                              */
+                              ?>
 
 
                                 
