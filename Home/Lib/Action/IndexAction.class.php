@@ -360,7 +360,9 @@ class IndexAction extends Action {
 				$this->display($template['folder'].'/index');
 
 	}
-
+	public function choosecity(){
+		$this->display('Index_0713/city');
+	}
 
 
 public function search() {
