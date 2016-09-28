@@ -48,7 +48,7 @@ class IndexAction extends Action {
 
 		$vo = $model->where ("id = ". $this->_param('id') ." and status=1 " )->find();
         if(!$vo){
-			$this->error('投票不存在，或者过期！');
+			$this->error('暂未开始,请耐心等待!');
             exit();
 		}
         $start = $vo['statdate'];
@@ -719,7 +719,7 @@ public function search2() {
 
 		if(!$vo){
 
-			$this->error('投票不存在，或者过期！');
+			$this->error('暂未开始,请耐心等待!');
 
 			exit();
 
@@ -862,7 +862,7 @@ public function search2() {
 
 		if(!$vo){
 
-			$this->error('投票不存在，或者过期！');
+			$this->error('暂未开始,请耐心等待!');
 
 			exit();
 
@@ -980,7 +980,7 @@ public function vote(){
 		$time = time();
 		$vote = M("Vote")->where ("id = ". $this->_param('id') ." and status=1 and statdate<".$time." and enddate>".$time)->field('wx_url,prevent,cknums,mid,jump,hour,allperson,nativeplace,v_startdate,v_enddate,isVerify')->find();
 		if(!$vote){
-			$this->error('投票不存在，或者过期！');
+			$this->error('暂未开始,请耐心等待!');
 			exit();
 		}
 
@@ -1572,7 +1572,7 @@ public function pay(){
                 $model = M ( "Vote");
                 $vo = $model->where ("id = ". $this->_param('id') ." and status=1 " )->find();
         if(!$vo){
-                        $this->error('投票不存在，或者过期！');
+                        $this->error('暂未开始,请耐心等待!');
             exit();
                 }
         $template = M("Template")->where("status=1 and id=".$vo['template'])->find();

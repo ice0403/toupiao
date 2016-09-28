@@ -280,7 +280,7 @@ class wechatCallbackapiTest
                                 $content = '投票成功！'.$username.'当前为:'.$ticket.'票,排名第'.$tmp6;
 
                             }else{
-                                $content = '投票不存在，或者过期！';
+                                $content = '暂未开始,请耐心等待!';
                             }
                         }else{
                             $content = '未找到选手';
