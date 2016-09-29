@@ -53,7 +53,7 @@ class IndexAction extends Action {
 		}
 		//购票页跳转
 		if($vo['template'] == '36'){
-			$this->redirect('http://toupiao.meishuquan.net/Home/index.php/Index/signup/subscribe/0/id/36.html');
+			$this->redirect('http://toupiao.meishuquan.net/Home/index.php/Index/signup/subscribe/0/id/'.$this->_param('id').'.html');
 		}
         $start = $vo['statdate'];
         $end = $vo['enddate'];
