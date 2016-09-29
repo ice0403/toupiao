@@ -1396,7 +1396,7 @@ public function insertformcopy(){
 		   $this->error('提交失败！手机号格式有误！');
 		}
 
-		$tmp = $model->where("tel='".$this->_param("tel")."' and vid='".$this->_param("vid")."'")->find();
+		$tmp = $model->where("tel='".$this->_param("tel")."' and vid='".$this->_param("vid")."'"."' and ticket_code_status=2")->find();
 		if($tmp){
 			$this->error('提交失败！该电话已存在！');
 		}
