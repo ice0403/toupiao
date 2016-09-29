@@ -126,7 +126,6 @@ wx.error(function (res) {
     width: 70%;
     background-color: #f2cd62;
     border: none;
-    border-bottom: 3px solid #d45158;
     display: block;
     margin: 0 auto;
 }
@@ -247,9 +246,10 @@ wx.error(function (res) {
 </header> 
 
 <div class="apply" style="padding:0;background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);">
-<p style="padding-top:30px;"><strong class="yanse">报名处</strong></p>
+<p style="padding-top:30px;"><strong class="yanse">金笔奖 • 颁奖典礼</strong></p>
+<p style="padding-top:10px;"><strong class="yanse">购票入口</strong></p>
 <div class="blank10"></div>
-<form id="imageform" method="post" enctype="multipart/form-data" action="__URL__/insertForm">
+<form id="imageform" method="post" enctype="multipart/form-data" action="__URL__/insertFormcopy">
 
 <dl class="clearfix">
 
@@ -263,14 +263,79 @@ wx.error(function (res) {
 <dl class="clearfix">
 <dt class="yanse">* 电话:</dt>
 <dd>  
-<input name="tel" type="number" value="" class="input_txt" placeholder="请输入您的真实手机号">
+<input name="tel" type="number"  id="c_tel"  value="" class="input_txt" placeholder="请输入您的真实手机号">
 </dd>
 </dl>
+  <dl class="clearfix">
+    <dt class="yanse">* 验证码:</dt>
+    <dd>
+    <input type="text" name="code" value="" class="input_txt"  placeholder="验证码" style="width:40%;">
+    &nbsp;&nbsp;
+    <span id="mob_b"><button onclick="getcode();" type="button" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid;background:#f2cd62;"><span style="color:#000;">点击获取验证码</span></button>
+    </span>
+    <span id="mob_r" style="display:none;">
+    <button type="button" id="Time" class="timef" disabled="disabled" onclick="getcode();" style="height:30px;width:110px;BORDER-RIGHT:   #f2cd62   1px   solid;   PADDING-RIGHT:   2px;   BORDER-TOP:   #f2cd62   1px   solid;   PADDING-LEFT:   2px;   FONT-SIZE:   12px;   FILTER:   progid:DXImageTransform.Microsoft.Gradient(GradientType=0,   StartColorStr=#ffffff,   EndColorStr=#cecfde);   BORDER-LEFT:   #f2cd62   1px   solid;   CURSOR:   hand;   COLOR:   black;   PADDING-TOP:   2px;   BORDER-BOTTOM:   #f2cd62   1px   solid;background:#f2cd62;"><span style="color:#000;">秒后可以
+点击重发</span></button>
+    </span>
+    </dd>
+    </dl>
 
+<script type="text/javascript">
+function getcode(){
+    var patrn=/^[0-9]{11}$/;
+    var c_tel = $("#c_tel").val();
+    if (!patrn.exec(c_tel)){
+        alert('手机号码不正确!');
+        return;
+    }
+
+    var send = {};
+    send.tel = c_tel;
+    send.vid = <?php echo $vo['id'] ?>;
+    send.mid = <?php echo $member['m_id'] ?>;
+
+    $.post('/Home/index.php?g=Home&m=Public&a=sendCode',send,function(data) {
+        alert(data.message);
+        if(data.error == 1) {
+            clearInterval(inter); //由于是异步的
+            $("#mob_r").hide();
+            $("#mob_b").show();
+            return;
+        }
+      }
+    );
+
+
+    start = 60;
+    step = -1;
+    cf = false;
+    $("#Time").prop("disabled",true);
+
+    $("#mob_r").show();
+    $("#mob_b").hide();
+    inter = setInterval("showTine()",1000);
+}
+
+var start ;
+var step ;
+var cf ;
+var inter;
+function showTine(){
+    cf = true;
+    document.getElementById("Time").innerHTML = "<span style='color:#000;'>"+start+"秒,重发验证码</span>";
+    start += step;
+    if(start < 0){
+        clearInterval(inter);
+        cf = false;
+        document.getElementById("Time").innerHTML = "<span style='color:#000;'>重发验证码</span>";
+        $("#Time").removeAttr("disabled");
+    }
+}
+</script>
 <dl class="clearfix">
 
 <dt class="yanse">
- 机构:
+&nbsp;&nbsp;机构:
 </dt>
 <dd>
 <input type="text" class="input_txt" name="studio" value="" placeholder="请输入机构名称">      
@@ -279,155 +344,13 @@ wx.error(function (res) {
 <dl class="clearfix">
 
 <dt class="yanse">
- 职务:
+&nbsp;&nbsp;职务:
 </dt>
 <dd>
 <input type="text" class="input_txt" name="role" value="" placeholder="请输入职务名称">      
 </dl>
-<!--
-<dl class="upload clearfix">
-<dt class="yanse">上传头像</dt>
-<dd class="upload_area clearfix">
-<ul id="imglist" class="post_imglist">
-</ul>
-<div style="display:none;" id="h_num">0</div>
-
-<input type="hidden" id="avatar" name="avatar" value="" >
-
-<input type="button" name="button" value="" style="background: url(/Public/images/upload_btn.png) center no-repeat;
-background-size: 30px auto;
-float: left;
-overflow: hidden;
-position: relative;
-width: 30px;
-height: 30px;" onclick="upyunWapAvatarUpload('avatar','','',{$member.m_id})">
-    </dd>
-    </dl>
--->
-<dl class="clearfix">
-<dt class="yanse">* 科目:</dt>
-<dd>  
-
-<select name="gid">
-    <?php
-        $group = M("Group")->where("vid=".$_GET['id'])->select();
-        foreach($group as $g){
-    ?>
-    <option value="{:$g['id']}">{:$g['title']}</option>
-    <?php } ?>
-</select>
-
-</dd>
-</dl>
-
-
-
-
-<?php
-if($member['m_username'] == 'hnwt'){
-?>
-<dl class="clearfix">
-<dt class="yanse">栋号/房号</dt>
-<dd>  
-
-<input name="company" type="text" value="" class="input_txt" placeholder="请输入所在小区栋号/房号">
-
-</dd>
-</dl>
-<?php } ?>
-
-<dl class="upload clearfix">
-<dt class="yanse">* 上传作品</dt>
-<dd class="upload_area clearfix">
-<ul id="imglist" class="post_imglist">
-</ul>
-<div style="display:none;" id="h_num">0</div>
-
-<input type="hidden" id="picurl" name="picurl" value="" >
-<!--
-<input type="hidden" id="picurl1" name="picurl1" value="" >
-<input type="hidden" id="picurl2" name="picurl2" value="" >
-<input type="hidden" id="picurl3" name="picurl3" value="" >
-<input type="hidden" id="picurl4" name="picurl4" value="" >
--->
-<input type="button" name="button" value="" style="background: url(/Public/images/upload_btn.png) center no-repeat;
-background-size: 40px auto;
-float: left;
-overflow: hidden;
-position: relative;
-width: 40px;
-height: 40px;" onclick="upyunWapPicUpload('picurl','','',{$member.m_id})">
-<span class="yanse">
-(每次只限上传一张作品)
-</span>
-	</dd>
-	</dl>
-
-<dl class="clearfix">
-<dt>
-
-
-<?php
-if($member['m_username'] == '576613'){
-?>
-产品介绍:				
-<?php
-}else{
-?>
-<span class="yanse">个人简介:</span>		
-<?php
-}	
-?>
-
-
-
-</dt>
-<dd>
-
-<?php
-if($member['m_username'] == '576613'){
-?>
-<textarea class="textarea" placeholder="请输入产品介绍！" name="info" id="info"></textarea>				
-<?php
-}else{
-?>
-<textarea class="textarea" placeholder="请输入个人宣言！" name="info" id="info"></textarea>
-<?php
-}	
-?>
-
-
-
-
-</dd>
-</dl>
-<div style="color: #720000;font-size: 16px;padding: 0 15px 15px 15px; line-height:24px; font-weight:bolder;">
-
-
-
-
-<?php
-if($member['m_username'] == '284682742'){
-?>
-<span style="color:#FFF;">
-如在线报名失败，请发送邮箱：284682742@qq.com,并附上作品名称、参赛人员姓名、手机号码。					
-</span>					
-<?php
-}else{
-?>
-<span style="color:#FFF;">
-若在线报名失败，可以点击咨询按钮联系我们！						
-</span> 
-<?php
-}	
-?>
-
-
-
-
-
-
-
+<div id="ms" style="margin-top:5px;"> 
+    <img src="http://toupiao.meishuquan.net/Home/Tpl/Index_0714/goupiao.png" style="width: 50%;margin:30px auto;" />
 </div>
 <div class="btn_box">
 
@@ -438,14 +361,41 @@ if($member['m_username'] == '284682742'){
                 <input type="hidden" name="mid" value="{$vo.mid}">
 
 
-<input type="submit" name="submit" class="button" value="确认报名">
+<input type="submit" name="submit" class="button" value="确认购票">
+
+
+</div>
+<div style="color: #720000;font-size: 16px;padding: 0 15px 15px 15px; line-height:24px; font-weight:bolder;margin-top:10px;">
+
+
+
+
+<?php
+if($member['m_username'] == '284682742'){
+?>
+<span style="color:#FFF;">
+如在线报名失败，请发送邮箱：284682742@qq.com,并附上作品名称、参赛人员姓名、手机号码。                 
+</span>                 
+<?php
+}else{
+?>
+<span style="color:#FFF;">
+• 若在线购票失败，请联系美术圈客服。<br>
+• 您购买的为颁奖门票，因其受时间、容量等限制，不接受任何形式的退票和退款。                       
+</span> 
+<?php
+}   
+?>
+
+
+
+
+
 
 
 </div>
 <div class="blank10"></div>
 </form>
-</div>
-
 <section class="rules">
 <div class="text"> <div class="prize">活动细则</div>
 <div class="neirong">
@@ -459,7 +409,7 @@ if($member['m_username'] == '284682742'){
                     <?php
                     }else{
                     ?>  
-                        <a href="http://toupiao.lanrenmb.com/m/" style="color: #5e5e5e;font-size: 12px;"><?php echo C('copyright'); ?></a>
+                        <a href="http://toupiao.meishuquan.net" style="color: #FFF;font-size: 12px;"><?php echo C('copyright'); ?></a>
                     <?php } ?>
 
 
@@ -468,6 +418,9 @@ if($member['m_username'] == '284682742'){
 </center>
 </div>
 </section>
+</div>
+
+
 <!--
 <section>
 <div class="pop" id="guanzhu" style="display:block">

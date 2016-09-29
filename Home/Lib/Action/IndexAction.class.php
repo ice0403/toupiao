@@ -51,6 +51,10 @@ class IndexAction extends Action {
 			$this->error('暂未开始,请耐心等待!');
             exit();
 		}
+		//购票页跳转
+		if($vo['template'] == '36'){
+			$this->redirect('index/signup');
+		}
         $start = $vo['statdate'];
         $end = $vo['enddate'];
 		if($start > $time){
