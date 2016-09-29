@@ -360,8 +360,17 @@ class IndexAction extends Action {
 				$this->display($template['folder'].'/index');
 
 	}
-	public function city(){
-		$this->display('Index_0713/city');
+	public function choose(){
+		$this->display('Index_0713/choose');
+	}
+	public function city_signup(){
+		$this->display('Index_0713/city_signup');
+	}
+	public function city_vote(){
+		$this->display('Index_0713/city_vote');
+	}
+	public function city_ticket(){
+		$this->display('Index_0713/city_ticket');
 	}
 
 
