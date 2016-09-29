@@ -369,9 +369,6 @@ class IndexAction extends Action {
 	public function city_vote(){
 		$this->display('Index_0713/city_vote');
 	}
-	public function city_ticket(){
-		$this->display('Index_0713/city_ticket');
-	}
 
 
 public function search() {
