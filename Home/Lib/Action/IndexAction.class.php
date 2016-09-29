@@ -53,7 +53,7 @@ class IndexAction extends Action {
 		}
 		//购票页跳转
 		if($vo['template'] == '36'){
-			$this->redirect('Index/signup/subscribe/0/id/'.$this->_param('id'));
+			$this->redirect('/Index/signup/subscribe/0/id/'.$this->_param('id'));
 		}
         $start = $vo['statdate'];
         $end = $vo['enddate'];
