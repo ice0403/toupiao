@@ -2,7 +2,7 @@
  $infoconfig	= array (
   'URL_MODEL' => 1,
   'site_url' => 'http://20160713b.zz.lanrenmb.com',
-  'up_size' => '5000',
+  'up_size' => '50000',
   'up_exts' => 'jpeg,jpg,png,mp3,mp4',
   'up_path' => './data/upload',
   'connectnum' => '系统维护中',
