@@ -1,8 +1,9 @@
-	<div id="content"  style="max-width: 640px;margin: 0 auto;">
+<div id="content"  style="max-width: 640px;margin: 0 auto;">
 		
-		<div id="thumbs"  class="masonry" style="margin: 0 auto;padding-left:12px;">
-
-  <volist id="vo1" name="list">
+	<div id="thumbs"  class="masonry" style="margin: 0 auto;padding-left:12px;">
+	<?php
+	/*
+	<volist id="vo1" name="list">
 				<div class="imgbox masonry-brick" itemscope="" itemtype="http://schema.org/ImageObject" style="margin-bottom: 4px; float:left;width:45%;margin-left:5px;">
 					
 					<ul style="display:none">
@@ -105,32 +106,207 @@
 					<span class="count" meid="{$vo1['id']}号 {$vo1['username']}">{$vo1['ticket']}</span><span class="p" style="font-size:1.1em;padding-left:2px;">票</span></div>
 				</div>
   </volist>
-</div>
+	 */
+	?>
+	  		<volist id="vo1" name="list">
+				<div class="imgbox masonry-brick" itemscope="" itemtype="http://schema.org/ImageObject" style="float:left;width:48%;margin-left:5px;">
+					
+					<ul style="display:none;";>
+						<div id="inline_content{$vo1['id']}" style="padding:3px; background:url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/background.png);text-align: center;">
+							<div style="width:100%;position:relative;">
+							<neq name="vo1.avatar" vlaue="">
+							<img id="bigimg{$vo1['id']}" style="width:100px;height:100px;border-radius:1px;margin-top:10px;" dsrc="{$vo1['avatar']}" src="{$vo1['avatar']}">	<p>
+							</neq>
+							</div>
+							<div style="font-size:1.5em;color:#f2cd62;padding:5px 2px 0px 2px;text-align: center;">
+							  <span>
+							    {$vo1['num']}号 {$vo1['username']}
+							  </span>
+							</div>
+							<div style="font-size:1.5em;color:#f2cd62;padding:5px 2px 0px 2px;text-align: center;">
+							  <span>
+							    {$vo1['studio']}
+							  </span>
+							</div>
+							
+							<div style="width:57%;margin:0 auto;line-height:15px;" class="ldesc">
+							  <span class="jianjie">
+							    {$vo1['info']}
+							  </span>
+							</div>
+
+							<div style="font-size: 1.5em;width:100%;text-align:center;padding-bottom:0px;"
+							class="ldesc">
+							  <span class="count" meid="{$vo1['username']}">
+							    {$vo1['ticket']}
+							  </span>
+							  <span class="p" style="font-size:1.1em;padding-left:2px;color:#FFF;">
+							    票
+							  </span>
+							</div>
+
+							<div style="position: relative;padding-bottom:10px">
+							
+							<div id="bigbt44314" style="margin:0 auto;width:100%;padding-top:10px">
+						    
+<?php 
+					if( !empty($subscribe)  || $member['m_isConnent'] === '0' ){
+					?>
+
+						<eq name="vo.isVerify" value="0">
+						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn_child" type="button">投TA一票</button></a>
+						</eq>
+
+						<eq name="vo.isVerify" value="1">
+						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn_child" type="button">投TA一票</button>
+						</eq>
+
+					<?php
+					}else{
+					?>
+						<button meid="{$vo1['id']}号 {$vo1['username']}" onclick="loaddzp()" class="btn" type="button">投票</button>
+					<?php
+					}
+					?>
 
 
-<div id="page_loading">
+							
+							</div>
+		
+							<div style="margin: 0 auto;padding-top:10px;width:100%">
+							<button onclick="shareurl();" class="btn_child" type="button" style="width:100px">为TA拉票</button></div><div style="clear:both"></div>
+						</div>
+							<!--
+							<style type="text/css">
+							.box15 {
+								width:300px;
+								margin:10px auto;
+								position:relative;
+							    box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 4px;
+							    border-bottom-right-radius: 0px 5px;
+							    padding: 10px;
+							    background: -webkit-gradient(linear, 100% 100%, 50% 10%, from(rgb(255, 255, 255)), color-stop(0.1, rgb(255, 255, 255)), to(rgb(243, 243, 243)));
+							    border-width: 1px;
+							    border-style: solid;
+							    border-color: rgb(204, 204, 204);
+							    border-image: initial;
+							}
+							.box15 img {
+							    width: 100%;
+							}
+							.box15_ribbon {
+							    position: absolute;
+							    top: -1px;
+							    left: -1px;
+							    width: 70px;
+							    height: 70px;
+							    /*box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 12px;*/
+							    background: url(http://toupiao.meishuquan.net/Home/Tpl/Index_0713/tag_recommend.png) no-repeat;
+							    /*
+							    transform: rotate(-30deg) skew(0deg, 0deg) translate(-30px, -20px);
+							    background: -webkit-gradient(linear, 555% 20%, 0% 92%, from(rgba(0, 0, 0, 0.0980392)), color-stop(0.1, rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0)));
+							    border-left: 1px dashed rgba(0, 0, 0, 0.0980392);
+							    border-right: 1px dashed rgba(0, 0, 0, 0.0980392);
+							    */
+							}
+							</style>
+							<div class="box15">
+							
+
+								<neq name="vo1.picurl" vlaue="">
+	         					 	<img id="bigimg{$vo1['id']}" dsrc="{$vo1['picurl']}" src="{$vo1['picurl']}">
+								    <br>
+								    
+								    <div class="box15_ribbon"></div>
+								   
+							    </neq>
+								
+							
+							</div>
+							-->
+							<div style="width:100%;position:relative;">
+								<neq name="vo1.picurl" vlaue="">
+	         					 	<img id="bigimg{$vo1['id']}" dsrc="{$vo1['picurl']}" src="{$vo1['picurl']}" style="width:100%;">
+							    </neq>
+							</div>
+					</div>
+					
+				</ul>
+			
+				 <a href="#inline_content{$vo1['id']}" id="light{$vo1['id']}" style="display:none"></a>
+
+				<a  style="padding: 0px;margin: 0px;margin-bottom:-1px;" href="javascript:void(0);" onclick="showBig({$vo1['id']},'{$vo1['picurl']}','我正在参加金笔奖活动,【{$vo1['studio']} &nbsp;&nbsp;{$vo1['username']}】,快来帮我投票','<?php echo compress_html(preg_replace('/[\\'\\"]/i', '',strip_tags($vo1['info'])));?>')"><img class="small" style="border-width: 5px 5px 0px; border-top-style: solid; border-right-style: solid; border-left-style: solid; border-top-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); width: 95%;" src="{$vo1['picurl']}"></a>
+				<!--100以内-->
+				
+				
+				<div class="name" style="padding: 0px 5px; position: relative; top: -4px; width: 95%; background: rgb(255, 255, 255);"><span style="width: 100%; z-index: 2; color:#000; height: 32px; font-size: 1.5em; line-height: 32px; display: inline-block; text-align: center; overflow: hidden; background: rgb(241, 241, 241);">{$vo1['num']}号 {$vo1['username']}</span></div>
+			
+				<div class="btn-wrap btn-wrap{$vo1['id']}" style="width: 95%; padding: 5px; margin: -4px 0px 0px; height: 29px; position: relative; background: rgb(255, 255, 255);">
+					<?php 
+					if( !empty($subscribe) || $member['m_isConnent'] === '0' ){
+					?>
+
+						<eq name="vo.isVerify" value="0">
+						<a href="__URL__/vote/vid/{$vo1['id']}/id/{$vo['id']}"><button meid="{$vo1['id']}号 {$vo1['username']}" class="btn" type="button">投票</button></a>
+						</eq>
+
+						<eq name="vo.isVerify" value="1">
+						<button  onclick="showVerify({$vo1['id']},{$vo['id']})" class="btn" type="button">投票</button>
+						</eq>
+
+					<?php
+					}else{
+					?>
+						<button meid="{$vo1['id']}号 {$vo1['username']}" onclick="loaddzp()" class="btn" type="button">投票</button>
+					<?php
+					}
+					?>
+
+
+
+					<span class="count" meid="{$vo1['id']}号 {$vo1['username']}">{$vo1['ticket']}</span><span class="p" style="font-size:1.1em;padding-left:2px;">票</span></div>
+				</div>
+
+				<?php
+				if(!empty($_GET['s'])){
+					if($_GET['s'] == $vo1['id']){
+						?>
+							<script>
+							$( document ).ready(function() {
+									wx.ready(function () {
+										showBig({$vo1['id']},'{$vo1['picurl']}','{$vo1['num']}号 {$vo1['username']}','<?php echo compress_html(preg_replace('/[\\'\\"]/i', '',strip_tags($vo1['info'])));?>');
+										});
+									});
+						</script>
+							<?php
+					} }
+
+?>
+
+</volist>
+	</div>
+
+
+	<div id="page_loading">
 		<img src="<?php echo C('site_url'); ?>/Home/Tpl/Index/c2/ajax-loader-fb-b30c47c4cfb5651819070c9c1e559ead.gif" alt="page loading">
 		<span style="margin-top: 15px;font-size:1.4em">...给力加载中...</span>
-</div>
+	</div>
 
 
-<div id="next_page" style="text-align: center;">
-	<!-- 获取下一页的页数 -->
-	<?php 
-		if( $currentPage >= $totalPages  ){
-	?>
-		<a hehe="" class="number"></a>
-	<?php
-	}else{
-	?>
-		<a hehe="__URL__/pageData/{:empty($_GET['gid'])?0:$_GET['gid']}/subscribe/{$subscribe}/id/<?php echo $_GET['id'];?>/<?php echo C('VAR_PAGE');?>/<?php echo $currentPage+1;?>" class="number"></a>
-	<?php
-		}
-    ?>
-</div>
-
-
-
+	<div id="next_page" style="text-align: center;">
+		<!-- 获取下一页的页数 -->
+		<?php 
+			if( $currentPage >= $totalPages  ){
+		?>
+			<a hehe="" class="number"></a>
+		<?php
+		}else{
+		?>
+			<a hehe="__URL__/pageData/{:empty($_GET['gid'])?0:$_GET['gid']}/subscribe/{$subscribe}/id/<?php echo $_GET['id'];?>/<?php echo C('VAR_PAGE');?>/<?php echo $currentPage+1;?>" class="number"></a>
+		<?php
+			}
+	    ?>
+	</div>
 </div>
 
 
