@@ -367,6 +367,9 @@ class IndexAction extends Action {
 	public function choose(){
 		$this->display('Index_0713/choose');
 	}
+	public function choose_test(){
+		$this->display('Index_0713/choose_test');
+	}
 	public function city_signup(){
 		$this->display('Index_0713/city_signup');
 	}
