@@ -171,7 +171,7 @@ class IndexAction extends Action {
 
 				//排序字段 默认为主键名
 
-				$_REQUEST ['_order'] = "ticket";
+				$_REQUEST ['_order'] = "id";
 
 				if (!empty ( $_REQUEST ['_order'] )) {
 
@@ -179,7 +179,7 @@ class IndexAction extends Action {
 
 				} else {
 
-					$order = ! empty ( $sortBy ) ? $sortBy : 'ticket';
+					$order = ! empty ( $sortBy ) ? $sortBy : 'id';
 
 				}
 
