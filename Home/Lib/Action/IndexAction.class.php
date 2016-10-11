@@ -879,6 +879,10 @@ public function search2() {
 
 		}
 
+		//购票页跳转
+		if($vo['template'] == '35'){
+			$this->redirect('/Index/signup/subscribe/0/id/'.$this->_param('id'));
+		}
 
 		//member expried
 		$member = M("Member")->where('m_id='.$vo['mid'])->find();
