@@ -881,7 +881,7 @@ public function search2() {
 
 		//购票页跳转
 		if($vo['template'] == '35'){
-			$this->redirect('/Index/signup/subscribe/0/id/'.$this->_param('id'));
+			$this->redirect('/Index/choose');
 		}
 
 		//member expried
