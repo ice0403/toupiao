@@ -374,6 +374,10 @@ class IndexAction extends Action {
 	public function city_vote(){
 		$this->display('Index_0713/city_vote');
 	}
+	//赞助商
+	public function sponsors(){
+		$this->display('Index_0713/sponsors');
+	}
 
 
 public function search() {
