@@ -11,10 +11,11 @@ class IndexAction extends Action {
     function _initialize() {
     	
         $agent = $_SERVER['HTTP_USER_AGENT'];
+        /*
         if(!strpos($agent,"icroMessenger")) {
             echo '此功能只能在微信浏览器中使用';exit;
         }
-
+		*/
         //流量保护
         // if($_GET['id'] && $_GET['vid']){
         	 //$t = time();
